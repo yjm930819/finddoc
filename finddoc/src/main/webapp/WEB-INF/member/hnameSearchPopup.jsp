@@ -91,6 +91,7 @@ a:hover {
 	}
 	
 	//페이징처리
+	//깃
 	nowPage=data.response.body.pageNo;
 	inter=tot/100;
 	if(inter%100!=0){
