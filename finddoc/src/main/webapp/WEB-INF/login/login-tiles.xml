@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+	<!-- 로그인 화면 -->
+	<definition name="login/login" extends="mainTemplate">
+		<put-attribute name="menu"
+			value="/WEB-INF/menu/user_mypage_menu.jsp" />
+		<put-attribute name="content"
+			value="/WEB-INF/login/login.jsp" />
+	</definition>
+	<!-- 로그인 성공후 -->
+	<definition name="login/loginAfter" extends="mainTemplate">
+		<put-attribute name="menu"
+			value="/WEB-INF/menu/user_mypage_menu.jsp" />
+		<put-attribute name="content"
+			value="/WEB-INF/login/loginAfter.jsp" />
+	</definition>
+	<!-- 아이디/비밀번호 찾기 선택 화면 -->
+	<definition name="login/idpwChoice" extends="mainTemplate">
+		<put-attribute name="menu"
+			value="/WEB-INF/menu/user_mypage_menu.jsp" />
+		<put-attribute name="content"
+			value="/WEB-INF/login/idpwChoice.jsp" />
+	</definition>
+	<!-- 아이디 찾기 화면 -->
+	<definition name="login/idSearchView" extends="mainTemplate">
+		<put-attribute name="menu"
+			value="/WEB-INF/menu/user_mypage_menu.jsp" />
+		<put-attribute name="content"
+			value="/WEB-INF/login/idSearch.jsp" />
+	</definition>
+	<!-- 비밀번호 찾기 화면 -->
+	<definition name="login/pwSearchView" extends="mainTemplate">
+		<put-attribute name="menu"
+			value="/WEB-INF/menu/user_mypage_menu.jsp" />
+		<put-attribute name="content"
+			value="/WEB-INF/login/pwSearch.jsp" />
+	</definition>
+
+</tiles-definitions>
+	

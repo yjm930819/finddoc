@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="finddoc.member">
+	<insert id="insertUser" parameterType="user">
+		insert into member
+		values(#{userid},#{name},#{age},#{pw},#{gender},#{cp},#{addr},#{email},sysdate,'o','user',#{sn1},#{sn2})
+	</insert>
+	<insert id="insertHadmin" parameterType="hadmin">
+		insert into hadmin
+		values(#{hadminid},#{name},#{pw},#{cp},#{addr},#{email},sysdate,'o',#{hname},'hadmin',#{ykiho},#{xpos},#{ypos})
+	</insert>
+	<select id="idcheckUser" parameterType="String"
+		resultType="user">
+		select * from member where userid=#{id}
+	</select>
+	<select id="idcheckHadmin" parameterType="String"
+		resultType="hadmin">
+		select * from hadmin where hadminid=#{id}
+	</select>
+	<select id="idcheckAdmin" parameterType="String"
+		resultType="admin">
+		select * from admin where adminid=#{id}
+	</select>
+	<update id="updateUser" parameterType="user">
+		update member set
+		pw=#{pw},cp=#{cp},email=#{email}
+	</update>
+	<update id="updateHadmin" parameterType="hadmin">
+		update hadmin set
+		pw=#{pw},cp=#{cp},email=#{email}
+	</update>
+	<update id="deleteUser">
+		update member set useridox='x' where userid=#{id}
+	</update>
+	<update id="deleteHadmin">
+		update hadmin set hadminidox='x' where hadminid=#{id}
+	</update>
+	<select id="emailcheckUser" parameterType="String"
+		resultType="user">
+		select * from member where email=#{email} and useridox='o'
+	</select>
+	<select id="emailcheckHadmin" parameterType="String"
+		resultType="hadmin">
+		select * from hadmin where email=#{email} and
+		hadminidox='o'
+	</select>
+
+
+</mapper>

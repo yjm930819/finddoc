@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+	<!-- 후기 게시판 -->
+	<definition name="board/reviewBoardList"
+		extends="mainTemplate">
+		<put-attribute name="menu"
+			value="/WEB-INF/menu/user_board_menu.jsp" />
+		<put-attribute name="content"
+			value="/WEB-INF/board/reviewBoardList.jsp" />
+	</definition>
+
+	<!-- 후기 게시판 글등록 -->
+	<definition name="board/reviewBoard_write"
+		extends="mainTemplate">
+		<put-attribute name="menu"
+			value="/WEB-INF/menu/user_board_menu.jsp" />
+		<put-attribute name="content"
+			value="/WEB-INF/board/reviewBoard_write.jsp" />
+	</definition>
+
+	<!-- Q&A 게시판 -->
+	<definition name="board/qaBoardList" extends="mainTemplate">
+		<put-attribute name="menu"
+			value="/WEB-INF/menu/user_board_menu.jsp" />
+		<put-attribute name="content"
+			value="/WEB-INF/board/qaBoardList.jsp" />
+	</definition>
+
+	<!-- Q&A 게시판 글등록 -->
+	<definition name="board/qaBoard_write"
+		extends="mainTemplate">
+		<put-attribute name="menu"
+			value="/WEB-INF/menu/user_board_menu.jsp" />
+		<put-attribute name="content"
+			value="/WEB-INF/board/qaBoard_write.jsp" />
+	</definition>
+
+	<!-- 공지사항 게시판 -->
+	<definition name="board/noticeBoardList"
+		extends="mainTemplate">
+		<put-attribute name="menu"
+			value="/WEB-INF/menu/user_board_menu.jsp" />
+		<put-attribute name="content"
+			value="/WEB-INF/board/noticeBoardList.jsp" />
+	</definition>
+
+	<!-- 공지사항 게시판 글등록 -->
+	<definition name="board/noticeBoard_write"
+		extends="mainTemplate">
+		<put-attribute name="menu"
+			value="/WEB-INF/menu/user_board_menu.jsp" />
+		<put-attribute name="content"
+			value="/WEB-INF/board/noticeBoard_write.jsp" />
+	</definition>
+
+
+
+</tiles-definitions>
+	

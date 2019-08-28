@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="finddoc.login">
+	<select id="loginUser" parameterType="login" resultType="user">
+		select *
+		from member where
+		userid=#{id} and pw=#{password}
+	</select>
+	<select id="loginHadmin" parameterType="login"
+		resultType="hadmin">
+		select
+		* from hadmin where
+		hadminid=#{id} and
+		pw=#{password}
+	</select>
+	<select id="loginAdmin" parameterType="login" resultType="admin">
+		select
+		* from admin where
+		adminid=#{id} and pw=#{password}
+	</select>
+	<select id="idSearchUser" parameterType="Map" resultType="user">
+		select
+		* from member where name=#{name} and email=#{email} and useridox='o'
+	</select>
+	<select id="idSearchHadmin" parameterType="Map"
+		resultType="hadmin">
+		select * from hadmin where name=#{name} and
+		email=#{email}
+		and hadminidox='o'
+	</select>
+	<select id="pwSearchUser" parameterType="Map" resultType="user">
+		select
+		* from member where userid=#{id} and name=#{name} and email=#{email}
+		and useridox='o'
+	</select>
+	<select id="pwSearchHadmin" parameterType="Map"
+		resultType="hadmin">
+		select * from hadmin where hadminid=#{id} and name=#{name}
+		and email=#{email} and hadminidox='o'
+	</select>
+
+</mapper>
