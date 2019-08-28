@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd"> <!-- 마이바티스 태그 사용하기 위해서 등록 -->
+<configuration>
+	<typeAliases>
+		<!-- dto의 정보를 등록하기 -->
+		<typeAlias type="doc.find.member.UserDTO" alias="user" />
+		<typeAlias type="doc.find.member.HadminDTO" alias="hadmin" />
+		<typeAlias type="doc.find.member.AdminDTO" alias="admin" />
+		<typeAlias type="doc.find.login.LoginDTO" alias="login" />
+	</typeAliases>
+
+	<mappers>
+		<!-- mapper의 정보를 등록하기 -->
+		<mapper resource="mapper/memberMapper.xml" />
+		<mapper resource="mapper/loginMapper.xml" />
+	</mappers>
+</configuration>

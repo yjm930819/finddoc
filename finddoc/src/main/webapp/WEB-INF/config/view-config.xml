@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans
+	xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+
+	<view-controller path="/index.do" view-name="index" />
+	<!-- 회원탈퇴화면 -->
+	<view-controller path="/member/deleteView.do"
+		view-name="member/delete" />
+	<!-- 후기게시판 글등록 화면 -->
+	<view-controller path="/board/reviewBoard_writeView.do"
+		view-name="board/reviewBoard_write" />
+	<!-- Q&A게시판 글등록 화면 -->
+	<view-controller path="/board/qaBoard_writeView.do"
+		view-name="board/qaBoard_write" />
+	<!-- 공지사항게시판 글등록 화면 -->
+	<view-controller path="/board/noticeBoard_writeView.do"
+		view-name="board/noticeBoard_write" />
+	<!-- 관리자 화면 -->
+	<view-controller path="/admin.do" view-name="admin" />
+	<!-- 회원가입에서 사용자or병원관계자 선택 화면 -->
+	<view-controller path="/member/signupChoice.do"
+		view-name="member/signupChoice" />
+	<!-- 사용자 회원가입 화면 -->
+	<view-controller path="/member/signupUser.do"
+		view-name="member/signupUser" />
+	<!-- 병원관계자 회원가입 화면 -->
+	<view-controller path="/member/signupDoc.do"
+		view-name="member/signupDoc" />
+	<!-- 아이디 찾기 화면 -->
+	<view-controller path="/login/idSearchView.do"
+		view-name="login/idSearchView" />
+	<!-- 비밀번호 찾기 화면 -->
+	<view-controller path="/login/pwSearchView.do"
+		view-name="login/pwSearchView" />
+	<!-- 아이디/비밀번호 찾기 선택 화면 -->
+	<view-controller path="/login/idpwChoice.do"
+		view-name="login/idpwChoice" />
+	<!-- 사용자 정보보기 화면 -->
+	<view-controller path="/member/readUser.do"
+		view-name="member/readUser" />
+	<!-- 병원관계자 정보보기 화면 -->
+	<view-controller path="/member/readHadmin.do"
+		view-name="member/readHadmin" />
+
+</beans:beans>
+
+
+
+
+
+
+
+

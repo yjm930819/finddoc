@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+	<!-- 회원가입에서 사용자or병원관계자 선택 화면 -->
+	<definition name="member/signupChoice"
+		extends="mainTemplate">
+		<put-attribute name="menu"
+			value="/WEB-INF/menu/user_mypage_menu.jsp" />
+		<put-attribute name="content"
+			value="/WEB-INF/member/signupChoice.jsp" />
+	</definition>
+	<!-- 사용자 회원정보수정 -->
+	<definition name="member/updateUser" extends="mainTemplate">
+		<put-attribute name="menu"
+			value="/WEB-INF/menu/user_mypage_menu.jsp" />
+		<put-attribute name="content"
+			value="/WEB-INF/member/updateUser.jsp" />
+	</definition>
+	<!-- 병원관계자 회원정보수정 -->
+	<definition name="member/updateHadmin"
+		extends="mainTemplate">
+		<put-attribute name="menu"
+			value="/WEB-INF/menu/user_mypage_menu.jsp" />
+		<put-attribute name="content"
+			value="/WEB-INF/member/updateHadmin.jsp" />
+	</definition>
+	<!-- 회원탈퇴 -->
+	<definition name="member/delete" extends="mainTemplate">
+		<put-attribute name="menu"
+			value="/WEB-INF/menu/user_mypage_menu.jsp" />
+		<put-attribute name="content"
+			value="/WEB-INF/member/delete.jsp" />
+	</definition>
+	<!-- 사용자 회원가입 화면 -->
+	<definition name="member/signupUser" extends="mainTemplate">
+		<put-attribute name="menu"
+			value="/WEB-INF/menu/user_mypage_menu.jsp" />
+		<put-attribute name="content"
+			value="/WEB-INF/member/signupUser.jsp" />
+	</definition>
+	<!-- 병원관계자 회원가입 화면 -->
+	<definition name="member/signupDoc" extends="mainTemplate">
+		<put-attribute name="menu"
+			value="/WEB-INF/menu/user_mypage_menu.jsp" />
+		<put-attribute name="content"
+			value="/WEB-INF/member/signupDoc.jsp" />
+	</definition>
+	<!-- 자주가는 병원목록 -->
+	<definition name="mypage/bookmark" extends="mainTemplate">
+		<put-attribute name="menu"
+			value="/WEB-INF/menu/user_mypage_menu.jsp" />
+		<put-attribute name="content"
+			value="/WEB-INF/member/user_bookmark.jsp" />
+	</definition>
+	<!-- 사용자 회원정보보기 -->
+	<definition name="member/readUser" extends="mainTemplate">
+		<put-attribute name="menu"
+			value="/WEB-INF/menu/user_mypage_menu.jsp" />
+		<put-attribute name="content"
+			value="/WEB-INF/member/readUser.jsp" />
+	</definition>
+	<!-- 병원관계자 회원정보보기 -->
+	<definition name="member/readHadmin" extends="mainTemplate">
+		<put-attribute name="menu"
+			value="/WEB-INF/menu/user_mypage_menu.jsp" />
+		<put-attribute name="content"
+			value="/WEB-INF/member/readHadmin.jsp" />
+	</definition>
+
+</tiles-definitions>
+	
