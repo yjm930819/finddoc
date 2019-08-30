@@ -123,3 +123,40 @@ add constraint receipt_userid_fk foreign key(userid) references member(userid);
 alter table receipt
 add constraint receipt_approvalnum_fk foreign key(approvalnum) references admin_app(approvalnum);
 
+alter table myhospital
+rename column APPROVALNUM to ykiho;
+
+alter table book
+rename column APPROVALNUM to ykiho;
+
+alter table receipt
+rename column APPROVALNUM to ykiho;
+
+alter table receipt
+drop constraint receipt_APPROVALNUM_fk;
+
+alter table myhospital
+modify (ykiho varchar2(100));
+
+alter table book
+modify (ykiho varchar2(100));
+
+alter table receipt
+modify (ykiho varchar2(100));
+
+select * from admin_app;
+delete from hadmin where hadminid='hos3';
+
+update myhospital set ox='o' 
+where ykiho='JDQ4MTAxMiM1MSMkMSMkMCMkODkkMzgxMzUxIzExIyQxIyQzIyQ3OSQzNjEyMjIjNTEjJDEjJDYjJDgz' 
+and userid='java';
+
+select * from myhospital where userid='java' and ox='x';
+select * from myhospital where userid='java';
+delete myhospital where userid='java';
+delete from myhospital where userid='java' and ykiho='JDQ4MTAxMiM1MSMkMSMkMCMkODkkMzgxMzUxIzExIyQxIyQzIyQ3OSQzNjEyMjIjNTEjJDEjJDYjJDgz';
+
+update myhospital set ox='x' 
+where userid='java';
+
+alter table myhospital drop column ox;

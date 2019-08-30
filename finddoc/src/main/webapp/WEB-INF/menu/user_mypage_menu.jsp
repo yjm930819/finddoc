@@ -41,8 +41,8 @@
 			</c:otherwise>
 		</c:choose>
 		<c:if test="${loginuser.state=='user' }">
-			<a href="/finddoc/mypage/mypage.do" class="list-group-item">자주가능
-				병원 수정</a>
+			<a href="/finddoc/mypage/bookmark.do" class="list-group-item">자주가능
+				병원</a>
 		</c:if>
 		<c:choose>
 			<c:when test="${empty loginuser}">

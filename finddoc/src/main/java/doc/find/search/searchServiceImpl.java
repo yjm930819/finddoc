@@ -105,7 +105,6 @@ public class searchServiceImpl implements searchService {
         }
         rd.close();
         conn.disconnect();
-        System.out.println(sb.toString());
         return sb.toString();
 	}
 }
