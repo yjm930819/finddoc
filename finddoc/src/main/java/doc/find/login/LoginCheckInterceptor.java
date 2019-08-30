@@ -16,7 +16,6 @@ public class LoginCheckInterceptor extends HandlerInterceptorAdapter {
 		// 로그인유무 체크 - 기존의 사용하던 세션에 loginUser라는 attribute가 있나 확인
 		// 로그인 하지 않고 서비스를 사용하려고 하는 경우 방어적 코딩(로그인 페이지로 이동)
 		HttpSession ses = request.getSession(false);
-
 		if (ses != null) { // 현재 로그인이 되어 있지 않은 상태
 			MemberDTO memberdto = (MemberDTO) ses.getAttribute("loginuser");
 			if (memberdto == null) {

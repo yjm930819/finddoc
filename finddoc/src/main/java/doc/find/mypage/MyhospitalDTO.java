@@ -3,20 +3,23 @@ package doc.find.mypage;
 public class MyhospitalDTO {
 	// 이용자 아이디
 	private String userid;
-	// 병원 회원번호
-	private String APPROVALNUM;
-	// 병원삭제 유무
-	private String ox;
-
-	public MyhospitalDTO(String userid, String aPPROVALNUM, String ox) {
-		super();
-		this.userid = userid;
-		APPROVALNUM = aPPROVALNUM;
-		this.ox = ox;
+	
+	private String ykiho;
+	// 병원이름
+	private String hname;
+	//병원주소
+	private String addr;
+	
+	public MyhospitalDTO() {
+		
 	}
 
-	public MyhospitalDTO() {
+	public MyhospitalDTO(String userid, String ykiho, String hname, String addr) {
 		super();
+		this.userid = userid;
+		this.ykiho = ykiho;
+		this.hname = hname;
+		this.addr = addr;
 	}
 
 	public String getUserid() {
@@ -27,25 +30,35 @@ public class MyhospitalDTO {
 		this.userid = userid;
 	}
 
-	public String getAPPROVALNUM() {
-		return APPROVALNUM;
+	public String getYkiho() {
+		return ykiho;
 	}
 
-	public void setAPPROVALNUM(String aPPROVALNUM) {
-		APPROVALNUM = aPPROVALNUM;
+	public void setYkiho(String ykiho) {
+		this.ykiho = ykiho;
 	}
 
-	public String getOx() {
-		return ox;
+	public String getHname() {
+		return hname;
 	}
 
-	public void setOx(String ox) {
-		this.ox = ox;
+	public void setHname(String hname) {
+		this.hname = hname;
+	}
+
+	public String getAddr() {
+		return addr;
+	}
+
+	public void setAddr(String addr) {
+		this.addr = addr;
 	}
 
 	@Override
 	public String toString() {
-		return "MyhospitalDTO [userid=" + userid + ", APPROVALNUM=" + APPROVALNUM + ", ox=" + ox + "]";
+		return "MyhospitalDTO [userid=" + userid + ", ykiho=" + ykiho + ", hname=" + hname + ", addr=" + addr + "]";
 	}
-
+	
+	
+	
 }

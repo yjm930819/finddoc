@@ -77,6 +77,8 @@
 			<mapping path="/board/**" />
 			<mapping path="/receipt/**" />
 			<mapping path="/user/**" />
+			<mapping path="/mypage/**"/>
+			<mapping path="/book/**"/>
 			<beans:bean id="logincheckinterceptor"
 				class="doc.find.login.LoginCheckInterceptor"></beans:bean>
 		</interceptor>

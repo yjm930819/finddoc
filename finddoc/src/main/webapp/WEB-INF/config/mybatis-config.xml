@@ -9,14 +9,14 @@
 		<typeAlias type="doc.find.member.HadminDTO" alias="hadmin" />
 		<typeAlias type="doc.find.member.AdminDTO" alias="admin" />
 		<typeAlias type="doc.find.login.LoginDTO" alias="login" />
-		<typeAlias type="doc.find.board.Notice_BoardDTO"
-			alias="notice" />
+		<typeAlias type="doc.find.board.Notice_BoardDTO" alias="notice" />
 		<typeAlias type="doc.find.board.Qa_BoardDTO" alias="qaboard" />
 		<typeAlias type="doc.find.board.Qa_ReplyDTO" alias="qareply" />
-		<typeAlias type="doc.find.board.Review_BoardDTO"
-			alias="reviewboard" />
+		<typeAlias type="doc.find.board.Review_BoardDTO" alias="reviewboard" />
 		<typeAlias type="doc.find.board.Review_ReplyDTO"
 			alias="reviewreply" />
+		<typeAlias type="doc.find.mypage.mypageDTO" alias="mypage" />
+		<typeAlias type="doc.find.mypage.MyhospitalDTO" alias="myhospital" />
 	</typeAliases>
 
 	<mappers>
@@ -24,5 +24,6 @@
 		<mapper resource="mapper/memberMapper.xml" />
 		<mapper resource="mapper/loginMapper.xml" />
 		<mapper resource="mapper/boardMapper.xml" />
+		<mapper resource="mapper/bookmarkMapper.xml" />
 	</mappers>
 </configuration>
