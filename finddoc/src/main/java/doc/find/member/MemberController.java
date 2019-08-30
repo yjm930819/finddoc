@@ -175,23 +175,40 @@ public class MemberController {
 	 */
 	// 병원명 검색하면 팝업창으로 뜸
 	@RequestMapping(value = "/member/hnameSearchPopup.do", method = RequestMethod.GET)
-	public ModelAndView hanmeSearch(String hospname, String pageno, String rows, String j)
+	public ModelAndView hanmeSearch(String hospname, String pageno, String rows, String haddr)
 			throws IOException, Exception {
 		ModelAndView mav = new ModelAndView();
-		String result = memberService.search(hospname, pageno, rows);
-		System.out.println(result);
-
-		int jint = Integer.parseInt(j);
-		System.out.println(jint);
-		if (Integer.parseInt(pageno) <= 10) {
-			mav.addObject("j", 0);
-		} else if (Integer.parseInt(pageno) >= 11) {
-			if (Integer.parseInt(pageno) % 10 == 1) {
-				jint += 1;
+		String result = "";
+		if (haddr != null) {
+			result = memberService.search(hospname, pageno, rows, haddr);
+		} else {
+			result = memberService.search(hospname, pageno, rows, "");
+		}
+		JSONParser parser = new JSONParser();
+		JSONObject object = (JSONObject) parser.parse(result);
+		JSONObject response = (JSONObject) object.get("response");
+		JSONObject body = (JSONObject) response.get("body");
+		String total = body.get("totalCount").toString();
+		int totalnum = Integer.parseInt(total);
+		int totPage = 0;
+		if (totalnum % 10 == 0) {
+			totPage = totalnum / 10;
+		} else {
+			totPage = (int) (Math.floor(totalnum / 10) + 1);
+		}
+		if (Integer.parseInt(pageno) > totPage) {
+			if (haddr != null) {
+				result = memberService.search(hospname, totPage + "", rows, haddr);
+			} else {
+				result = memberService.search(hospname, totPage + "", rows, "");
 			}
-			mav.addObject("j", jint);
+			mav.addObject("pageno", totPage);
+
+		} else {
+			mav.addObject("pageno", pageno);
 		}
 
+		mav.addObject("haddr", haddr);
 		mav.addObject("hospital", result);
 		mav.setViewName("member/hnameSearchPopup");
 		return mav;

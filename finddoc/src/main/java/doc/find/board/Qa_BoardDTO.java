@@ -1,8 +1,8 @@
 package doc.find.board;
 
 public class Qa_BoardDTO {
-	private int boardnum_seq;
-	private int count_seq;
+	private int qaboardnum;
+	private int qacount;
 	private String userid;
 	private String title;
 	private String text;
@@ -11,11 +11,11 @@ public class Qa_BoardDTO {
 	private String moddate;
 	private String APPROVALNUM;
 
-	public Qa_BoardDTO(int boardnum_seq, int count_seq, String userid, String title, String text, String del,
+	public Qa_BoardDTO(int qaboardnum, int qacount, String userid, String title, String text, String del,
 			String txupdate, String moddate, String aPPROVALNUM) {
 		super();
-		this.boardnum_seq = boardnum_seq;
-		this.count_seq = count_seq;
+		this.qaboardnum = qaboardnum;
+		this.qacount = qacount;
 		this.userid = userid;
 		this.title = title;
 		this.text = text;
@@ -29,20 +29,20 @@ public class Qa_BoardDTO {
 		super();
 	}
 
-	public int getBoardnum_seq() {
-		return boardnum_seq;
+	public int getqaboardnum() {
+		return qaboardnum;
 	}
 
-	public void setBoardnum_seq(int boardnum_seq) {
-		this.boardnum_seq = boardnum_seq;
+	public void setqaboardnum(int qaboardnum) {
+		this.qaboardnum = qaboardnum;
 	}
 
-	public int getCount_seq() {
-		return count_seq;
+	public int getqacount() {
+		return qacount;
 	}
 
-	public void setCount_seq(int count_seq) {
-		this.count_seq = count_seq;
+	public void setqacount(int qacount) {
+		this.qacount = qacount;
 	}
 
 	public String getUserid() {
@@ -103,7 +103,7 @@ public class Qa_BoardDTO {
 
 	@Override
 	public String toString() {
-		return "Qa_BoardDTO [boardnum_seq=" + boardnum_seq + ", count_seq=" + count_seq + ", userid=" + userid
+		return "Qa_BoardDTO [qaboardnum=" + qaboardnum + ", qacount=" + qacount + ", userid=" + userid
 				+ ", title=" + title + ", text=" + text + ", del=" + del + ", txupdate=" + txupdate + ", moddate="
 				+ moddate + ", APPROVALNUM=" + APPROVALNUM + "]";
 	}

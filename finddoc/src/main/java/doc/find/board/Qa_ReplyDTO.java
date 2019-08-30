@@ -5,17 +5,17 @@ public class Qa_ReplyDTO {
 	private String reply;
 	private String del;
 	private String replydate;
-	private int boardnum_seq;
-	private int reply_seq;
+	private int qaboardnum;
+	private int qareply;
 
-	public Qa_ReplyDTO(String id, String reply, String del, String replydate, int boardnum_seq, int reply_seq) {
+	public Qa_ReplyDTO(String id, String reply, String del, String replydate, int qaboardnum, int qareply) {
 		super();
 		this.id = id;
 		this.reply = reply;
 		this.del = del;
 		this.replydate = replydate;
-		this.boardnum_seq = boardnum_seq;
-		this.reply_seq = reply_seq;
+		this.qaboardnum = qaboardnum;
+		this.qareply = qareply;
 	}
 
 	public Qa_ReplyDTO() {
@@ -54,26 +54,26 @@ public class Qa_ReplyDTO {
 		this.replydate = replydate;
 	}
 
-	public int getBoardnum_seq() {
-		return boardnum_seq;
+	public int getqaboardnum() {
+		return qaboardnum;
 	}
 
-	public void setBoardnum_seq(int boardnum_seq) {
-		this.boardnum_seq = boardnum_seq;
+	public void setqaboardnum(int qaboardnum) {
+		this.qaboardnum = qaboardnum;
 	}
 
-	public int getReply_seq() {
-		return reply_seq;
+	public int getqareply() {
+		return qareply;
 	}
 
-	public void setReply_seq(int reply_seq) {
-		this.reply_seq = reply_seq;
+	public void setqareply(int qareply) {
+		this.qareply = qareply;
 	}
 
 	@Override
 	public String toString() {
 		return "Qa_ReplyDTO [id=" + id + ", reply=" + reply + ", del=" + del + ", replydate=" + replydate
-				+ ", boardnum_seq=" + boardnum_seq + ", reply_seq=" + reply_seq + "]";
+				+ ", qaboardnum=" + qaboardnum + ", qareply=" + qareply + "]";
 	}
 
 }

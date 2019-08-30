@@ -5,17 +5,17 @@ public class Review_ReplyDTO {
 	private String reply;
 	private String del;
 	private String replydate;
-	private int boardnum;
-	private int reply_seq;
+	private int reviewboardnum;
+	private int reviewreply;
 
-	public Review_ReplyDTO(String id, String reply, String del, String replydate, int boardnum, int reply_seq) {
+	public Review_ReplyDTO(String id, String reply, String del, String replydate, int reviewboardnum, int reviewreply) {
 		super();
 		this.id = id;
 		this.reply = reply;
 		this.del = del;
 		this.replydate = replydate;
-		this.boardnum = boardnum;
-		this.reply_seq = reply_seq;
+		this.reviewboardnum = reviewboardnum;
+		this.reviewreply = reviewreply;
 	}
 
 	public Review_ReplyDTO() {
@@ -54,26 +54,26 @@ public class Review_ReplyDTO {
 		this.replydate = replydate;
 	}
 
-	public int getBoardnum() {
-		return boardnum;
+	public int getreviewboardnum() {
+		return reviewboardnum;
 	}
 
-	public void setBoardnum(int boardnum) {
-		this.boardnum = boardnum;
+	public void setreviewboardnum(int reviewboardnum) {
+		this.reviewboardnum = reviewboardnum;
 	}
 
-	public int getReply_seq() {
-		return reply_seq;
+	public int getreviewreply() {
+		return reviewreply;
 	}
 
-	public void setReply_seq(int reply_seq) {
-		this.reply_seq = reply_seq;
+	public void setreviewreply(int reviewreply) {
+		this.reviewreply = reviewreply;
 	}
 
 	@Override
 	public String toString() {
 		return "Review_ReplyDTO [id=" + id + ", reply=" + reply + ", del=" + del + ", replydate=" + replydate
-				+ ", boardnum=" + boardnum + ", reply_seq=" + reply_seq + "]";
+				+ ", reviewboardnum=" + reviewboardnum + ", reviewreply=" + reviewreply + "]";
 	}
 
 }

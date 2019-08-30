@@ -20,6 +20,7 @@
 					</c:when>
 					<c:otherwise>
 						<a href="/finddoc/member/updateHadmin.do" class="list-group-item">정보수정</a>
+						<a href="#"	class="list-group-item">사이트 문의</a> 
 					</c:otherwise>
 				</c:choose>
 			</c:otherwise>

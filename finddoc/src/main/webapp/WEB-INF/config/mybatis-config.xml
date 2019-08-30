@@ -9,11 +9,20 @@
 		<typeAlias type="doc.find.member.HadminDTO" alias="hadmin" />
 		<typeAlias type="doc.find.member.AdminDTO" alias="admin" />
 		<typeAlias type="doc.find.login.LoginDTO" alias="login" />
+		<typeAlias type="doc.find.board.Notice_BoardDTO"
+			alias="notice" />
+		<typeAlias type="doc.find.board.Qa_BoardDTO" alias="qaboard" />
+		<typeAlias type="doc.find.board.Qa_ReplyDTO" alias="qareply" />
+		<typeAlias type="doc.find.board.Review_BoardDTO"
+			alias="reviewboard" />
+		<typeAlias type="doc.find.board.Review_ReplyDTO"
+			alias="reviewreply" />
 	</typeAliases>
 
 	<mappers>
 		<!-- mapper의 정보를 등록하기 -->
 		<mapper resource="mapper/memberMapper.xml" />
 		<mapper resource="mapper/loginMapper.xml" />
+		<mapper resource="mapper/boardMapper.xml" />
 	</mappers>
 </configuration>

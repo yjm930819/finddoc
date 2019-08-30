@@ -57,10 +57,9 @@
 		});
 		
 		$("#hnameb").click(function() {
-			pageno=$("#pageno").val();
-			rows=10;
 			hspname=$("#hname").val();
-			var url= "/finddoc/member/hnameSearchPopup.do?hospname="+encodeURI(hspname)+"&pageno="+pageno+"&rows="+rows+"&j="+1;    //팝업창 페이지 URL
+			haddr=$("#haddr").val();
+			var url= "/finddoc/member/hnameSearchPopup.do?hospname="+encodeURI(hspname)+"&pageno="+1+"&rows="+10+"&haddr="+haddr;    //팝업창 페이지 URL
 		    var popupOption= "width=600,height=700,location=no,status=no,toolbars=no,top=70,left=800";    //팝업창 옵션(optoin)
 			openWin=window.open(url,"child",popupOption);
 		/* 	$.ajax({
@@ -131,15 +130,21 @@
 					<input type="text" id="hname" name="hname" placeholder="병원명"
 						class="form-control" minlength="3" required>
 				</div>
+				
 				<div class="col-sm-1">
 					<input type="button" id="hnameb" class="btn btn-round btn-primary form-control" value="검색">
 				</div>
 				
 			</div>
-		<!-- 	<div id="info"></div>
-			<span id="addr"></span>
-			<span id="post"></span>
-			<span id="ykiho"></span> -->
+			
+			<div class="form-group">
+				<label class="control-label col-sm-2" for="tags">병원 위치(도시)</label>
+				<div class="col-sm-3">
+					<input type="text" id="haddr" name="haddr" placeholder="도시"
+						class="form-control" minlength="3" required>
+				</div>
+			</div>
+			
 			<div class="form-group">
 				<label class="control-label col-sm-2" for="orgtel">아이디</label>
 				<div class="col-sm-3">
@@ -204,13 +209,6 @@
 				</div>
 			</div>
 			</div>
-			<div class="form-group">
-				<label class="control-label col-sm-2" for="tags">page번호</label>
-				<div class="col-sm-3">
-					<input type="text" id="pageno" name="pageno" value="1">
-				</div>
-			</div>
-			
 
 			<br />
 			<div class="form-group">

@@ -19,7 +19,7 @@ public interface MemberService {
 	int update(MemberDTO memberdto, String action);
 
 	// 병원명 검색
-	String search(String hospname, String pageno, String rows) throws IOException;
+	String search(String hospname, String pageno, String rows, String haddr) throws IOException;
 
 	// 회원탈퇴(사용자,병원관계자)
 	int delete(String id, String action);
