@@ -1,46 +1,50 @@
 package doc.find.board;
 
 public class Notice_BoardDTO {
-	private int boardnum_seq;
-	private int count_seq;
+	private int noticeboardnum;
+	private int noticecount;
 	private String hadminid;
 	private String title;
 	private String text;
 	private String del;
 	private String txupdate;
 	private String moddate;
+	private String hname;
+	private String name;
 
-	public Notice_BoardDTO(int boardnum_seq, int count_seq, String hadminid, String title, String text, String del,
-			String txupdate, String moddate) {
+	public Notice_BoardDTO() {
 		super();
-		this.boardnum_seq = boardnum_seq;
-		this.count_seq = count_seq;
+	}
+
+	public Notice_BoardDTO(int noticeboardnum, int noticecount, String hadminid, String title, String text, String del,
+			String txupdate, String moddate, String hname, String name) {
+		super();
+		this.noticeboardnum = noticeboardnum;
+		this.noticecount = noticecount;
 		this.hadminid = hadminid;
 		this.title = title;
 		this.text = text;
 		this.del = del;
 		this.txupdate = txupdate;
 		this.moddate = moddate;
+		this.hname = hname;
+		this.name = name;
 	}
 
-	public Notice_BoardDTO() {
-		super();
+	public int getNoticeboardnum() {
+		return noticeboardnum;
 	}
 
-	public int getBoardnum_seq() {
-		return boardnum_seq;
+	public void setNoticeboardnum(int noticeboardnum) {
+		this.noticeboardnum = noticeboardnum;
 	}
 
-	public void setBoardnum_seq(int boardnum_seq) {
-		this.boardnum_seq = boardnum_seq;
+	public int getNoticecount() {
+		return noticecount;
 	}
 
-	public int getCount_seq() {
-		return count_seq;
-	}
-
-	public void setCount_seq(int count_seq) {
-		this.count_seq = count_seq;
+	public void setNoticecount(int noticecount) {
+		this.noticecount = noticecount;
 	}
 
 	public String getHadminid() {
@@ -91,11 +95,27 @@ public class Notice_BoardDTO {
 		this.moddate = moddate;
 	}
 
+	public String getHname() {
+		return hname;
+	}
+
+	public void setHname(String hname) {
+		this.hname = hname;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	@Override
 	public String toString() {
-		return "Notice_BoardDTO [boardnum_seq=" + boardnum_seq + ", count_seq=" + count_seq + ", hadminid=" + hadminid
-				+ ", title=" + title + ", text=" + text + ", del=" + del + ", txupdate=" + txupdate + ", moddate="
-				+ moddate + "]";
+		return "Notice_BoardDTO [noticeboardnum=" + noticeboardnum + ", noticecount=" + noticecount + ", hadminid="
+				+ hadminid + ", title=" + title + ", text=" + text + ", del=" + del + ", txupdate=" + txupdate
+				+ ", moddate=" + moddate + ", hname=" + hname + ", name=" + name + "]";
 	}
 
 }

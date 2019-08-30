@@ -4,9 +4,7 @@
        "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 <tiles-definitions>
 	<!-- 로그인 화면 -->
-	<definition name="login/login" extends="mainTemplate">
-		<put-attribute name="menu"
-			value="/WEB-INF/menu/user_mypage_menu.jsp" />
+	<definition name="login/login" extends="indexTemplate">
 		<put-attribute name="content"
 			value="/WEB-INF/login/login.jsp" />
 	</definition>

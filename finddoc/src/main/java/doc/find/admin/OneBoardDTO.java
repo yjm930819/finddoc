@@ -1,8 +1,8 @@
 package doc.find.admin;
 
 public class OneBoardDTO {
-	private int boardnum_seq;
-	private int count_seq;
+	private int oneboardnum;
+	private int onecount;
 	private String hadminid;
 	private String title;
 	private String text;
@@ -10,11 +10,11 @@ public class OneBoardDTO {
 	private String txupdate;
 	private String moddate;
 
-	public OneBoardDTO(int boardnum_seq, int count_seq, String hadminid, String title, String text, String del,
+	public OneBoardDTO(int oneboardnum, int onecount, String hadminid, String title, String text, String del,
 			String txupdate, String moddate) {
 		super();
-		this.boardnum_seq = boardnum_seq;
-		this.count_seq = count_seq;
+		this.oneboardnum = oneboardnum;
+		this.onecount = onecount;
 		this.hadminid = hadminid;
 		this.title = title;
 		this.text = text;
@@ -27,20 +27,20 @@ public class OneBoardDTO {
 		super();
 	}
 
-	public int getBoardnum_seq() {
-		return boardnum_seq;
+	public int getoneboardnum() {
+		return oneboardnum;
 	}
 
-	public void setBoardnum_seq(int boardnum_seq) {
-		this.boardnum_seq = boardnum_seq;
+	public void setoneboardnum(int oneboardnum) {
+		this.oneboardnum = oneboardnum;
 	}
 
-	public int getCount_seq() {
-		return count_seq;
+	public int getonecount() {
+		return onecount;
 	}
 
-	public void setCount_seq(int count_seq) {
-		this.count_seq = count_seq;
+	public void setonecount(int onecount) {
+		this.onecount = onecount;
 	}
 
 	public String getHadminid() {
@@ -93,7 +93,7 @@ public class OneBoardDTO {
 
 	@Override
 	public String toString() {
-		return "OneBoardDTO [boardnum_seq=" + boardnum_seq + ", count_seq=" + count_seq + ", hadminid=" + hadminid
+		return "OneBoardDTO [oneboardnum=" + oneboardnum + ", onecount=" + onecount + ", hadminid=" + hadminid
 				+ ", title=" + title + ", text=" + text + ", del=" + del + ", txupdate=" + txupdate + ", moddate="
 				+ moddate + "]";
 	}

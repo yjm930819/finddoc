@@ -6,13 +6,13 @@ public class Admin_AppDTO {
 	// 승인유무
 	private String approval;
 	// 회원번호(=승인대기번호)
-	private int approvalnum_seq;
+	private int approvalnum;
 
-	public Admin_AppDTO(String hadminid, String approval, int approvalnum_seq) {
+	public Admin_AppDTO(String hadminid, String approval, int approvalnum) {
 		super();
 		this.hadminid = hadminid;
 		this.approval = approval;
-		this.approvalnum_seq = approvalnum_seq;
+		this.approvalnum = approvalnum;
 	}
 
 	public Admin_AppDTO() {
@@ -35,17 +35,17 @@ public class Admin_AppDTO {
 		this.approval = approval;
 	}
 
-	public int getApprovalnum_seq() {
-		return approvalnum_seq;
+	public int getapprovalnum() {
+		return approvalnum;
 	}
 
-	public void setApprovalnum_seq(int approvalnum_seq) {
-		this.approvalnum_seq = approvalnum_seq;
+	public void setapprovalnum(int approvalnum) {
+		this.approvalnum = approvalnum;
 	}
 
 	@Override
 	public String toString() {
-		return "Admin_AppDTO [hadminid=" + hadminid + ", approval=" + approval + ", approvalnum_seq=" + approvalnum_seq
+		return "Admin_AppDTO [hadminid=" + hadminid + ", approval=" + approval + ", approvalnum=" + approvalnum
 				+ "]";
 	}
 

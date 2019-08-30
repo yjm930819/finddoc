@@ -56,6 +56,24 @@
 			value="/WEB-INF/board/noticeBoard_write.jsp" />
 	</definition>
 
+	<!-- 공지사항 게시판 글읽기 -->
+	<definition name="board/noticeBoard_Read"
+		extends="mainTemplate">
+		<put-attribute name="menu"
+			value="/WEB-INF/menu/user_board_menu.jsp" />
+		<put-attribute name="content"
+			value="/WEB-INF/board/noticeBoard_read.jsp" />
+	</definition>
+
+	<!-- 공지사항 게시판 글수정페이지 -->
+	<definition name="board/noticeBoard_Update"
+		extends="mainTemplate">
+		<put-attribute name="menu"
+			value="/WEB-INF/menu/user_board_menu.jsp" />
+		<put-attribute name="content"
+			value="/WEB-INF/board/noticeBoard_update.jsp" />
+	</definition>
+
 
 
 </tiles-definitions>

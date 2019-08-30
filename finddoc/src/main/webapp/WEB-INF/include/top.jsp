@@ -66,8 +66,7 @@ div a:hover {
 						<c:choose>
 							<c:when test="${loginuser.state=='hadmin'}">
 								<li id="find"><a href="/finddoc/doc/booklist.do">병원관리</a></li>
-								<li id="board"><a
-									href="/finddoc/board/noticeBoardList.do?category=all">게시판</a></li>
+								<li id="board"><a href="/finddoc/board/noticeBoardList.do">게시판</a></li>
 							</c:when>
 							<c:otherwise>
 								<li id="find"><a href="/finddoc/search/search.do">병원찾기</a></li>

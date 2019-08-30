@@ -1,8 +1,8 @@
 package doc.find.board;
 
 public class Review_BoardDTO {
-	private int boardnum_seq;
-	private int count_seq;
+	private int reviewboardnum;
+	private int reviewcount;
 	private String id;
 	private String title;
 	private String text;
@@ -12,11 +12,11 @@ public class Review_BoardDTO {
 	private String APPROVALNUM;
 	private int reco;
 
-	public Review_BoardDTO(int boardnum_seq, int count_seq, String id, String title, String text, String del,
+	public Review_BoardDTO(int reviewboardnum, int reviewcount, String id, String title, String text, String del,
 			String txupdate, String moddate, String aPPROVALNUM, int reco) {
 		super();
-		this.boardnum_seq = boardnum_seq;
-		this.count_seq = count_seq;
+		this.reviewboardnum = reviewboardnum;
+		this.reviewcount = reviewcount;
 		this.id = id;
 		this.title = title;
 		this.text = text;
@@ -31,20 +31,20 @@ public class Review_BoardDTO {
 		super();
 	}
 
-	public int getBoardnum_seq() {
-		return boardnum_seq;
+	public int getreviewboardnum() {
+		return reviewboardnum;
 	}
 
-	public void setBoardnum_seq(int boardnum_seq) {
-		this.boardnum_seq = boardnum_seq;
+	public void setreviewboardnum(int reviewboardnum) {
+		this.reviewboardnum = reviewboardnum;
 	}
 
-	public int getCount_seq() {
-		return count_seq;
+	public int getreviewcount() {
+		return reviewcount;
 	}
 
-	public void setCount_seq(int count_seq) {
-		this.count_seq = count_seq;
+	public void setreviewcount(int reviewcount) {
+		this.reviewcount = reviewcount;
 	}
 
 	public String getId() {
@@ -113,9 +113,9 @@ public class Review_BoardDTO {
 
 	@Override
 	public String toString() {
-		return "Review_BoardDTO [boardnum_seq=" + boardnum_seq + ", count_seq=" + count_seq + ", id=" + id + ", title="
-				+ title + ", text=" + text + ", del=" + del + ", txupdate=" + txupdate + ", moddate=" + moddate
-				+ ", APPROVALNUM=" + APPROVALNUM + ", reco=" + reco + "]";
+		return "Review_BoardDTO [reviewboardnum=" + reviewboardnum + ", reviewcount=" + reviewcount + ", id=" + id
+				+ ", title=" + title + ", text=" + text + ", del=" + del + ", txupdate=" + txupdate + ", moddate="
+				+ moddate + ", APPROVALNUM=" + APPROVALNUM + ", reco=" + reco + "]";
 	}
 
 }

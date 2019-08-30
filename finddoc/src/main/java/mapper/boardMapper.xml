@@ -2,6 +2,58 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="erp.board">
-	
+
+<mapper namespace="finddoc.board">
+	<insert id="insertnotice" parameterType="notice">
+		insert into notice_board
+		values(noticeboardnum_seq.nextval,'0',#{hadminid},#{title},#{text},'o',sysdate,sysdate,#{hname},#{name})
+	</insert>
+	<select id="noticeall" parameterType="String"
+		resultType="notice">
+		select * from notice_board where
+		hadminid=#{hadminid} and
+		del='o'
+	</select>
+	<select id="noticeuserall" parameterType="String"
+		resultType="notice">
+		select * from notice_board where del='o'
+	</select>
+	<update id="noticecount" parameterType="String">
+		update notice_board
+		set
+		noticecount=noticecount+1
+		where noticeboardnum=#{noticeboardnum}
+	</update>
+	<select id="noticeread" parameterType="String"
+		resultType="notice">
+		select *
+		from notice_board where
+		noticeboardnum=#{noticeboardnum}
+	</select>
+	<update id="noticedelete" parameterType="String">
+		update notice_board
+		set
+		del='x' where noticeboardnum=#{noticeboardnum}
+	</update>
+	<update id="noticeupdate" parameterType="notice">
+		update notice_board set
+		title=#{title},text=#{text},moddate=sysdate where
+		noticeboardnum=#{noticeboardnum}
+	</update>
+	<select id="noticesearch" parameterType="Map"
+		resultType="notice">
+		select * from notice_board
+		<where>
+			<if test="category=='title' and search!=''">
+				title like '%'||#{search}||'%'
+			</if>
+			<if test="category=='text' and search!=''">
+				text like '%'||#{search}||'%'
+			</if>
+			<if test="category=='txupdate' and search!=''">
+			<![CDATA[to_date(txupdate) <= #{search}]]>
+			</if>
+		</where>
+	</select>
+
 </mapper>

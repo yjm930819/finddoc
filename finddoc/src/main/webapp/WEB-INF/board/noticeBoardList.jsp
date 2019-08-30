@@ -15,6 +15,32 @@
 <style type="text/css">
 #title {
 	text-align: center;
+	padding: 40px;
+}
+
+body {
+	color: black;
+}
+
+table {
+	width: 600px;
+}
+
+.input-group {
+	width: 300px;
+}
+
+.form-control {
+	width: 100px;
+}
+
+#write {
+	float: right;
+	margin-right: 30px;
+}
+
+#searchbar {
+	width: 300px;
 }
 </style>
 </head>
@@ -22,50 +48,53 @@
 	<div id="title">
 		<h2>공지사항 게시판</h2>
 	</div>
-	<div style="padding-top: 30px">
-		<div class="col-md-3" style="padding-bottom: 10px">
-			<form>
-				병원 선택 <select name="category" id="category">
-					<option value="all">전체게시물</option>
+
+	<div class="container-fluid">
+		<form>
+			<c:if test="${loginuser.state=='user' }">
+				<select class="form-control col-sm-2" name="search">
 					<option value="굿닥">굿닥</option>
 					<option value="똑닥">똑닥</option>
 					<option value="뚝닥">뚝닥</option>
 				</select>
-			</form>
-		</div>
-		<table class="table">
-			<thead>
-				<tr>
-					<th>번호</th>
-					<th>제목</th>
-					<th>작성자</th>
-					<th>등록일</th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:forEach var="board" items="${board }">
+			</c:if>
+			<br>
+
+			<table class="table table-hover">
+				<th>번호</th>
+				<th>병원명</th>
+				<th>제목</th>
+				<th>작성자</th>
+				<th>등록일</th>
+				<th>조회수</th>
+
+				<c:forEach var="notice" items="${noticelist }">
 					<tr>
-						<td>${board.board_no }</td>
+						<td>${notice.noticeboardnum }</td>
 						<td><a
-							href="/erp/board/read.do?board_no=${board.board_no }&action=read">${board.title}</a></td>
-						<td>${board.id }</td>
-						<td>${board.write_date }</td>
+							href="/finddoc/board/noticeBoard_read.do?noticeboardnum=${notice.noticeboardnum}&hname=${notice.hname}">${notice.hname}</a></td>
+						<td>${notice.title }</td>
+						<td>${notice.name }</td>
+						<td>${notice.txupdate }</td>
+						<td>${notice.noticecount }</td>
 					</tr>
 				</c:forEach>
-			</tbody>
-		</table>
+			</table>
+		</form>
 	</div>
-	<form action="/erp/board/search.do">
-		<select name="tag" id="tag">
-			<option value="id">작성자</option>
+
+	<form action="/finddoc/board/noticeBoard_search.do" method="get">
+		<select class="form-control col-sm-2" name="category">
 			<option value="title">제목</option>
-			<option value="content">본문</option>
-			<option value="write_date">작성일</option>
-		</select> <input type="text" name="search" /> <input type="submit" value="검색">
-		<ul class="nav navbar-nav navbar-right">
-			<li><a href="/finddoc/board/noticeBoard_writeView.do"
-				style="text-align: right;">글쓰기</a></li>
-		</ul>
+			<option value="text">본문</option>
+			<option value="txupdate">작성일</option>
+		</select> <input type="text" name="search" class="form-control col-sm-3"
+			id="searchbar"> <input type="submit" value="검색"
+			class="btn btn-default">
+		<c:if test="${loginuser.state=='hadmin' }">
+			<input type="button" value="글쓰기" class="btn btn-default" id="write"
+				onclick='location.href="/finddoc/board/noticeBoard_writeView.do"'>
+		</c:if>
 	</form>
 
 </body>

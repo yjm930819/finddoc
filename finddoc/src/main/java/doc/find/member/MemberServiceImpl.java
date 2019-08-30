@@ -54,7 +54,7 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public String search(String hospname, String pageno, String rows) throws IOException {
+	public String search(String hospname, String pageno, String rows, String haddr) throws IOException {
 		StringBuilder urlBuilder = new StringBuilder(
 				"http://apis.data.go.kr/B551182/hospInfoService/getHospBasisList"); /* URL */
 		urlBuilder.append("?" + URLEncoder.encode("ServiceKey", "UTF-8")
@@ -69,6 +69,8 @@ public class MemberServiceImpl implements MemberService {
 				+ URLEncoder.encode(hospname, "UTF-8")); /* 병원명 (UTF-8 인코딩 필요) */
 		urlBuilder.append("&" + URLEncoder.encode("pageNo", "UTF-8") + "=" + URLEncoder.encode(pageno, "UTF-8"));
 		urlBuilder.append("&" + URLEncoder.encode("numOfRows", "UTF-8") + "=" + URLEncoder.encode(rows, "UTF-8"));
+		urlBuilder.append(
+				"&" + URLEncoder.encode("emdongNm", "UTF-8") + "=" + URLEncoder.encode(haddr, "UTF-8")); /* 읍면동명 */
 		urlBuilder.append("&_type=json");
 		URL url = new URL(urlBuilder.toString());
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();

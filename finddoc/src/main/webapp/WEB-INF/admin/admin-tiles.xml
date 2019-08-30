@@ -7,11 +7,15 @@
 	<definition name="admin" extends="mainTemplate">
 		<put-attribute name="top"
 			value="/WEB-INF/include/top.jsp" />
+		<put-attribute name="menu"
+			value="/WEB-INF/menu/admin_page_menu.jsp" />
 	</definition>
 	<!-- 관리자 병원 승인 대기 목록 화면 -->
 	<definition name="admin/accept_list" extends="mainTemplate">
 		<put-attribute name="top"
 			value="/WEB-INF/include/index_top.jsp" />
+		<put-attribute name="menu"
+			value="/WEB-INF/menu/admin_page_menu.jsp" />
 		<put-attribute name="content"
 			value="/WEB-INF/admin/accept_list.jsp" />
 	</definition>
@@ -20,6 +24,8 @@
 	<definition name="admin/doc_list" extends="mainTemplate">
 		<put-attribute name="top"
 			value="/WEB-INF/include/index_top.jsp" />
+		<put-attribute name="menu"
+			value="/WEB-INF/menu/admin_page_menu.jsp" />
 		<put-attribute name="content"
 			value="/WEB-INF/admin/doc_list.jsp" />
 	</definition>
