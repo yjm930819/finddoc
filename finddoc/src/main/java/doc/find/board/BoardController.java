@@ -62,24 +62,24 @@ public class BoardController {
 		ModelAndView mav = new ModelAndView();
 		HttpSession ses = req.getSession(false);
 		MemberDTO memberdto = null;
+		List<Notice_BoardDTO> noticelist = null;
+
 		if (ses != null) {
 			memberdto = (MemberDTO) ses.getAttribute("loginuser");
 		}
 		if (memberdto instanceof UserDTO) {
 			UserDTO userdto = (UserDTO) memberdto;
 			if (category.equals("all")) {
-				List<Notice_BoardDTO> noticelist = boardService.noticelist(userdto.getUserid(), "user");
-				mav.addObject("noticelist", noticelist);
-				mav.setViewName("board/noticeBoardList");
+				noticelist = boardService.noticelist(userdto.getUserid(), "user");
 			}
 
 		} else {
 			HadminDTO hadmindto = (HadminDTO) memberdto;
-			List<Notice_BoardDTO> noticelist = boardService.noticelist(hadmindto.getHadminid(), "hadmin");
-			mav.addObject("noticelist", noticelist);
-			mav.setViewName("board/noticeBoardList");
+			noticelist = boardService.noticelist(hadmindto.getHadminid(), "hadmin");
 		}
 
+		mav.addObject("noticelist", noticelist);
+		mav.setViewName("board/noticeBoardList");
 		return mav;
 	}
 
@@ -122,7 +122,6 @@ public class BoardController {
 
 		if (search != "") {
 			noticelist = boardService.noticesearch(category, search);
-			System.out.println(noticelist);
 		} else {
 			noticelist = boardService.noticelist(hadmindto.getHadminid(), "hadmin");
 		}
@@ -153,7 +152,6 @@ public class BoardController {
 	public ModelAndView noticeInsert(Notice_BoardDTO noticedto) {
 		ModelAndView mav = new ModelAndView();
 		boardService.noticeinsert(noticedto);
-
 		mav.setViewName("redirect:/board/noticeBoardList.do");
 		return mav;
 	}

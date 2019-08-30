@@ -277,7 +277,7 @@
 			hospall = data.response.body.items.item;
 			hosplist = "";
 			hospinfo = "";
-			size = hospall.length;
+			size = data.response.body.totalCount;
 			if(size==0){
 				hosplist="검색 결과가 없습니다.";
 			}
