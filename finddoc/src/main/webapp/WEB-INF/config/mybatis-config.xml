@@ -9,11 +9,14 @@
 		<typeAlias type="doc.find.member.HadminDTO" alias="hadmin" />
 		<typeAlias type="doc.find.member.AdminDTO" alias="admin" />
 		<typeAlias type="doc.find.login.LoginDTO" alias="login" />
+		<typeAlias type="doc.find.mypage.mypageDTO" alias="mypage" />
+		<typeAlias type="doc.find.mypage.MyhospitalDTO" alias="myhospital" />
 	</typeAliases>
 
 	<mappers>
 		<!-- mapper의 정보를 등록하기 -->
 		<mapper resource="mapper/memberMapper.xml" />
 		<mapper resource="mapper/loginMapper.xml" />
+		<mapper resource="mapper/bookmarkMapper.xml" />
 	</mappers>
 </configuration>
