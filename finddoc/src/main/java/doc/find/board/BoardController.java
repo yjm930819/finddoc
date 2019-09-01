@@ -122,6 +122,8 @@ public class BoardController {
 		ModelAndView mav = new ModelAndView();
 		HttpSession ses = req.getSession(false);
 		MemberDTO memberdto = null;
+		List<Notice_BoardDTO> noticelist = null;
+
 		if (ses != null) {
 			memberdto = (MemberDTO) ses.getAttribute("loginuser");
 		}
@@ -129,14 +131,20 @@ public class BoardController {
 			UserDTO userdto = (UserDTO) memberdto;
 			List<Notice_BoardDTO> noticelist = boardService.noticelist(userdto.getUserid(), "user");
 			mav.addObject("noticelist", noticelist);
+			if (category.equals("all")) {
+				noticelist = boardService.noticelist(userdto.getUserid(), "user");
+			}
 
 		} else {
 			HadminDTO hadmindto = (HadminDTO) memberdto;
 			List<Notice_BoardDTO> noticelist = boardService.noticelist(hadmindto.getHadminid(), "hadmin");
 			mav.addObject("noticelist", noticelist);
+			noticelist = boardService.noticelist(hadmindto.getHadminid(), "hadmin");
 		}
 		mav.setViewName("board/noticeBoardList");
 
+		mav.addObject("noticelist", noticelist);
+		mav.setViewName("board/noticeBoardList");
 		return mav;
 	}
 
