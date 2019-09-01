@@ -118,7 +118,7 @@ public class BoardController {
 
 	// 공지사항 게시판
 	@RequestMapping("/board/noticeBoardList.do")
-	public ModelAndView notice(HttpServletRequest req) throws Exception {
+	public ModelAndView notice(String category, HttpServletRequest req) throws Exception {
 		ModelAndView mav = new ModelAndView();
 		HttpSession ses = req.getSession(false);
 		MemberDTO memberdto = null;
@@ -129,15 +129,13 @@ public class BoardController {
 		}
 		if (memberdto instanceof UserDTO) {
 			UserDTO userdto = (UserDTO) memberdto;
-			List<Notice_BoardDTO> noticelist = boardService.noticelist(userdto.getUserid(), "user");
+			noticelist = boardService.noticelist(userdto.getUserid(), "user");
 			mav.addObject("noticelist", noticelist);
-			if (category.equals("all")) {
-				noticelist = boardService.noticelist(userdto.getUserid(), "user");
-			}
+			noticelist = boardService.noticelist(userdto.getUserid(), "user");
 
 		} else {
 			HadminDTO hadmindto = (HadminDTO) memberdto;
-			List<Notice_BoardDTO> noticelist = boardService.noticelist(hadmindto.getHadminid(), "hadmin");
+			noticelist = boardService.noticelist(hadmindto.getHadminid(), "hadmin");
 			mav.addObject("noticelist", noticelist);
 			noticelist = boardService.noticelist(hadmindto.getHadminid(), "hadmin");
 		}

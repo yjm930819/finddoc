@@ -86,6 +86,6 @@
 	<select id="reviewsearchhname" parameterType="Map"
 		resultType="reviewboard">
 		select * from review_board where hname=#{category} and
-		id=#{id} and del='0'
+		id=#{id} and del='o'
 	</select>
 </mapper>
