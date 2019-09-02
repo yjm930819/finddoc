@@ -214,13 +214,12 @@
 				searchspec[speccount]=$(this).val();
 				alert(searchspec[speccount]);
 				speccount++;
-				alert(speccount);
 				$("#searchspec").append($(this).val());
 			}
 		})
-		
+
 		//검색버튼 눌렀을 때 조건에 맞게 검색
-		$("#sub").click(function() {
+		$("#sub").click(function searchbtnclick() {
 			$("#hospinfo").empty();
 			
 			//콤보상자에서 선택한 항목의 번호를 리턴
@@ -362,6 +361,8 @@
 			$("#hosplist").empty();
 			$("#hosplist").append(hosplist);
 		}
+		
+		
 	});
 </script>
 </head>
@@ -441,7 +442,6 @@
 						<input type="checkbox" name="dgsbjtCd" value="87">사상체질과
 						<input type="checkbox" name="dgsbjtCd" value="88">한방응급
 						<input type="checkbox" name="dgsbjtCd" value="90">한방소계
-					
 						<hr />
 						특수조건 
 						<input type="radio" name="special">야간운영 
@@ -464,6 +464,11 @@
 				<!-- 병원정보 뿌려줄 곳 -->
 				</div>
 				<br>
+				<div class="form-group">
+					<div class="col-sm-3" id="paging">
+					<!-- 조회 페이지 뿌려줄 곳 -->
+					</div>
+				</div>
 				<hr>
 				<br>
 				<div id="hospinfo" style="background-color: skyblue">
