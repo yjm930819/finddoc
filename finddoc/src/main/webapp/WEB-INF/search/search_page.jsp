@@ -472,7 +472,7 @@
 				<hr>
 				<br>
 				<div id="hospinfo" style="background-color: skyblue">
-			<!-- 선택한 병원 정보 출력 -->
+				<!-- 선택한 병원 정보 출력 -->
 				</div>
 			</div>
 		</div>
