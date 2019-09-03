@@ -154,7 +154,7 @@ and userid='java';
 create table test(
 	test varchar2(10)
 	)
-
+select * from hadmin;
 select * from myhospital where userid='java' and ox='x';
 select * from myhospital where userid='java';
 delete myhospital where userid='java';
