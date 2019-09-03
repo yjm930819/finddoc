@@ -277,15 +277,15 @@
 			hospall = data.response.body.items.item;
 			hosplist = "";
 			hospinfo = "";
-			size = data.response.body.totalCount;
-			if(size==0){
+			totalCount = data.response.body.totalCount;
+			if(totalCount==0){
 				hosplist="검색 결과가 없습니다.";
 			}
-			else if(size==1){
+			else if(totalCount==1){
 				hosplist = hosplist+"<h4  id='hospital'> 병원명 : "+ hospall.yadmNm + "</h4>";
 				$(document).on("click","#hospital",function(){
 					panTo(hospall.XPos, hospall.YPos, hospall.yadmNm);
-					hospinfo="<div> 병원명 : "+hospall.yadmNm+"</div><div> 병원 종류 : "+hospall.clCdNm+"</div><div> 주소 : "
+					hospinfo="<div> 병원 종류 : "+hospall.clCdNm+"</div><div> 주소 : "
 					+hospall.addr+"</div><div> 전화번호 : "+hospall.telno+"</div><div> 홈페이지 : "
 					+hospall.hospUrl+"</div><div> 총 의사 수 : "+hospall.drTotCnt+"</div><div> 전문의 수 : "
 					+hospall.sdrCnt+"</div><div> 일반의 수 : "+hospall.gdrCnt+"</div>"+
@@ -298,66 +298,114 @@
 				$("#hospinfo").empty();
 				$("#hospinfo").append(hospinfo);
 			}
+			//검색 결과 여러개일 경우 페이징해서 보여준다
 			else{
-				searchlistx = new Array(size);
-				searchlisty = new Array(size);
-				ykiholist = new Array(size);
-				for (i = 0; i < size; i++) {
-					hosplist = hosplist+"<h4  id='hospital"+i+"'> 병원명 : "+ hospall[i].yadmNm + "</h4>";
-					searchlistx[i] = hospall[i].XPos;
-					searchlisty[i] = hospall[i].YPos;
-					ykiholist[i] = hospall[i].ykiho;
-					$(document).on("click","#hospital"+i,function(){
-						clicklist=$(this).attr("id")
-						namesize = clicklist.length;
-						num = parseInt(clicklist.substr(8, namesize-8));
-						panTo(searchlistx[num], searchlisty[num], hospall[num].yadmNm);
-						$.ajax({
-							url : "/finddoc/search/ykiho_DetailInfo.do",
-							type : "get",
-							data : {
-								"ykiho" : ykiholist[num]
-							},
-							success : function(result) {
-								detail = result.response[0].body.items.item; //응급실 및 운영시간
-								trans = result.response[1].body.items.item; //교통정보
-								spcl = result.response[2].body.items.item; //특수진료
-								hospinfo="<div> 병원명 : "+hospall[num].yadmNm+"</div><div> 병원 종류 : "+hospall[num].clCdNm+"</div><div> 주소 : "
-								+hospall[num].addr+"</div><div> 전화번호 : "+hospall[num].telno+"</div><div> 홈페이지 : "
-								+hospall[num].hospUrl+"</div><div> 총 의사 수 : "+hospall[num].drTotCnt+" /  전문의 수 : "
-								+hospall[num].sdrCnt+" /  일반의 수 : "+hospall[num].gdrCnt+"</div>"
-								+"<input class='btn btn-default' type='button' value='접수' onclick='location.href="+'"/finddoc/receipt/book.do"'+"'>"
-								+"<input class='btn btn-default' type='button' value='예약' onclick='location.href="+'"/finddoc/user/book.do"'+"'>"
-								+"<input class='btn btn-default' type='button' value='길찾기' onclick='location.href="+'"/finddoc/search/search.do"'+"'>"
-								+"<input class='btn btn-default' type='button' id='insert_mypage' value='자주가는 병원 등록'>"
-								+"<input class='btn btn-default' type='button' value='게시판' onclick='location.href="+'"/finddoc/board/noticeBoardList.do?category=all"'+"'>";
-								$(document).on("click","#insert_mypage",function(){
-									var user="${loginuser}";
-									if(user==""){
-										alert("로그인 후 이용 가능합니다")
-									}else{
-										$.ajax({
-											url : "/finddoc/mypage/insert_bookmark.do",
-											type : "get",
-											data : {
-												"ykiho" : ykiholist[num]
-											},
-											success : function(message){
-												var check=confirm(message);
-												if(check){
-													location.href="/finddoc/mypage/bookmark.do";
-												}
-											}
-										});
-									}
-								});
-								$("#hospinfo").empty();
-								$("#hospinfo").append(hospinfo);
-							},
-							error : error_run
-						});
+				pagelist="";
+				pageno = data.response.body.pageNo;
+				endPage=totalCount/10;
+				endPage=Math.floor(endPage);
+				pasing_ajax(pageno);
+				if(totalCount%10!=0){
+					endPage+=1;
+				}
+				for(j=1; j<=endPage; j++){
+					pagelist=pagelist+"<span id='page"+j+"'>"+j+"</span>";
+					$(document).on("click","#page"+j,function(){
+						clickpage=$(this).attr("id");
+						pagesize = clickpage.length;
+						pageno = parseInt(clickpage.substr(4, pagesize-4));
+						pasing_ajax(pageno);
 					});
 				}
+				$("#pasing").append(pagelist);
+			}
+		}
+		
+		//페이징 ajax
+		function pasing_ajax(pageno) {
+			alert(pageno);
+			hosplist = "";
+			$.ajax({
+				url : "/finddoc/search/search_pasing.do",
+				type : "get",
+				data : {
+					"pageno" : pageno,
+					"loctxt" : $("#loctxt").val(),
+					"hospname" : $("#hospname").val(),
+					"zipCd" : indextext,
+					"dgsbjtCd" : checkvalue
+					},
+				success : success_pasing,
+				error : error_run
+			});
+		}
+		
+		function success_pasing(pasingdata) {
+			size=pasingdata.response.body.items.item.length;
+			hospall=pasingdata.response.body.items.item;
+			searchlistx = new Array(size);
+			searchlisty = new Array(size);
+			ykiholist = new Array(size);
+			for (i = 0; i < size; i++) {
+				hosplist = hosplist+"<h4  id='hospital"+i+"'> 병원명 : "+ hospall[i].yadmNm + "</h4>";
+				searchlistx[i] = hospall[i].XPos;
+				searchlisty[i] = hospall[i].YPos;
+				ykiholist[i] = hospall[i].ykiho;
+				//병원이름 클릭했을 때 병원 상세정보 보여준다
+				$(document).on("click","#hospital"+i,function(){
+					clicklist=$(this).attr("id")
+					namesize = clicklist.length;
+					num = parseInt(clicklist.substr(8, namesize-8));
+					panTo(searchlistx[num], searchlisty[num], hospall[num].yadmNm);
+					
+					//병원상세정보 ajax
+					$.ajax({
+						url : "/finddoc/search/ykiho_DetailInfo.do",
+						type : "get",
+						data : {
+							"ykiho" : ykiholist[num]
+						},
+						success : function(result) {
+							detail = result.response[0].body.items.item; //응급실 및 운영시간
+							trans = result.response[1].body.items.item; //교통정보
+							spcl = result.response[2].body.items.item; //특수진료
+							hospinfo="<div> 병원명 : "+hospall[num].yadmNm+"</div><div> 병원 종류 : "+hospall[num].clCdNm+"</div><div> 주소 : "
+							+hospall[num].addr+"</div><div> 전화번호 : "+hospall[num].telno+"</div><div> 홈페이지 : "
+							+hospall[num].hospUrl+"</div><div> 총 의사 수 : "+hospall[num].drTotCnt+" /  전문의 수 : "
+							+hospall[num].sdrCnt+" /  일반의 수 : "+hospall[num].gdrCnt+"</div>"
+							+"<input class='btn btn-default' type='button' value='접수' onclick='location.href="+'"/finddoc/receipt/book.do"'+"'>"
+							+"<input class='btn btn-default' type='button' value='예약' onclick='location.href="+'"/finddoc/user/book.do"'+"'>"
+							+"<input class='btn btn-default' type='button' value='길찾기' onclick='location.href="+'"/finddoc/search/search.do"'+"'>"
+							+"<input class='btn btn-default' type='button' id='insert_mypage' value='자주가는 병원 등록'>"
+							+"<input class='btn btn-default' type='button' value='게시판' onclick='location.href="+'"/finddoc/board/noticeBoardList.do?category=all"'+"'>";
+							
+							//상세정보에서 자주가는 병원으로 등록할 때의 기능
+							$(document).on("click","#insert_mypage",function(){
+								var user="${loginuser}";
+								if(user==""){
+									alert("로그인 후 이용 가능합니다")
+								}else{
+									$.ajax({
+										url : "/finddoc/mypage/insert_bookmark.do",
+										type : "get",
+										data : {
+											"ykiho" : ykiholist[num]
+										},
+										success : function(message){
+											var check=confirm(message);
+											if(check){
+												location.href="/finddoc/mypage/bookmark.do";
+											}
+										}
+									});
+								}
+							});
+							$("#hospinfo").empty();
+							$("#hospinfo").append(hospinfo);
+						},
+						error : error_run
+					});
+				});
 			}
 			$("#hosplist").empty();
 			$("#hosplist").append(hosplist);
@@ -464,6 +512,9 @@
 				<!-- 병원정보 뿌려줄 곳 -->
 				</div>
 				<br>
+				<div id="pasing">
+					<!-- 페이지 뿌려줄 곳 -->
+				</div>
 				<hr>
 				<br>
 				<div id="hospinfo" style="background-color: skyblue">
