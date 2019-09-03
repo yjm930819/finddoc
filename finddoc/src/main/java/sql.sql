@@ -9,6 +9,21 @@ create table notice_board(
 	txupdate date,
 	moddate date
 );
+select h.hadminid from hadmin h,myhospital m where
+		h.ykiho=m.ykiho and m.userid=#{userid}
+		
+		
+SELECT *
+		FROM(
+		SELECT ROWNUM AS rn, a.*
+		FROM(
+		SELECT * FROM
+		notice_board where hadminid in(select h.hadminid from hadmin h,myhospital m where
+		h.ykiho=m.ykiho and m.userid='java' and del='o'
+		)ORDER BY txupdate desc
+		) a
+		)
+		WHERE rn BETWEEN 1 AND 10
 
 #문의 게시판
 create table oneboard(
@@ -150,6 +165,10 @@ delete from hadmin where hadminid='hos3';
 update myhospital set ox='o' 
 where ykiho='JDQ4MTAxMiM1MSMkMSMkMCMkODkkMzgxMzUxIzExIyQxIyQzIyQ3OSQzNjEyMjIjNTEjJDEjJDYjJDgz' 
 and userid='java';
+
+create table test(
+	test varchar2(10)
+	)
 
 select * from myhospital where userid='java' and ox='x';
 select * from myhospital where userid='java';
