@@ -22,7 +22,7 @@ public interface BoardService {
 	int noticeupdate(Notice_BoardDTO noticedto);
 
 	// 공지사항 게시판 검색
-	List<Notice_BoardDTO> noticesearch(String category, String search, int startIndex);
+	List<Notice_BoardDTO> noticesearch(String id, String category, String search, int startIndex);
 
 	// 후기 게시판 글쓰기
 	int reviewinsert(Review_BoardDTO reviewdto);
@@ -31,7 +31,7 @@ public interface BoardService {
 	int reviewCount(String id, String state);
 
 	// 공지사항 게시판에서 자주가능병원리스트
-	List<Notice_BoardDTO> myhospitallist(String userid, int startIndex);
+	List<Notice_BoardDTO> myhospitallist(String userid);
 
 	// 후기 게시판 들어오면 보여지는 공지사항리스트
 	List<Review_BoardDTO> reviewlist(String id, String state, int startIndex);

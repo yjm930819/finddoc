@@ -67,7 +67,6 @@ public class mypageController {
 	//자주가는 병원검색
 	@RequestMapping("/mypage/search_bookmark.do")
 	public ModelAndView search(String tag, String search, HttpServletRequest req) {
-		System.out.println("컨트롤러 들어옴");
 		String id = getid(req);
 		ModelAndView mav = new ModelAndView();
 		List<MyhospitalDTO> searchlist = service.selectTag(tag,search, id);

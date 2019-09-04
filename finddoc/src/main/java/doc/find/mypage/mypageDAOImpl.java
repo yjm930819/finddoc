@@ -41,7 +41,6 @@ public class mypageDAOImpl implements mypageDAO {
 		map.put("tag", tag);
 		map.put("search", search);
 		map.put("userid", id);
-		System.out.println("dao : "+sqlSession.selectList("user.bookmark.dynamicSearch", map));
 		return sqlSession.selectList("user.bookmark.dynamicSearch", map);
 	}
 }
