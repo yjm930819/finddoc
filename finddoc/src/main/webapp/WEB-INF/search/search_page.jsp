@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,20 +7,26 @@
 <title>Insert title here</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=e9bfb989fa7aa3a476f7c82f860354a6&libraries=services"></script>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<script type="text/javascript"
+	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=e9bfb989fa7aa3a476f7c82f860354a6&libraries=services"></script>
 <style type="text/css">
 #map {
 	margin-left: 100px;
 }
+
 #search {height 200px;
 	padding-top: 20px;
 	padding-left: 120px;
 	background-color: skyblue;
 	margin: auto;
 }
+
 #drop {
 	background-color: skyblue;
 	padding: 20px;
@@ -28,6 +34,7 @@
 </style>
 <script type="text/javascript">
 	$(document).ready(function() {
+		action="";
 		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 		searchspec=new Array();
 		speccount=0;
@@ -68,6 +75,7 @@
 	
 		//중심위치를 기준으로 몇 미터 내의 병원 찾아서 지도에 마크출력하고 병원정보 출력
 		function searchlist() {
+			action="drag";
 			 var latlng = map.getCenter(); //현재 위도와 경도 받아오기
 			 
 			 $.ajax({
@@ -222,8 +230,7 @@
 
 		//검색버튼 눌렀을 때 조건에 맞게 검색
 		$("#sub").click(function searchbtnclick() {
-			$("#hospinfo").empty();
-			
+			action="search"
 			//콤보상자에서 선택한 항목의 번호를 리턴
 			index = document.searchbox.zipCd.selectedIndex;
 			indextext = document.searchbox.zipCd.options[index].value;
@@ -275,37 +282,34 @@
 		
 		//병원 조회 결과목록을 보여주고 누르면 상세정보를 뿌려줌
 		function success_searchlist(data) {
+			$("#pasing").empty();
+			$("#hospinfo").empty();
+			$("#hosplist").empty();
 			hospall = data.response.body.items.item;
 			hosplist = "";
 			hospinfo = "";
 			totalCount = data.response.body.totalCount;
 			if(totalCount==0){
 				hosplist="검색 결과가 없습니다.";
+				$("#hosplist").empty();
+				$("#hosplist").append(hosplist);
 			}
 			else if(totalCount==1){
-				hosplist = hosplist+"<h4  id='hospital'> 병원명 : "+ hospall.yadmNm + "</h4>";
-				$(document).on("click","#hospital",function(){
-					panTo(hospall.XPos, hospall.YPos, hospall.yadmNm);
-					hospinfo="<div> 병원 종류 : "+hospall.clCdNm+"</div><div> 주소 : "
-					+hospall.addr+"</div><div> 전화번호 : "+hospall.telno+"</div><div> 홈페이지 : "
-					+hospall.hospUrl+"</div><div> 총 의사 수 : "+hospall.drTotCnt+"</div><div> 전문의 수 : "
-					+hospall.sdrCnt+"</div><div> 일반의 수 : "+hospall.gdrCnt+"</div>"+
-					"<input class='btn btn-default' type='button' value='접수' onclick='location.href="+'"/finddoc/receipt/book.do"'+"'>"+
-					"<input class='btn btn-default' type='button' value='예약' onclick='location.href="+'"/finddoc/user/book.do"'+"'>"+
-					"<input class='btn btn-default' type='button' value='길찾기' onclick='location.href="+'"/finddoc/search/search.do"'+"'>"+
-					"<input class='btn btn-default' type='button' value='자주가는 병원 등록' onclick='location.href="+'"/finddoc/mypage/mypage.do"'+"'>"+
-					"<input class='btn btn-default' type='button' value='게시판' onclick='location.href="+'"/finddoc/board/noticeBoardList.do?category=all"'+"'>";
-				})
-				$("#hospinfo").empty();
-				$("#hospinfo").append(hospinfo);
+				resultone(hospall);
 			}
 			//검색 결과 여러개일 경우 페이징해서 보여준다
 			else{
 				pagelist="";
 				pageno = data.response.body.pageNo;
-				endPage=totalCount/10;
+				endPage=(totalCount)/10;
 				endPage=Math.floor(endPage);
-				pasing_ajax(pageno);
+				alert("마지막 페이지"+endPage);
+				if(action=="search"){
+					pasing_ajax(pageno);
+				}
+				else if(action=="drag"){
+					drag_pasing_ajax(pageno);
+				}
 				if(totalCount%10!=0){
 					endPage+=1;
 				}
@@ -315,16 +319,22 @@
 						clickpage=$(this).attr("id");
 						pagesize = clickpage.length;
 						pageno = parseInt(clickpage.substr(4, pagesize-4));
-						pasing_ajax(pageno);
+						if(action=="search"){
+							pasing_ajax(pageno);
+						}
+						else if(action=="drag"){
+							drag_pasing_ajax(pageno);
+						}
 					});
 				}
 				$("#pasing").append(pagelist);
 			}
+			$("#hosplist").empty();
+			$("#hosplist").append(hosplist);
 		}
 		
-		//페이징 ajax
+		//검색페이징 ajax
 		function pasing_ajax(pageno) {
-			alert(pageno);
 			hosplist = "";
 			$.ajax({
 				url : "/finddoc/search/search_pasing.do",
@@ -341,78 +351,126 @@
 			});
 		}
 		
-		function success_pasing(pasingdata) {
-			size=pasingdata.response.body.items.item.length;
-			hospall=pasingdata.response.body.items.item;
-			searchlistx = new Array(size);
-			searchlisty = new Array(size);
-			ykiholist = new Array(size);
-			for (i = 0; i < size; i++) {
-				hosplist = hosplist+"<h4  id='hospital"+i+"'> 병원명 : "+ hospall[i].yadmNm + "</h4>";
-				searchlistx[i] = hospall[i].XPos;
-				searchlisty[i] = hospall[i].YPos;
-				ykiholist[i] = hospall[i].ykiho;
-				//병원이름 클릭했을 때 병원 상세정보 보여준다
-				$(document).on("click","#hospital"+i,function(){
-					clicklist=$(this).attr("id")
-					namesize = clicklist.length;
-					num = parseInt(clicklist.substr(8, namesize-8));
-					panTo(searchlistx[num], searchlisty[num], hospall[num].yadmNm);
-					
-					//병원상세정보 ajax
-					$.ajax({
-						url : "/finddoc/search/ykiho_DetailInfo.do",
-						type : "get",
-						data : {
-							"ykiho" : ykiholist[num]
-						},
-						success : function(result) {
-							detail = result.response[0].body.items.item; //응급실 및 운영시간
-							trans = result.response[1].body.items.item; //교통정보
-							spcl = result.response[2].body.items.item; //특수진료
-							hospinfo="<div> 병원명 : "+hospall[num].yadmNm+"</div><div> 병원 종류 : "+hospall[num].clCdNm+"</div><div> 주소 : "
-							+hospall[num].addr+"</div><div> 전화번호 : "+hospall[num].telno+"</div><div> 홈페이지 : "
-							+hospall[num].hospUrl+"</div><div> 총 의사 수 : "+hospall[num].drTotCnt+" /  전문의 수 : "
-							+hospall[num].sdrCnt+" /  일반의 수 : "+hospall[num].gdrCnt+"</div>"
-							+"<input class='btn btn-default' type='button' value='접수' onclick='location.href="+'"/finddoc/receipt/book.do"'+"'>"
-							+"<input class='btn btn-default' type='button' value='예약' onclick='location.href="+'"/finddoc/user/book.do"'+"'>"
-							+"<input class='btn btn-default' type='button' value='길찾기' onclick='location.href="+'"/finddoc/search/search.do"'+"'>"
-							+"<input class='btn btn-default' type='button' id='insert_mypage' value='자주가는 병원 등록'>"
-							+"<input class='btn btn-default' type='button' value='게시판' onclick='location.href="+'"/finddoc/board/noticeBoardList.do?category=all"'+"'>";
-							
-							//상세정보에서 자주가는 병원으로 등록할 때의 기능
-							$(document).on("click","#insert_mypage",function(){
-								var user="${loginuser}";
-								if(user==""){
-									alert("로그인 후 이용 가능합니다")
-								}else{
-									$.ajax({
-										url : "/finddoc/mypage/insert_bookmark.do",
-										type : "get",
-										data : {
-											"ykiho" : ykiholist[num]
-										},
-										success : function(message){
-											var check=confirm(message);
-											if(check){
-												location.href="/finddoc/mypage/bookmark.do";
-											}
-										}
-									});
-								}
-							});
-							$("#hospinfo").empty();
-							$("#hospinfo").append(hospinfo);
-						},
-						error : error_run
-					});
-				});
-			}
+		//드래그 페이징
+		function drag_pasing_ajax(pageno) {
+			var latlng = map.getCenter();
+			hosplist = "";
+			$.ajax({
+				url : "/finddoc/search/drag_pasing.do",
+				type : "get",
+				data : {
+					"pageno" : pageno,
+					"yPos" : latlng.getLat(),
+					"xPos" : latlng.getLng(),
+					"radius":radius()
+					},
+				success : success_pasing,
+				error : error_run
+			});
+		}
+		
+		//결과가 1개일 떄 출력물
+		function resultone() {
+			hosplist = "<h4  id='hospital'> 병원명 : "+ hospall.yadmNm + "</h4>";
+			$(document).on("click","#hospital",function(){
+				//눌렀을 때 부드럽게 이동
+				panTo(hospall.XPos, hospall.YPos, hospall.yadmNm);
+				hospinfo="<div> 병원명 : "+hospall.yadmNm+"</div><div> 병원 종류 : "+hospall.clCdNm+"</div><div> 주소 : "
+				+hospall.addr+"</div><div> 전화번호 : "+hospall.telno+"</div><div> 홈페이지 : "
+				+hospall.hospUrl+"</div><div> 총 의사 수 : "+hospall.drTotCnt+"</div><div> 전문의 수 : "
+				+hospall.sdrCnt+"</div><div> 일반의 수 : "+hospall.gdrCnt+"</div>"+
+				"<input class='btn btn-default' type='button' value='접수' onclick='location.href="+'"/finddoc/receipt/book.do"'+"'>"+
+				"<input class='btn btn-default' type='button' value='예약' onclick='location.href="+'"/finddoc/user/book.do"'+"'>"+
+				"<input class='btn btn-default' type='button' value='길찾기' onclick='location.href="+'"/finddoc/search/search.do"'+"'>"+
+				"<input class='btn btn-default' type='button' id='insert_mypage' value='자주가는 병원 등록'>"+
+				"<input class='btn btn-default' type='button' value='게시판' onclick='location.href="+'"/finddoc/board/noticeBoardList.do?category=all"'+"'>";
+				//상세정보에서 자주가는 병원으로 등록할 때의 기능
+				insertbookmark(hospall.ykiho);
+				$("#hospinfo").empty();
+				$("#hospinfo").append(hospinfo);
+			});
 			$("#hosplist").empty();
 			$("#hosplist").append(hosplist);
 		}
 		
+		//상세정보에서 자주가는 병원으로 등록할 때의 기능
+		function insertbookmark(ykiho) {
+			$(document).on("click","#insert_mypage",function(){
+				var user="${loginuser}";
+				if(user==""){
+					alert("로그인 후 이용 가능합니다")
+				}else{
+					$.ajax({
+						url : "/finddoc/mypage/insert_bookmark.do",
+						type : "get",
+						data : {
+							"ykiho" : ykiho
+						},
+						success : function(message){
+							var check=confirm(message);
+							if(check){
+								location.href="/finddoc/mypage/bookmark.do";
+							}
+						}
+					});
+				}
+			});
+		}
 		
+		function success_pasing(pasingdata) {
+			hospall=pasingdata.response.body.items.item;
+			if(((totalCount%10)==1)&(pasingdata.response.body.pageNo==endPage)){
+				resultone(hospall);
+			}
+			else{
+				size=pasingdata.response.body.items.item.length;
+				searchlistx = new Array(size);
+				searchlisty = new Array(size);
+				ykiholist = new Array(size);
+				for (i = 0; i < size; i++) {
+					hosplist = hosplist+"<h4  id='hospital"+i+"'> 병원명 : "+ hospall[i].yadmNm + "</h4>";
+					searchlistx[i] = hospall[i].XPos;
+					searchlisty[i] = hospall[i].YPos;
+					ykiholist[i] = hospall[i].ykiho;
+					//병원이름 클릭했을 때 병원 상세정보 보여준다
+					$(document).on("click","#hospital"+i,function(){
+						clicklist=$(this).attr("id")
+						namesize = clicklist.length;
+						num = parseInt(clicklist.substr(8, namesize-8));
+						panTo(searchlistx[num], searchlisty[num], hospall[num].yadmNm);
+						//병원상세정보 ajax
+						$.ajax({
+							url : "/finddoc/search/ykiho_DetailInfo.do",
+							type : "get",
+							data : {
+								"ykiho" : ykiholist[num]
+							},
+							success : function(result) {
+								detail = result.response[0].body.items.item; //응급실 및 운영시간
+								trans = result.response[1].body.items.item; //교통정보
+								spcl = result.response[2].body.items.item; //특수진료
+								hospinfo="<div> 병원명 : "+hospall[num].yadmNm+"</div><div> 병원 종류 : "+hospall[num].clCdNm+"</div><div> 주소 : "
+								+hospall[num].addr+"</div><div> 전화번호 : "+hospall[num].telno+"</div><div> 홈페이지 : "
+								+hospall[num].hospUrl+"</div><div> 총 의사 수 : "+hospall[num].drTotCnt+" /  전문의 수 : "
+								+hospall[num].sdrCnt+" /  일반의 수 : "+hospall[num].gdrCnt+"</div>"
+								+"<input class='btn btn-default' type='button' value='접수' onclick='location.href="+'"/finddoc/receipt/book.do"'+"'>"
+								+"<input class='btn btn-default' type='button' value='예약' onclick='location.href="+'"/finddoc/user/book.do"'+"'>"
+								+"<input class='btn btn-default' type='button' value='길찾기' onclick='location.href="+'"/finddoc/search/search.do"'+"'>"
+								+"<input class='btn btn-default' type='button' id='insert_mypage' value='자주가는 병원 등록'>"
+								+"<input class='btn btn-default' type='button' value='게시판' onclick='location.href="+'"/finddoc/board/noticeBoardList.do?category=all"'+"'>";
+								//상세정보에서 자주가는 병원으로 등록할 때의 기능
+								insertbookmark(ykiholist[num]);
+								$("#hospinfo").empty();
+								$("#hospinfo").append(hospinfo);
+							},
+							error : error_run
+						});
+					});
+				}
+			}
+			$("#hosplist").empty();
+			$("#hosplist").append(hosplist);
+		}
 	});
 </script>
 </head>
@@ -422,17 +480,16 @@
 		<div id="search">
 			<h3>검색 위치를 입력해주세요</h3>
 			<form name="searchbox">
-				<input type="text" id="loctxt"> 
-				<input type="text" id="hospname">
-				<input type="button" id="sub" value="검색">
+				<input type="text" id="loctxt"> <input type="text"
+					id="hospname"> <input type="button" id="sub" value="검색">
 				<div id="searchspec">
 					<!-- 상세검색 누른 값 출력 -->
 				</div>
 				<div class="dropdown">
-					<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">상세검색</button>
+					<button class="btn btn-default dropdown-toggle" type="button"
+						data-toggle="dropdown">상세검색</button>
 					<div class="dropdown-menu" id="drop">
-						병원 종류 
-						<select name="zipCd">
+						병원 종류 <select name="zipCd">
 							<option value="default">병원 대분류</option>
 							<option value="2010">종합병원</option>
 							<option value="2030">병원</option>
@@ -443,68 +500,64 @@
 							<option value="2090">조산원</option>
 						</select>
 						<hr />
-						진료과목 
-						<input type="checkbox" name="dgsbjtCd" value="00">일반의 
-						<input type="checkbox" name="dgsbjtCd" value="01">내과 
-						<input type="checkbox" name="dgsbjtCd" value="02">신경과 
-						<input type="checkbox" name="dgsbjtCd" value="03">정신건강의학과
-						<input type="checkbox" name="dgsbjtCd" value="04">외과 
-						<input type="checkbox" name="dgsbjtCd" value="05">정형외과 
-						<input type="checkbox" name="dgsbjtCd" value="06">신경외과 
-						<input type="checkbox" name="dgsbjtCd" value="07">흉부외과
-						<input type="checkbox" name="dgsbjtCd" value="08">성형외과 
-						<input type="checkbox" name="dgsbjtCd" value="09">마취통증의학과 
-						<input type="checkbox" name="dgsbjtCd" value="10">산부인과 
-						<input type="checkbox" name="dgsbjtCd" value="11">소아청소년과 
-						<input type="checkbox" name="dgsbjtCd" value="12">안과
-						<input type="checkbox" name="dgsbjtCd" value="13">이비인후과
-						<input type="checkbox" name="dgsbjtCd" value="14">피부과
-						<input type="checkbox" name="dgsbjtCd" value="15">비뇨기과
-						<input type="checkbox" name="dgsbjtCd" value="16">영상의학과
-						<input type="checkbox" name="dgsbjtCd" value="17">방사선종양학과
-						<input type="checkbox" name="dgsbjtCd" value="18">병리과
-						<input type="checkbox" name="dgsbjtCd" value="19">진단검사의학과
-						<input type="checkbox" name="dgsbjtCd" value="20">결핵과
-						<input type="checkbox" name="dgsbjtCd" value="21">재활의학과
-						<input type="checkbox" name="dgsbjtCd" value="22">핵의학과
-						<input type="checkbox" name="dgsbjtCd" value="23">가정의학과
-						<input type="checkbox" name="dgsbjtCd" value="24">응급의학과
-						<input type="checkbox" name="dgsbjtCd" value="25">직업환경의학과
-						<input type="checkbox" name="dgsbjtCd" value="26">예방의학과
-						<input type="checkbox" name="dgsbjtCd" value="49">치과
-						<input type="checkbox" name="dgsbjtCd" value="50">구강악안면외과
-						<input type="checkbox" name="dgsbjtCd" value="51">치과보철과
-						<input type="checkbox" name="dgsbjtCd" value="52">치과교정과
-						<input type="checkbox" name="dgsbjtCd" value="53">소아치과
-						<input type="checkbox" name="dgsbjtCd" value="54">치주과
-						<input type="checkbox" name="dgsbjtCd" value="55">치과보존과
-						<input type="checkbox" name="dgsbjtCd" value="56">구강내과
-						<input type="checkbox" name="dgsbjtCd" value="57">구강악안면방사선과
-						<input type="checkbox" name="dgsbjtCd" value="58">구강병리과
-						<input type="checkbox" name="dgsbjtCd" value="59">예방치과
-						<input type="checkbox" name="dgsbjtCd" value="60">치과소계
-						<input type="checkbox" name="dgsbjtCd" value="80">한방내과
-						<input type="checkbox" name="dgsbjtCd" value="81">한방부인과
-						<input type="checkbox" name="dgsbjtCd" value="82">한방소아과
-						<input type="checkbox" name="dgsbjtCd" value="83">한방안이비인후피부과
-						<input type="checkbox" name="dgsbjtCd" value="84">한방신경정신과
-						<input type="checkbox" name="dgsbjtCd" value="85">침구과
-						<input type="checkbox" name="dgsbjtCd" value="86">한방재활의학과
-						<input type="checkbox" name="dgsbjtCd" value="87">사상체질과
-						<input type="checkbox" name="dgsbjtCd" value="88">한방응급
-						<input type="checkbox" name="dgsbjtCd" value="90">한방소계
+						진료과목 <input type="checkbox" name="dgsbjtCd" value="00">일반의
+						<input type="checkbox" name="dgsbjtCd" value="01">내과 <input
+							type="checkbox" name="dgsbjtCd" value="02">신경과 <input
+							type="checkbox" name="dgsbjtCd" value="03">정신건강의학과 <input
+							type="checkbox" name="dgsbjtCd" value="04">외과 <input
+							type="checkbox" name="dgsbjtCd" value="05">정형외과 <input
+							type="checkbox" name="dgsbjtCd" value="06">신경외과 <input
+							type="checkbox" name="dgsbjtCd" value="07">흉부외과 <input
+							type="checkbox" name="dgsbjtCd" value="08">성형외과 <input
+							type="checkbox" name="dgsbjtCd" value="09">마취통증의학과 <input
+							type="checkbox" name="dgsbjtCd" value="10">산부인과 <input
+							type="checkbox" name="dgsbjtCd" value="11">소아청소년과 <input
+							type="checkbox" name="dgsbjtCd" value="12">안과 <input
+							type="checkbox" name="dgsbjtCd" value="13">이비인후과 <input
+							type="checkbox" name="dgsbjtCd" value="14">피부과 <input
+							type="checkbox" name="dgsbjtCd" value="15">비뇨기과 <input
+							type="checkbox" name="dgsbjtCd" value="16">영상의학과 <input
+							type="checkbox" name="dgsbjtCd" value="17">방사선종양학과 <input
+							type="checkbox" name="dgsbjtCd" value="18">병리과 <input
+							type="checkbox" name="dgsbjtCd" value="19">진단검사의학과 <input
+							type="checkbox" name="dgsbjtCd" value="20">결핵과 <input
+							type="checkbox" name="dgsbjtCd" value="21">재활의학과 <input
+							type="checkbox" name="dgsbjtCd" value="22">핵의학과 <input
+							type="checkbox" name="dgsbjtCd" value="23">가정의학과 <input
+							type="checkbox" name="dgsbjtCd" value="24">응급의학과 <input
+							type="checkbox" name="dgsbjtCd" value="25">직업환경의학과 <input
+							type="checkbox" name="dgsbjtCd" value="26">예방의학과 <input
+							type="checkbox" name="dgsbjtCd" value="49">치과 <input
+							type="checkbox" name="dgsbjtCd" value="50">구강악안면외과 <input
+							type="checkbox" name="dgsbjtCd" value="51">치과보철과 <input
+							type="checkbox" name="dgsbjtCd" value="52">치과교정과 <input
+							type="checkbox" name="dgsbjtCd" value="53">소아치과 <input
+							type="checkbox" name="dgsbjtCd" value="54">치주과 <input
+							type="checkbox" name="dgsbjtCd" value="55">치과보존과 <input
+							type="checkbox" name="dgsbjtCd" value="56">구강내과 <input
+							type="checkbox" name="dgsbjtCd" value="57">구강악안면방사선과 <input
+							type="checkbox" name="dgsbjtCd" value="58">구강병리과 <input
+							type="checkbox" name="dgsbjtCd" value="59">예방치과 <input
+							type="checkbox" name="dgsbjtCd" value="60">치과소계 <input
+							type="checkbox" name="dgsbjtCd" value="80">한방내과 <input
+							type="checkbox" name="dgsbjtCd" value="81">한방부인과 <input
+							type="checkbox" name="dgsbjtCd" value="82">한방소아과 <input
+							type="checkbox" name="dgsbjtCd" value="83">한방안이비인후피부과 <input
+							type="checkbox" name="dgsbjtCd" value="84">한방신경정신과 <input
+							type="checkbox" name="dgsbjtCd" value="85">침구과 <input
+							type="checkbox" name="dgsbjtCd" value="86">한방재활의학과 <input
+							type="checkbox" name="dgsbjtCd" value="87">사상체질과 <input
+							type="checkbox" name="dgsbjtCd" value="88">한방응급 <input
+							type="checkbox" name="dgsbjtCd" value="90">한방소계
 						<hr />
-						특수조건 
-						<input type="radio" name="special">야간운영 
-						<input type="radio" name="special">응급실 
-						<input type="radio" name="special">응급의료병원 
-						<input type="radio" name="special">신생아중환자실
+						특수조건 <input type="radio" name="special">야간운영 <input
+							type="radio" name="special">응급실 <input type="radio"
+							name="special">응급의료병원 <input type="radio" name="special">신생아중환자실
 					</div>
 				</div>
 			</form>
 		</div>
-		<br>
-		<br>
+		<br> <br>
 		<div id="searchresult">
 			<div id="map" class=col-sm-5>
 				<div id="map" style="width: 600px; height: 500px;"></div>
@@ -512,23 +565,23 @@
 			<div class=col-sm-1></div>
 			<div id="findresult" class=col-sm-5>
 				<div id="hosplist">
-				<!-- 병원정보 뿌려줄 곳 -->
+					<!-- 병원정보 뿌려줄 곳 -->
 				</div>
 				<br>
 				<div class="form-group">
 					<div class="col-sm-3" id="paging">
-					<!-- 조회 페이지 뿌려줄 곳 -->
+						<!-- 조회 페이지 뿌려줄 곳 -->
 					</div>
-				<div id="pasing">
-					<!-- 페이지 뿌려줄 곳 -->
-				</div>
-				<hr>
-				<br>
-				<div id="hospinfo" style="background-color: skyblue">
-				<!-- 선택한 병원 정보 출력 -->
+					<div id="pasing">
+						<!-- 페이지 뿌려줄 곳 -->
+					</div>
+					<hr>
+					<br>
+					<div id="hospinfo" style="background-color: skyblue">
+						<!-- 선택한 병원 정보 출력 -->
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
 </body>
 </html>
