@@ -16,17 +16,17 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public List<Notice_BoardDTO> noticelist(String id, String state) {
-		List<Notice_BoardDTO> noticedto = null;
+	public List<Notice_BoardDTO> noticelist(String id, String state, int startIndex) {
+		List<Notice_BoardDTO> noticelist = null;
 		String tag;
 		if (state.equals("hadmin")) {
 			tag = "finddoc.board.noticeall";
-			noticedto = dao.noticelist(id, tag);
+			noticelist = dao.noticelist(id, tag, startIndex);
 		} else {
 			tag = "finddoc.board.noticeuserall";
-			noticedto = dao.noticelist(id, tag);
+			noticelist = dao.noticelist(id, tag, startIndex);
 		}
-		return noticedto;
+		return noticelist;
 	}
 
 	@Override
@@ -47,7 +47,75 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public List<Notice_BoardDTO> noticesearch(String category, String search) {
-		return dao.noticesearch(category, search);
+	public List<Notice_BoardDTO> noticesearch(String id, String category, String search, int startIndex) {
+		return dao.noticesearch(id, category, search, startIndex);
+	}
+
+	@Override
+	public int reviewinsert(Review_BoardDTO reviewdto) {
+		return dao.reviewinsert(reviewdto);
+	}
+
+	@Override
+	public List<Review_BoardDTO> reviewlist(String id, String state, int startIndex) {
+		List<Review_BoardDTO> reviewlist = null;
+		String tag;
+		if (state.equals("user")) {
+			tag = "finddoc.board.reviewuserall";
+			reviewlist = dao.reviewlist(id, tag, startIndex);
+		} else {
+			tag = "finddoc.board.reviewall";
+			reviewlist = dao.reviewlist(id, tag, startIndex);
+		}
+		return reviewlist;
+	}
+
+	@Override
+	public List<Review_BoardDTO> reviewsearch(String category, String search, int startIndex) {
+		return dao.reviewsearch(category, search, startIndex);
+	}
+
+	@Override
+	public List<Review_BoardDTO> reviewsearchhname(String category, String id, int startIndex) {
+		if (category.equals("전체")) {
+			String tag = "finddoc.board.reviewuserall";
+			return dao.reviewlist(id, tag, startIndex);
+		}
+		return dao.reviewsearchhname(category, id, startIndex);
+	}
+
+	@Override
+	public int noticeCount(String id, String state) {
+		List<Notice_BoardDTO> noticelist = null;
+		String tag;
+		int result = 0;
+		if (state.equals("hadmin")) {
+			tag = "finddoc.board.noticeCount";
+			result = dao.noticeCount(id, tag);
+		} else {
+			tag = "finddoc.board.noticeuserCount";
+			result = dao.noticeCount(id, tag);
+		}
+		return result;
+	}
+
+	@Override
+	public int reviewCount(String id, String state) {
+		List<Notice_BoardDTO> reviewlist = null;
+		String tag;
+		int result = 0;
+		if (state.equals("hadmin")) {
+			tag = "finddoc.board.reviewCount";
+			result = dao.reviewCount(id, tag);
+		} else {
+			tag = "finddoc.board.reviewuserCount";
+			result = dao.reviewCount(id, tag);
+		}
+		return result;
+	}
+
+	@Override
+	public List<Notice_BoardDTO> myhospitallist(String userid) {
+		return dao.myhospitallist(userid);
 	}
 }

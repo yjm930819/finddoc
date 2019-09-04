@@ -69,7 +69,7 @@ table {
 							"ykiho" : $(this).val()
 						},
 						success : function(message) {
-							alert(message);
+							location.href="/finddoc/mypage/bookmark.do";
 						},
 						error : function() {
 							alert("에러");
@@ -77,7 +77,6 @@ table {
 					});
 			}
 		});
-			location.href="/finddoc/mypage/bookmark.do";
 	});
 })
 </script>

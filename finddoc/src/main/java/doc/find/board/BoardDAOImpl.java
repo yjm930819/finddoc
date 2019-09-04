@@ -18,8 +18,14 @@ public class BoardDAOImpl implements BoardDAO {
 	}
 
 	@Override
-	public List<Notice_BoardDTO> noticelist(String id, String tag) {
-		return sqlSession.selectList(tag, id);
+	public List<Notice_BoardDTO> noticelist(String id, String tag, int startIndex) {
+		HashMap<String, String> map = new HashMap<String, String>();
+		String start = startIndex + "";
+		String end = startIndex + 9 + "";
+		map.put("id", id);
+		map.put("start", start);
+		map.put("end", end);
+		return sqlSession.selectList(tag, map);
 	}
 
 	@Override
@@ -43,11 +49,64 @@ public class BoardDAOImpl implements BoardDAO {
 	}
 
 	@Override
-	public List<Notice_BoardDTO> noticesearch(String category, String search) {
+	public List<Notice_BoardDTO> noticesearch(String id, String category, String search, int startIndex) {
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("category", category);
 		map.put("search", search);
+		String start = startIndex + "";
+		String end = startIndex + 9 + "";
+		map.put("id", id);
+		map.put("start", start);
+		map.put("end", end);
+		System.out.println("카" + category + "서" + search + "아" + id + "스" + start + "엔" + end);
 		return sqlSession.selectList("finddoc.board.noticesearch", map);
+	}
+
+	@Override
+	public int reviewinsert(Review_BoardDTO reviewdto) {
+		return sqlSession.insert("finddoc.board.insertreview", reviewdto);
+	}
+
+	@Override
+	public List<Review_BoardDTO> reviewlist(String id, String tag, int startIndex) {
+		HashMap<String, String> map = new HashMap<String, String>();
+		String start = startIndex + "";
+		String end = startIndex + 9 + "";
+		map.put("id", id);
+		map.put("start", start);
+		map.put("end", end);
+		return sqlSession.selectList(tag, map);
+	}
+
+	@Override
+	public List<Review_BoardDTO> reviewsearch(String category, String search, int startIndex) {
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("category", category);
+		map.put("search", search);
+		return sqlSession.selectList("finddoc.board.reviewsearch", map);
+	}
+
+	@Override
+	public List<Review_BoardDTO> reviewsearchhname(String category, String id, int startIndex) {
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("category", category);
+		map.put("id", id);
+		return sqlSession.selectList("finddoc.board.reviewsearchhname", map);
+	}
+
+	@Override
+	public int noticeCount(String id, String tag) {
+		return sqlSession.selectOne(tag, id);
+	}
+
+	@Override
+	public int reviewCount(String id, String tag) {
+		return sqlSession.selectOne(tag, id);
+	}
+
+	@Override
+	public List<Notice_BoardDTO> myhospitallist(String userid) {
+		return sqlSession.selectList("finddoc.board.myhospital", userid);
 	}
 
 }
