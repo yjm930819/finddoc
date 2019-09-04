@@ -23,11 +23,18 @@
 		select h.hname,h.hadminid from hadmin h,myhospital m where
 		h.ykiho=m.ykiho and m.userid=#{userid}
 	</select>
-	<select id="noticeall" parameterType="String"
-		resultType="notice">
-		select * from notice_board where
-		hadminid=#{id} and
-		del='o'
+	<select id="noticeall" parameterType="Map" resultType="notice">
+		SELECT *
+		FROM(
+		SELECT ROWNUM AS rn, a.*
+		FROM(
+		SELECT * FROM
+		notice_board where
+		hadminid = #{id} and del='o'
+		ORDER BY txupdate desc
+		) a
+		)
+		WHERE rn BETWEEN #{start} AND #{end}
 	</select>
 	<select id="noticeuserall" parameterType="Map"
 		resultType="notice">
@@ -68,8 +75,15 @@
 	</update>
 	<select id="noticesearch" parameterType="Map"
 		resultType="notice">
-		select * from notice_board
-		<where>
+		SELECT *
+		FROM(
+		SELECT ROWNUM AS rn, a.*
+		FROM(
+		SELECT * FROM
+		notice_board where hadminid in(select hadminid from notice_board where hadminid  in(select h.hadminid from hadmin
+            h,myhospital m 
+     	<where>
+			h.ykiho=m.ykiho and m.userid=#{id} and del='o')and 
 			<if test="category=='title' and search!=''">
 				title like '%'||#{search}||'%'
 			</if>
@@ -79,8 +93,12 @@
 			<if test="category=='txupdate' and search!=''">
 			<![CDATA[to_date(txupdate) <= #{search}]]>
 			</if>
-
 		</where>
+		)ORDER BY txupdate desc
+		) a
+		)
+		WHERE rn BETWEEN #{start} AND #{end}
+		
 	</select>
 
 	<insert id="insertreview" parameterType="reviewboard">

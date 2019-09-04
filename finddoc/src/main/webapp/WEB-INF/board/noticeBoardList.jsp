@@ -52,14 +52,15 @@ table {
 </style>
 <script type="text/javascript">
 	function fn_paging(curPage) {
+		if($("#myhospital").val()=='all'){
 		location.href = "/finddoc/board/noticeBoardList.do?curPage=" + curPage
 				+ "&category=" + $("#category").val();
+		}else{
+			location.href = "/finddoc/board/noticeBoard_hospitalsearch.do?hadminid=" +enhadminid+"&curPage="+curPage
+		}
 	}
 	$(document).ready(function() {
 		$("#myhospital").change(function() {
-			if($("#myhospital").val()=='all'){
-				location.href = "/finddoc/board/noticeBoardList.do";
-			}
 			location.href = "/finddoc/board/noticeBoard_hospitalsearch.do?hadminid=" + $(this).val()
 		})
 	})
@@ -73,7 +74,9 @@ table {
 		}
 	 	
 	})
-	
+	function link(noticeboardnum,hname) {
+		location.href="/finddoc/board/noticeBoard_read.do?noticeboardnum="+noticeboardnum+"&hname=+encodeURI(${notice.hname})">${notice.hname}
+	}
 </script>
 </head>
 <body>
@@ -105,8 +108,7 @@ table {
 				<c:forEach var="notice" items="${noticelist }">
 					<tr>
 						<td>${notice.rn }</td>
-						<td><a
-							href="/finddoc/board/noticeBoard_read.do?noticeboardnum=${notice.noticeboardnum}&hname=${notice.hname}">${notice.hname}</a></td>
+						<td><a href="#" onClick="link('${notice.noticeboardnum}','${notice.hname}')"></a>${notice.hname}</td>
 						<td>${notice.title }</td>
 						<td>${notice.name }</td>
 						<td>${notice.txupdate }</td>
