@@ -118,4 +118,11 @@ public class BoardServiceImpl implements BoardService {
 	public List<Notice_BoardDTO> myhospitallist(String userid) {
 		return dao.myhospitallist(userid);
 	}
+
+	@Override
+	public Review_BoardDTO reviewread(String reviewboardnum) {
+		dao.reviewcount(reviewboardnum);
+		Review_BoardDTO dto = dao.reviewread(reviewboardnum);
+		return dto;
+	}
 }

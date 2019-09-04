@@ -34,7 +34,8 @@
 		ORDER BY txupdate desc
 		) a
 		)
-		WHERE rn BETWEEN #{start} AND #{end}
+		WHERE rn BETWEEN
+		#{start} AND #{end}
 	</select>
 	<select id="noticeuserall" parameterType="Map"
 		resultType="notice">
@@ -80,10 +81,12 @@
 		SELECT ROWNUM AS rn, a.*
 		FROM(
 		SELECT * FROM
-		notice_board where hadminid in(select hadminid from notice_board where hadminid  in(select h.hadminid from hadmin
-            h,myhospital m 
-     	<where>
-			h.ykiho=m.ykiho and m.userid=#{id} and del='o')and 
+		notice_board
+		where hadminid in(select hadminid from notice_board where hadminid
+		in(select h.hadminid from hadmin
+		h,myhospital m
+		<where>
+			h.ykiho=m.ykiho and m.userid=#{id} and del='o')and
 			<if test="category=='title' and search!=''">
 				title like '%'||#{search}||'%'
 			</if>
@@ -98,7 +101,7 @@
 		) a
 		)
 		WHERE rn BETWEEN #{start} AND #{end}
-		
+
 	</select>
 
 	<insert id="insertreview" parameterType="reviewboard">
@@ -117,6 +120,18 @@
 		)
 		WHERE rn BETWEEN #{start} AND
 		#{end} and del='o'
+	</select>
+	<update id="reviewcount" parameterType="String">
+		update review_board
+		set
+		reviewcount=reviewcount+1
+		where reviewboardnum=#{reviewboardnum}
+	</update>
+	<select id="reviewread" parameterType="String"
+		resultType="reviewboard">
+		select *
+		from review_board where
+		reviewboardnum=#{reviewboardnum}
 	</select>
 	<select id="reviewall" parameterType="String"
 		resultType="reviewboard">

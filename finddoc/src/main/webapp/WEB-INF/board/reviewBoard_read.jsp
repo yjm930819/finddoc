@@ -67,6 +67,20 @@
 				</button>
 			</div>
 		</div>
+		<div class="form-group">
+			<!-- if문에 내가쓴글 아니면  수정 삭제 안됨 -->
+			<div class="col-sm-3 col-sm-offset-2">
+				<c:if test="${loginuser.state=='user' }">
+					<input type="submit" value="수정" class="btn btn-success" id="update" />
+				</c:if>
+				<input type="button" value="취소" class="btn btn-success"
+					onclick="location.href='/finddoc/board/noticeBoardList.do'" />
+				<c:if test="${loginuser.state=='hadmin' }">
+					<input type="button" value="삭제" class="btn btn-success"
+						onclick="location.href='/finddoc/board/noticeBoard_delete.do?noticeboardnum=${noticeread.noticeboardnum}'" />
+				</c:if>
+			</div>
+		</div>
 	</form>
 
 </body>
