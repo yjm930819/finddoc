@@ -27,14 +27,12 @@ body {
 					<input type="checkbox" name="ok">전체선택
 				</form>
 			</th>
-			<th>대기번호</th>
 			<th>병원명</th>
 			<th>주소</th>
 			<th>대표</th>
 			<th>가입신청일</th>
 			<tr>
 				<td><input type="checkbox" name="ok"></td>
-				<td>1</td>
 				<td>방배소아과</td>
 				<td>서울특별시 방배동 효성로 193</td>
 				<td>김사과</td>

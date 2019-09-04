@@ -8,15 +8,48 @@
 		insert into notice_board
 		values(noticeboardnum_seq.nextval,'0',#{hadminid},#{title},#{text},'o',sysdate,sysdate,#{hname},#{name})
 	</insert>
-	<select id="noticeall" parameterType="String"
-		resultType="notice">
-		select * from notice_board where
+	<select id="noticeCount" parameterType="String" resultType="int">
+		select
+		count(*) from notice_board where
 		hadminid=#{hadminid} and
 		del='o'
 	</select>
-	<select id="noticeuserall" parameterType="String"
+	<select id="noticeuserCount" parameterType="String"
+		resultType="int">
+		select count(*) from notice_board where del='o'
+	</select>
+	<select id="myhospital" parameterType="String"
 		resultType="notice">
-		select * from notice_board where del='o'
+		select h.hname,h.hadminid from hadmin h,myhospital m where
+		h.ykiho=m.ykiho and m.userid=#{userid}
+	</select>
+	<select id="noticeall" parameterType="Map" resultType="notice">
+		SELECT *
+		FROM(
+		SELECT ROWNUM AS rn, a.*
+		FROM(
+		SELECT * FROM
+		notice_board where
+		hadminid = #{id} and del='o'
+		ORDER BY txupdate desc
+		) a
+		)
+		WHERE rn BETWEEN #{start} AND #{end}
+	</select>
+	<select id="noticeuserall" parameterType="Map"
+		resultType="notice">
+		SELECT *
+		FROM(
+		SELECT ROWNUM AS rn, a.*
+		FROM(
+		SELECT * FROM
+		notice_board where hadminid in(select h.hadminid from hadmin
+		h,myhospital m where
+		h.ykiho=m.ykiho and m.userid=#{id} and del='o'
+		)ORDER BY txupdate desc
+		) a
+		)
+		WHERE rn BETWEEN #{start} AND #{end}
 	</select>
 	<update id="noticecount" parameterType="String">
 		update notice_board
@@ -42,8 +75,15 @@
 	</update>
 	<select id="noticesearch" parameterType="Map"
 		resultType="notice">
-		select * from notice_board
-		<where>
+		SELECT *
+		FROM(
+		SELECT ROWNUM AS rn, a.*
+		FROM(
+		SELECT * FROM
+		notice_board where hadminid in(select hadminid from notice_board where hadminid  in(select h.hadminid from hadmin
+            h,myhospital m 
+     	<where>
+			h.ykiho=m.ykiho and m.userid=#{id} and del='o')and 
 			<if test="category=='title' and search!=''">
 				title like '%'||#{search}||'%'
 			</if>
@@ -54,14 +94,29 @@
 			<![CDATA[to_date(txupdate) <= #{search}]]>
 			</if>
 		</where>
+		)ORDER BY txupdate desc
+		) a
+		)
+		WHERE rn BETWEEN #{start} AND #{end}
+		
 	</select>
+
 	<insert id="insertreview" parameterType="reviewboard">
 		insert into review_board
-		values(reviewboardnum_seq.nextval,'0',#{id},#{title},#{text},'o',sysdate,sysdate,'0',#{reco},#{hname},#{name})
+		values(reviewboardnum_seq.nextval,'0',#{id},#{title},#{text},'o',sysdate,sysdate,#{reco},#{hname},#{name},'o')
 	</insert>
-	<select id="reviewuserall" parameterType="String"
+	<select id="reviewuserall" parameterType="Map"
 		resultType="reviewboard">
-		select * from review_board where id=#{id} and del='o'
+		SELECT *
+		FROM(
+		SELECT ROWNUM AS rn, a.*
+		FROM(
+		SELECT * FROM
+		review_board ORDER BY txupdate desc
+		) a
+		)
+		WHERE rn BETWEEN #{start} AND
+		#{end} and del='o'
 	</select>
 	<select id="reviewall" parameterType="String"
 		resultType="reviewboard">
@@ -82,6 +137,15 @@
 			<![CDATA[to_date(txupdate) <= #{search}]]>
 			</if>
 		</where>
+	</select>
+	<select id="reviewCount" parameterType="String" resultType="int">
+		select
+		count(*) from review_board where hname=#{hanme}
+		del='o'
+	</select>
+	<select id="reviewuserCount" parameterType="String"
+		resultType="int">
+		select count(*) from review_board where del='o'
 	</select>
 	<select id="reviewsearchhname" parameterType="Map"
 		resultType="reviewboard">

@@ -42,7 +42,42 @@ table {
 #searchbar {
 	width: 300px;
 }
+
+#paging {
+	text-align: center;
+	padding: 5px;
+	width: 100%;
+	font-size: 15px;
+}
 </style>
+<script type="text/javascript">
+	function fn_paging(curPage) {
+		if($("#myhospital").val()=='all'){
+		location.href = "/finddoc/board/noticeBoardList.do?curPage=" + curPage
+				+ "&category=" + $("#category").val();
+		}else{
+			location.href = "/finddoc/board/noticeBoard_hospitalsearch.do?hadminid=" +enhadminid+"&curPage="+curPage
+		}
+	}
+	$(document).ready(function() {
+		$("#myhospital").change(function() {
+			location.href = "/finddoc/board/noticeBoard_hospitalsearch.do?hadminid=" + $(this).val()
+		})
+	})
+	$(document).ready(function() {
+	 	hadminid="${hadminid}";
+	 	if(hadminid==""){
+	 		$("#myhospital").closest().attr("selected", "selected");
+	 	}
+	 	else{
+			$("#myhospital").val(hadminid).attr("selected", "selected");
+		}
+	 	
+	})
+	function link(noticeboardnum,hname) {
+		location.href="/finddoc/board/noticeBoard_read.do?noticeboardnum="+noticeboardnum+"&hname="+encodeURI(hname)
+	}
+</script>
 </head>
 <body>
 	<div id="title">
@@ -52,11 +87,13 @@ table {
 	<div class="container-fluid">
 		<form>
 			<c:if test="${loginuser.state=='user' }">
-				<select class="form-control col-sm-2" name="search">
-					<option value="굿닥">굿닥</option>
-					<option value="똑닥">똑닥</option>
-					<option value="뚝닥">뚝닥</option>
+				<select class="form-control col-sm-3" name="myhospital" id="myhospital">
+					<option value="all">전체</option>
+					<c:forEach var="myhospitallist" items="${myhospitallist }">
+						<option value="${myhospitallist.hadminid }">${myhospitallist.hname }</option>
+					</c:forEach>
 				</select>
+
 			</c:if>
 			<br>
 
@@ -70,9 +107,8 @@ table {
 
 				<c:forEach var="notice" items="${noticelist }">
 					<tr>
-						<td>${notice.noticeboardnum }</td>
-						<td><a
-							href="/finddoc/board/noticeBoard_read.do?noticeboardnum=${notice.noticeboardnum}&hname=${notice.hname}">${notice.hname}</a></td>
+						<td>${notice.rn }</td>
+						<td><a href="#" onClick="link('${notice.noticeboardnum}','${notice.hname}')"></a>${notice.hname}</td>
 						<td>${notice.title }</td>
 						<td>${notice.name }</td>
 						<td>${notice.txupdate }</td>
@@ -80,11 +116,33 @@ table {
 					</tr>
 				</c:forEach>
 			</table>
+			<div id="paging">
+				<c:if test="${pagedto.curPage ne 1}">
+					<a href="#" onClick="fn_paging('${pagedto.prevPage }')">[이전]</a>
+				</c:if>
+
+				<c:forEach var="pageNum" begin="${pagedto.startPage }"
+					end="${pagedto.endPage }">
+					<c:choose>
+						<c:when test="${pageNum eq  pagedto.curPage}">
+							<span style="font-weight: bold;"><a href="#"
+								onClick="fn_paging('${pageNum }')">${pageNum }</a></span>
+						</c:when>
+						<c:otherwise>
+							<a href="#" onClick="fn_paging('${pageNum }')">${pageNum }</a>
+						</c:otherwise>
+					</c:choose>
+				</c:forEach>
+
+				<c:if test="${pagedto.curPage ne pagedto.pageCnt}">
+					<a href="#" onClick="fn_paging('${pagedto.nextPage }')">[다음]</a>
+				</c:if>
+			</div>
 		</form>
 	</div>
 
 	<form action="/finddoc/board/noticeBoard_search.do" method="get">
-		<select class="form-control col-sm-2" name="category">
+		<select class="form-control col-sm-2" name="category" id="category">
 			<option value="title">제목</option>
 			<option value="text">본문</option>
 			<option value="txupdate">작성일</option>
