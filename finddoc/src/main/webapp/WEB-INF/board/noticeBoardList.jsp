@@ -75,7 +75,7 @@ table {
 	 	
 	})
 	function link(noticeboardnum,hname) {
-		location.href="/finddoc/board/noticeBoard_read.do?noticeboardnum="+noticeboardnum+"&hname=+encodeURI(${notice.hname})">${notice.hname}
+		location.href="/finddoc/board/noticeBoard_read.do?noticeboardnum="+noticeboardnum+"&hname="+encodeURI(hname)
 	}
 </script>
 </head>
