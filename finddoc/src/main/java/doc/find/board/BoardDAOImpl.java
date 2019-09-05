@@ -49,7 +49,19 @@ public class BoardDAOImpl implements BoardDAO {
 	}
 
 	@Override
-	public List<Notice_BoardDTO> noticesearch(String id, String category, String search, int startIndex) {
+	public List<Notice_BoardDTO> noticesearchcount(String tag, String id, String category, String search,
+			String hadminid) {
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("category", category);
+		map.put("search", search);
+		map.put("id", id);
+		map.put("hadminid", hadminid);
+		return sqlSession.selectList(tag, map);
+	}
+
+	@Override
+	public List<Notice_BoardDTO> noticesearch(String tag, String id, String category, String search, String hadminid,
+			int startIndex) {
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("category", category);
 		map.put("search", search);
@@ -58,8 +70,8 @@ public class BoardDAOImpl implements BoardDAO {
 		map.put("id", id);
 		map.put("start", start);
 		map.put("end", end);
-		System.out.println("카" + category + "서" + search + "아" + id + "스" + start + "엔" + end);
-		return sqlSession.selectList("finddoc.board.noticesearch", map);
+		map.put("hadminid", hadminid);
+		return sqlSession.selectList(tag, map);
 	}
 
 	@Override
@@ -108,5 +120,20 @@ public class BoardDAOImpl implements BoardDAO {
 	public List<Notice_BoardDTO> myhospitallist(String userid) {
 		return sqlSession.selectList("finddoc.board.myhospital", userid);
 	}
+
+	@Override
+	public int reviewcount(String reviewboardnum) {
+		return sqlSession.update("finddoc.board.reviewcount", reviewboardnum);
+	}
+
+	@Override
+	public Review_BoardDTO reviewread(String reviewboardnum) {
+		return sqlSession.selectOne("finddoc.board.reviewread", reviewboardnum);
+	}
+
+	// @Override
+	// public List<Review_BoardDTO> hospitallist() {
+	// return sqlSession.selectList("finddoc.board.hospital");
+	// }
 
 }

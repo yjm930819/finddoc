@@ -17,10 +17,10 @@ SELECT *
 		SELECT ROWNUM AS rn, a.*
 		FROM(
 		SELECT * FROM
-		notice_board where hadminid in(select hadminid from notice_board where hadminid  in(select h.hadminid from hadmin
+		notice_board where hadminid in(select h.hadminid from hadmin
             h,myhospital m where
             h.ykiho=m.ykiho and m.userid='java' and del='o')and title like '%1%'
-		)ORDER BY txupdate desc
+		ORDER BY txupdate desc
 		) a
 		)
 		WHERE rn BETWEEN 1 AND 10		
@@ -118,7 +118,7 @@ alter table oneboard_reply
 add constraint onboard_reply_fk foreign key(oneboardnum) references oneboard(oneboardnum);
 
 alter table admin_app
-add constraint hadminid_fk foreign key(hadminid) references hadmin(hadminid);
+add (ykiho varchar2(100));
 
 alter table myhospital
 add constraint myhosptal_userid_fk foreign key(userid) references member(userid);
@@ -160,7 +160,7 @@ alter table receipt
 modify (ykiho varchar2(100));
 
 select * from admin_app;
-delete from hadmin where hadminid='hos3';
+delete from admin_app;
 
 update myhospital set ox='o' 
 where ykiho='JDQ4MTAxMiM1MSMkMSMkMCMkODkkMzgxMzUxIzExIyQxIyQzIyQ3OSQzNjEyMjIjNTEjJDEjJDYjJDgz' 
@@ -169,13 +169,25 @@ and userid='java';
 create table test(
 	test varchar2(10)
 	)
+alter table admin_app
+drop column ykiho;
+insert into admin_app values('hos9','o');
+insert into admin_app values('hos2','o',(select ykiho from hadmin where hadminid='hos2'));
+insert into admin_app values('hos4','o',(select ykiho from hadmin where hadminid='hos4'));
+insert into admin_app values('hos5','o',(select ykiho from hadmin where hadminid='hos5'));
+insert into admin_app values('hos3','x');
+delete from admin_app where hadminid='hos7'
+delete hadmin where hadminid='hos3'
+select * from hadmin where hadminid='hos3';
+select * from admin_app;
 select * from hadmin;
+delete from hadmin where hadminid='hos6';
 select * from myhospital where userid='java' and ox='x';
 select * from myhospital where userid='java';
 delete myhospital where userid='java';
 delete from myhospital where userid='java' and ykiho='JDQ4MTAxMiM1MSMkMSMkMCMkODkkMzgxMzUxIzExIyQxIyQzIyQ3OSQzNjEyMjIjNTEjJDEjJDYjJDgz';
-
-update myhospital set ox='x' 
-where userid='java';
+select count(a.hadminid) from admin_app a, hadmin h where h.ykiho='JDQ4MTAxMiM1MSMkMSMkMCMkODkkMzgxMzUxIzExIyQxIyQzIyQ3OSQzNjEyMjIjNTEjJDEjJDYjJDgz' and h.hadminid=a.hadminid and a.approval='o'
+update admin_app set approval='o'
+where hadminid='hos9';
 
 alter table myhospital drop column ox;

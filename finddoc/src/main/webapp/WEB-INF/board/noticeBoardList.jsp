@@ -49,14 +49,40 @@ table {
 	width: 100%;
 	font-size: 15px;
 }
+#censearch {
+	text-align: center;
+	padding: 5px;
+	width: 100%;
+	font-size: 15px;
+}
 </style>
 <script type="text/javascript">
+	function link(noticeboardnum,hname) {
+		location.href="/finddoc/board/noticeBoard_read.do?noticeboardnum="+noticeboardnum+"&hname="+encodeURI(hname)
+	}
 	function fn_paging(curPage) {
-		if($("#myhospital").val()=='all'){
-		location.href = "/finddoc/board/noticeBoardList.do?curPage=" + curPage
-				+ "&category=" + $("#category").val();
+		searchVal=$("#resultsearch").text();
+		state="${loginuser.state}";
+		if(state=='user'){
+			if(searchVal==""){
+			if($("#myhospital").val()=='all'){
+				location.href = "/finddoc/board/noticeBoardList.do?curPage=" + curPage
+					+ "&category=" + $("#category").val();
+			}else{
+				location.href = "/finddoc/board/noticeBoard_hospitalsearch.do?hadminid=" +encodeURI(hadminid)+"&curPage="+curPage+ "&category=" + $("#category").val();
+			}
+			}else{
+				location.href = "/finddoc/board/noticeBoard_search.do?category="
+					+$("#category").val()+"&search="+'${search}'+"&curPage=" + curPage+"&hadminid=" +encodeURI(hadminid)
+			}
 		}else{
-			location.href = "/finddoc/board/noticeBoard_hospitalsearch.do?hadminid=" +enhadminid+"&curPage="+curPage
+			if(searchVal==""){
+				location.href = "/finddoc/board/noticeBoardList.do?curPage=" + curPage
+						+ "&category=" + $("#category").val();
+			}else{
+				location.href = "/finddoc/board/noticeBoard_search.do?category="
+				+$("#category").val()+"&search="+'${search}'+"&curPage=" + curPage
+			}
 		}
 	}
 	$(document).ready(function() {
@@ -65,6 +91,7 @@ table {
 		})
 	})
 	$(document).ready(function() {
+
 	 	hadminid="${hadminid}";
 	 	if(hadminid==""){
 	 		$("#myhospital").closest().attr("selected", "selected");
@@ -73,10 +100,27 @@ table {
 			$("#myhospital").val(hadminid).attr("selected", "selected");
 		}
 	 	
+	 	var category="${category}";
+	 	if(category==""){
+	 		$("#category").closest().attr("selected", "selected");
+	 	}
+	 	else{
+			$("#category").val(category).attr("selected", "selected");
+		}
+		$("#searchB").click(function() {
+			state="${loginuser.state}";
+			if(state=='user'){
+			location.href = "/finddoc/board/noticeBoard_search.do?hadminid="+encodeURI($("#myhospital").val())+
+					"&category="+$("#category").val()+"&search="+$("#searchbar").val()
+			}else{
+				location.href = "/finddoc/board/noticeBoard_search.do?category="+
+				$("#category").val()+"&search="+$("#searchbar").val()
+			}
+			})
+		document.getElementById("resultsearch").innerHTML="${resultsearch}";
+
 	})
-	function link(noticeboardnum,hname) {
-		location.href="/finddoc/board/noticeBoard_read.do?noticeboardnum="+noticeboardnum+"&hname="+encodeURI(hname)
-	}
+	
 </script>
 </head>
 <body>
@@ -108,7 +152,7 @@ table {
 				<c:forEach var="notice" items="${noticelist }">
 					<tr>
 						<td>${notice.rn }</td>
-						<td><a href="#" onClick="link('${notice.noticeboardnum}','${notice.hname}')"></a>${notice.hname}</td>
+						<td><a href="#" onClick="link('${notice.noticeboardnum}','${notice.hname}')">${notice.hname}</a></td>
 						<td>${notice.title }</td>
 						<td>${notice.name }</td>
 						<td>${notice.txupdate }</td>
@@ -117,9 +161,9 @@ table {
 				</c:forEach>
 			</table>
 			<div id="paging">
-				<c:if test="${pagedto.curPage ne 1}">
+				<c:if test="${pagedto.curPage ne 1}"> 
 					<a href="#" onClick="fn_paging('${pagedto.prevPage }')">[이전]</a>
-				</c:if>
+				 </c:if>
 
 				<c:forEach var="pageNum" begin="${pagedto.startPage }"
 					end="${pagedto.endPage }">
@@ -147,8 +191,13 @@ table {
 			<option value="text">본문</option>
 			<option value="txupdate">작성일</option>
 		</select> <input type="text" name="search" class="form-control col-sm-3"
-			id="searchbar"> <input type="submit" value="검색"
-			class="btn btn-default">
+			id="searchbar"> <input type="button" value="검색" id="searchB"
+			class="btn btn-default"><div class="form-group" id="censearch">
+			<div class="col-md-2 text-right">
+				<label for="id" class="control-label" >검색어 : </label>
+			</div>
+			<div class="col-md-2 text-reft" id="resultsearch"></div>
+		</div>
 		<c:if test="${loginuser.state=='hadmin' }">
 			<input type="button" value="글쓰기" class="btn btn-default" id="write"
 				onclick='location.href="/finddoc/board/noticeBoard_writeView.do"'>
