@@ -12,13 +12,14 @@ public class Notice_BoardDTO {
 	private String hname;
 	private String name;
 	private int rn;
+	private int count;
 
 	public Notice_BoardDTO() {
 		super();
 	}
 
 	public Notice_BoardDTO(int noticeboardnum, int noticecount, String hadminid, String title, String text, String del,
-			String txupdate, String moddate, String hname, String name, int rn) {
+			String txupdate, String moddate, String hname, String name, int rn, int count) {
 		super();
 		this.noticeboardnum = noticeboardnum;
 		this.noticecount = noticecount;
@@ -31,6 +32,7 @@ public class Notice_BoardDTO {
 		this.hname = hname;
 		this.name = name;
 		this.rn = rn;
+		this.count = count;
 	}
 
 	public int getNoticeboardnum() {
@@ -113,19 +115,28 @@ public class Notice_BoardDTO {
 		this.name = name;
 	}
 
-	public int getrn() {
+	public int getRn() {
 		return rn;
 	}
 
-	public void setrn(int rn) {
+	public void setRn(int rn) {
 		this.rn = rn;
+	}
+
+	public int getCount() {
+		return count;
+	}
+
+	public void setCount(int count) {
+		this.count = count;
 	}
 
 	@Override
 	public String toString() {
 		return "Notice_BoardDTO [noticeboardnum=" + noticeboardnum + ", noticecount=" + noticecount + ", hadminid="
 				+ hadminid + ", title=" + title + ", text=" + text + ", del=" + del + ", txupdate=" + txupdate
-				+ ", moddate=" + moddate + ", hname=" + hname + ", name=" + name + ", rn=" + rn + "]";
+				+ ", moddate=" + moddate + ", hname=" + hname + ", name=" + name + ", rn=" + rn + ", count=" + count
+				+ "]";
 	}
 
 }

@@ -17,10 +17,10 @@ SELECT *
 		SELECT ROWNUM AS rn, a.*
 		FROM(
 		SELECT * FROM
-		notice_board where hadminid in(select hadminid from notice_board where hadminid  in(select h.hadminid from hadmin
+		notice_board where hadminid in(select h.hadminid from hadmin
             h,myhospital m where
             h.ykiho=m.ykiho and m.userid='java' and del='o')and title like '%1%'
-		)ORDER BY txupdate desc
+		ORDER BY txupdate desc
 		) a
 		)
 		WHERE rn BETWEEN 1 AND 10		
