@@ -117,6 +117,16 @@ public class BoardController {
 		return mav;
 	}
 
+	// 후기게시판 글눌러서 read화면으로 이동
+	@RequestMapping("/board/reviewBoard_read.do")
+	public ModelAndView reviewRead(String reviewboardnum, String hname, HttpServletRequest req) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		Review_BoardDTO reviewread = boardService.reviewread(reviewboardnum);
+		mav.addObject("reviewlist", reviewread);
+		mav.setViewName("board/reviewBoard_Read");
+		return mav;
+	}
+
 	// Q&A 게시판
 	@RequestMapping("/board/qaBoardList.do")
 	public ModelAndView qa(String category) {
@@ -156,7 +166,7 @@ public class BoardController {
 			pagedto = new BoardPagingDTO(count, curPage);
 			startIndex = pagedto.getStartIndex();
 			noticelist = boardService.noticelist(userdto.getUserid(), "user", startIndex);
-			List<Notice_BoardDTO> myhospitallist = boardService.myhospitallist(userdto.getUserid(), startIndex);
+			List<Notice_BoardDTO> myhospitallist = boardService.myhospitallist(userdto.getUserid());
 			mav.addObject("myhospitallist", myhospitallist);
 			mav.addObject("pagedto", pagedto);
 			mav.addObject("noticelist", noticelist);
@@ -216,7 +226,7 @@ public class BoardController {
 		pagedto = new BoardPagingDTO(count, curPage);
 		startIndex = pagedto.getStartIndex();
 		noticelist = boardService.noticelist(hadminid, "hadmin", startIndex);
-		List<Notice_BoardDTO> myhospitallist = boardService.myhospitallist(userdto.getUserid(), startIndex);
+		List<Notice_BoardDTO> myhospitallist = boardService.myhospitallist(userdto.getUserid());
 		mav.addObject("myhospitallist", myhospitallist);
 		mav.addObject("pagedto", pagedto);
 		mav.addObject("hadminid", hadminid);
@@ -247,14 +257,22 @@ public class BoardController {
 			hadmindto = (HadminDTO) memberdto;
 		} else {
 			userdto = (UserDTO) memberdto;
+			noticelist = boardService.noticesearch(userdto.getUserid(), category, search, startIndex);
+			count = noticelist.size();
+			pagedto = new BoardPagingDTO(count, curPage);
+			startIndex = pagedto.getStartIndex();
+			List<Notice_BoardDTO> myhospitallist = boardService.myhospitallist(userdto.getUserid());
+			mav.addObject("myhospitallist", myhospitallist);
+			mav.addObject("pagedto", pagedto);
+			mav.addObject("noticelist", noticelist);
 		}
 
-		if (search != "") {
-			noticelist = boardService.noticesearch(category, search, startIndex);
-		} else {
-			count = boardService.noticeCount(hadmindto.getHadminid(), "hadmin");
-		}
-		mav.addObject("noticelist", noticelist);
+		// if (search != "") {
+		// noticelist = boardService.noticesearch(category, search, startIndex);
+		// } else {
+		// count = boardService.noticeCount(hadmindto.getHadminid(), "hadmin");
+		// }
+
 		mav.setViewName("board/noticeBoardList");
 		return mav;
 	}

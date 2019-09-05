@@ -25,13 +25,19 @@ public interface BoardDAO {
 	int noticeupdate(Notice_BoardDTO noticedto);
 
 	// 공지사항 게시판에서 자주가능병원리스트
-	List<Notice_BoardDTO> myhospitallist(String userid, int startIndex);
+	List<Notice_BoardDTO> myhospitallist(String userid);
 
 	// 공지사항 게시판 검색
-	List<Notice_BoardDTO> noticesearch(String category, String search);
+	List<Notice_BoardDTO> noticesearch(String id, String category, String search, int startIndex);
 
 	// 후기 게시판 전체 글갯수
 	int reviewCount(String id, String tag);
+
+	// 후기 게시판 조회수
+	int reviewcount(String reviewboardnum);
+
+	// 후기 게시판 글읽기
+	Review_BoardDTO reviewread(String reviewboardnum);
 
 	// 후기 게시판 글쓰기
 	int reviewinsert(Review_BoardDTO reviewdto);

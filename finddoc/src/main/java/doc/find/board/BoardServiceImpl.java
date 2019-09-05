@@ -47,8 +47,8 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public List<Notice_BoardDTO> noticesearch(String category, String search, int startIndex) {
-		return dao.noticesearch(category, search);
+	public List<Notice_BoardDTO> noticesearch(String id, String category, String search, int startIndex) {
+		return dao.noticesearch(id, category, search, startIndex);
 	}
 
 	@Override
@@ -115,7 +115,14 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public List<Notice_BoardDTO> myhospitallist(String userid, int startIndex) {
-		return dao.myhospitallist(userid, startIndex);
+	public List<Notice_BoardDTO> myhospitallist(String userid) {
+		return dao.myhospitallist(userid);
+	}
+
+	@Override
+	public Review_BoardDTO reviewread(String reviewboardnum) {
+		dao.reviewcount(reviewboardnum);
+		Review_BoardDTO dto = dao.reviewread(reviewboardnum);
+		return dto;
 	}
 }
