@@ -109,4 +109,14 @@ public class BoardDAOImpl implements BoardDAO {
 		return sqlSession.selectList("finddoc.board.myhospital", userid);
 	}
 
+	@Override
+	public int reviewcount(String reviewboardnum) {
+		return sqlSession.update("finddoc.board.reviewcount", reviewboardnum);
+	}
+
+	@Override
+	public Review_BoardDTO reviewread(String reviewboardnum) {
+		return sqlSession.selectOne("finddoc.board.reviewread", reviewboardnum);
+	}
+
 }

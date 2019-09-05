@@ -117,6 +117,16 @@ public class BoardController {
 		return mav;
 	}
 
+	// 후기게시판 글눌러서 read화면으로 이동
+	@RequestMapping("/board/reviewBoard_read.do")
+	public ModelAndView reviewRead(String reviewboardnum, String hname, HttpServletRequest req) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		Review_BoardDTO reviewread = boardService.reviewread(reviewboardnum);
+		mav.addObject("reviewlist", reviewread);
+		mav.setViewName("board/reviewBoard_Read");
+		return mav;
+	}
+
 	// Q&A 게시판
 	@RequestMapping("/board/qaBoardList.do")
 	public ModelAndView qa(String category) {

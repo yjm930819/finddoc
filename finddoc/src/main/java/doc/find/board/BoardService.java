@@ -27,6 +27,9 @@ public interface BoardService {
 	// 후기 게시판 글쓰기
 	int reviewinsert(Review_BoardDTO reviewdto);
 
+	// 후기 게시판 글읽기
+	Review_BoardDTO reviewread(String reviewboardnum);
+
 	// 공지사항 게시판 전체 글갯수
 	int reviewCount(String id, String state);
 

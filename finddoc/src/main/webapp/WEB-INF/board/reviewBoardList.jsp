@@ -75,6 +75,9 @@ table {
 		location.href = "/finddoc/board/reviewBoardList.do?curPage=" + curPage
 				+ "&category=" + $("#category").val();
 	}
+	function link(reviewboardnum,hname) {
+		location.href="/finddoc/board/reviewBoard_read.do?reviewboardnum="+reviewboardnum+"&hname="+encodeURI(hname)
+	}
 </script>
 </head>
 <body>
@@ -105,8 +108,9 @@ table {
 				<c:forEach var="review" items="${reviewlist }">
 					<tr>
 						<td>${review.rn }</td>
-						<td><a
-							href="/finddoc/board/reviewBoard_read.do?reviewboardnum=${review.reviewboardnum}&hname=${review.hname}">${review.hname}</a></td>
+						<td><a href="#"
+							onClick="link('${review.reviewboardnum }','${review.hname}')">
+						${review.hname}</a></td>
 						<td>${review.title }</td>
 						<td>${loginuser.name }</td>
 						<td>${review.txupdate }</td>
