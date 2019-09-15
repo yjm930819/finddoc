@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -37,11 +38,33 @@ table {
 	float: right; .
 	margin-right: 30px;
 }
-#num{
-	float: right; 
+
+#num {
+	float: right;
 }
 </style>
 <title>Insert title here</title>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("#cancel").click(function() {
+			$('input:checkbox[name="ok"]').each(function() {
+				if ($(this).is(":checked")) {
+					$.ajax({
+						url : "/finddoc/doc/docok.do",
+						type : "get",
+						data : {
+							"receiptnum" : $(this).val(),
+						},
+						success : function(massage) {
+							alert(massage)
+							location.href = "/finddoc/doc/receiptlist.do";
+						}
+					});
+				}
+			});
+		});
+	})
+</script>
 </head>
 <body>
 	<div id="title">
@@ -66,35 +89,36 @@ table {
 				</span>
 			</div>
 			<div id="num">
-				<label>대기환자 수 : 1명</label>
+				<!-- <label>대기환자 수 : 1명</label> -->
 			</div>
 			<br>
 			<table class="table table-hover">
-				<th><input type="checkbox" name="ok">&nbsp;&nbsp;&nbsp;전체선택</th>
+				<th>선택</th>
 				<th>접수번호</th>
 				<th>접수자</th>
 				<th>비고</th>
 				<th>진료정보</th>
-				<tr>
-					<td><input type="checkbox" name="ok"></td>
-					<td>2</td>
-					<td><a href="/finddoc/user/bookinfo.do?action=read&booknum=">이복숭아</a></td>
-					<td>코가 막힘</td>
-					<td>접수중</td>
-				</tr>
-				<tr>
-					<td><input type="checkbox" name="ok"></td>
-					<td>1</td>
-					<td>이바보</td>
-					<td>눈이 아픔</td>
-					<td>진료완료</td>
-				</tr>
+				<c:forEach var="doclist" items="${doclist }">
+					<tr>
+						<c:choose>
+							<c:when test="${doclist.ing=='접수완료' }">
+								<td><input type="checkbox" name="ok"
+									value="${doclist.receiptnum }"></td>
+							</c:when>
+							<c:otherwise>
+								<td><input type="checkbox" name="ok" disabled="disabled"></td>
+							</c:otherwise>
+						</c:choose>
+						<td>${doclist.receiptnum }</td>
+						<td>${doclist.name }</td>
+						<td>${doclist.text }</td>
+						<td>${doclist.ing }</td>
+					</tr>
+				</c:forEach>
 			</table>
 
 			<div id="cancel">
-				<input
-					type="button" value="진료완료" class="btn btn-default"
-					onclick="location.href='/finddoc/doc/receiptlist.do'">
+				<input type="button" value="진료완료" class="btn btn-default">
 			</div>
 		</form>
 	</div>

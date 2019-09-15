@@ -12,14 +12,14 @@
 		<div class="list-group">
 			<a href="/finddoc/receipt/book.do?action=view"
 				class="list-group-item">병원 접수</a> <a
-				href="/finddoc/receipt/booklist.do?action=all"
-				class="list-group-item">모든 접수 목록</a>
+				href="/finddoc/receipt/booklist.do" class="list-group-item">모든
+				접수 목록</a>
 		</div>
 	</c:if>
 	<c:if test="${loginuser.state=='hadmin' }">
 		<div class="list-group">
-			<a href="#" class="list-group-item">오늘 접수 조회</a> <a href="#"
-				class="list-group-item">모든 접수 목록</a>
+			<a href="/finddoc/doc/receiptlist.do" class="list-group-item">접수
+				목록</a>
 		</div>
 	</c:if>
 </body>

@@ -269,6 +269,29 @@
 		select * from review_board where hname=#{category} and
 		id=#{id} and del='o'
 	</select>
+	<select id="hoslist" resultType="reviewboard"
+		parameterType="String">
+		select r.* from review_board
+		r,hadmin h,admin_app a where
+		a.hadminid=h.hadminid and a.approval='o'
+		and h.ykiho=r.ykiho and
+		a.hadminid=#{hadminid}
+	</select>
+	<select id="hoslistall" resultType="reviewboard">
+		select r.* from
+		review_board
+		r,hadmin h,admin_app a where
+		a.hadminid=h.hadminid and
+		a.approval='o'
+		and h.ykiho=r.ykiho
+	</select>
+	<select id="hnamelistall" resultType="hadmin">
+		select h.* from
+		hadmin
+		h,admin_app a where
+		a.hadminid=h.hadminid and
+		a.approval='o'
+	</select>
 
 
 </mapper>

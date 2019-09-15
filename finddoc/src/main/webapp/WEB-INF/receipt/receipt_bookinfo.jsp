@@ -25,32 +25,30 @@ body {
 			<fieldset>
 				<div class="form-group">
 					<label class="control-label col-sm-2">병원명</label>
-					<div class="col-sm-3">방배소아과</div>
-				</div>
-				<div class="form-group">
-					<label class="control-label col-sm-2">진료과</label>
-					<div class="col-sm-3">소아과</div>
+					<div class="col-sm-3">${receiptdto.hname }</div>
 				</div>
 				<div class="form-group">
 					<label class="control-label col-sm-2">예약일</label>
-					<div class="col-sm-3">2019-08-14</div>
+					<div class="col-sm-3">${receiptdto.receiptdate }</div>
 				</div>
 				<div class="form-group">
 					<label class="control-label col-sm-2">예약자</label>
-					<div class="col-sm-3">김복숭아</div>
+					<div class="col-sm-3">${receiptdto.name }</div>
 				</div>
 				<div class="form-group">
 					<label class="control-label col-sm-2">연락처</label>
-					<div class="col-sm-3">010-2222-3344</div>
+					<div class="col-sm-3">${receiptdto.cp }</div>
 				</div>
 				<div class="form-group">
 					<label class="control-label col-sm-2">비고</label>
-					<div class="col-sm-3">코막힘</div>
+					<div class="col-sm-3">${receiptdto.text }</div>
 				</div>
 				<div class="form-group">
 					<div class="col-sm-3 col-sm-offset-2">
 						<input type="button" value="수정" class="btn btn-success"
-							onclick="location.href='/finddoc/receipt/bookinfo.do?receiptnum=&action=update'" />
+							onclick="location.href='/finddoc/receipt/bookinfo.do?receiptnum=${receiptdto.receiptnum }&action=update'" />
+						<input type="button" value="취소" class="btn btn-success"
+							onclick="location.href='/finddoc/receipt/booklist.do'" />
 					</div>
 				</div>
 			</fieldset>

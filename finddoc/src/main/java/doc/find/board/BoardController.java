@@ -23,8 +23,8 @@ public class BoardController {
 
 	// 후기 게시판
 	@RequestMapping("/board/reviewBoardList.do")
-	public ModelAndView review(String category, HttpServletRequest req, @RequestParam(defaultValue = "1") int curPage)
-			throws Exception {
+	public ModelAndView review(String category, HttpServletRequest req, @RequestParam(defaultValue = "1") int curPage,
+			@RequestParam(defaultValue = "all") String hadminid) throws Exception {
 		ModelAndView mav = new ModelAndView();
 		HttpSession ses = req.getSession(false);
 		MemberDTO memberdto = null;
@@ -32,6 +32,8 @@ public class BoardController {
 		int count = 0;
 		List<Review_BoardDTO> reviewlist = null;
 		BoardPagingDTO pagedto = null;
+		List<HadminDTO> hnamelist = null;
+		List<Review_BoardDTO> hoslist = null;
 
 		if (ses != null) {
 			memberdto = (MemberDTO) ses.getAttribute("loginuser");
@@ -42,7 +44,11 @@ public class BoardController {
 			pagedto = new BoardPagingDTO(count, curPage);
 			startIndex = pagedto.getStartIndex();
 			reviewlist = boardService.reviewlist(userdto.getUserid(), "user", startIndex);
-			// List<Review_BoardDTO> hospitallist = boardService.hospitallist();
+			hnamelist = boardService.hnamelist();
+			hoslist = boardService.hoslist(hadminid);
+
+			mav.addObject("hnamelist", hnamelist);
+			mav.addObject("hoslist", hoslist);
 			mav.addObject("pagedto", pagedto);
 			mav.addObject("reviewlist", reviewlist);
 		} else {
@@ -51,6 +57,7 @@ public class BoardController {
 			pagedto = new BoardPagingDTO(count, curPage);
 			startIndex = pagedto.getStartIndex();
 			reviewlist = boardService.reviewlist(hadmindto.getHadminid(), "hadmin", startIndex);
+
 			mav.addObject("pagedto", pagedto);
 			mav.addObject("reviewlist", reviewlist);
 		}
