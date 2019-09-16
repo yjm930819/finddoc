@@ -24,7 +24,23 @@ body {
 	$(document).ready(function() {
 		$(".ykiho").hide();
 		EvtChangeMonthYear(dtNow.getFullYear(), dtNow.getMonth());
+		/* $("#submit").on("click", function() {
+			$.ajax({
+				url : "/finddoc/user/insertbook.do",
+				type : "get",
+				data : {
+					"ykiho" : $("#ykiho").val,
+					"hname" : $("#hosname").val,
+					
+				}
+			});
+		}); */
 	});
+	$(".findbookmarkhos").on("click", function() {
+		url = "/finddoc/user/book/findbookmarkhos.do";
+		var popupOption= "width=600,height=700,location=no,status=no,toolbars=no,top=70,left=800";    //팝업창 옵션(optoin)
+		openWin=window.open(url,"findbookmarkhos",popupOption);
+	})
 
 	$(function() {
 		$("#datepicker").datepicker(
@@ -109,8 +125,7 @@ body {
 		<h2>예약하기</h2>
 	</div>
 	<div class="container-fluid">
-		<form role="form" class="form-horizontal" name="myform" method="get"
-			action="/finddoc/user/insertbook.do">
+		<form role="form" class="form-horizontal" name="myform" method="get" action="/finddoc/user/insertbook.do">
 			<div class="form-group">
 				<input type="text" class="ykiho" name="ykiho" value="${ykiho}">
 				<label class="control-label col-sm-2" for="orgtel">병원명</label>
@@ -119,12 +134,12 @@ body {
 						placeholder="병원명" required>
 				</div>
 				<div class="col-sm-3">
-					<button type="button" class="btn btn-round btn-primary form-control">방문했던
+					<button type="button" id="findhos" class="btn btn-round btn-primary form-control">방문했던
 						병원목록에서 선택
 					</button>
 				</div>
 				<div class="col-sm-3">
-					<button type="button"
+					<button type="button" id="findbookmarkhos"
 						class="btn btn-round btn-primary form-control">자주가는 병원목록에서 선택
 					</button>
 				</div>
@@ -132,7 +147,7 @@ body {
 			<div class="form-group">
 				<label class="control-label col-sm-2" for="orgtel">진료과</label>
 				<div class="col-sm-3">
-					<select class="form-control" name="major">
+					<select class="form-control" name="major" id="major">
 						<option>소아과</option>
 						<option>정형외과</option>
 						<option>피부과</option>
@@ -201,7 +216,7 @@ body {
 				<label class="control-label col-sm-2" for="ssn">생년월일</label>
 				<div class="col-sm-3">
 					<input type="text" name="birthday" class="form-control"
-						placeholder="2019-09-06">
+						placeholder="2019-09-06" minlength="10">
 				</div>
 			</div>
 			<div class="form-group">

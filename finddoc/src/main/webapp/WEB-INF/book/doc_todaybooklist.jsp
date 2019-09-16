@@ -91,10 +91,7 @@ table {
 			</table>
 
 			<div id="cancel">
-				<input type="button" value="예약확인" class="btn btn-default"
-					onclick="location.href='/finddoc/doc/booklist.do'"> <input
-					type="button" value="예약취소" class="btn btn-default"
-					onclick="location.href='/finddoc/doc/booklist.do'">
+				<input type="button" value="진료완료" class="btn btn-default" onclick="location.href='/finddoc/doc/todaycomplate.do'">
 			</div>
 		</form>
 	</div>

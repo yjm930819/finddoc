@@ -42,13 +42,19 @@
 		<put-attribute name="content"
 			value="/WEB-INF/book/user_bookupdate.jsp" />
 	</definition>
+	
+	<!-- 병원관계자 당일 예약 목록 확인 페이지 -->
+	<definition extends="mainTemplate" name="doc/todaylist">
+		<put-attribute name="menu"
+			value="/WEB-INF/menu/user_book_menu.jsp" />
+		<put-attribute name="content"
+			value="/WEB-INF/book/doc_todaybooklist.jsp" />
+	</definition>
 
 	<!-- 병원관계자 예약 목록 확인 페이지 -->
 	<definition extends="mainTemplate" name="doc/booklist">
-		<put-attribute name="top"
-			value="/WEB-INF/include/doctop.jsp" />
 		<put-attribute name="menu"
-			value="/WEB-INF/menu/doc_book_menu.jsp" />
+			value="/WEB-INF/menu/user_book_menu.jsp" />
 		<put-attribute name="content"
 			value="/WEB-INF/book/doc_booklist.jsp" />
 	</definition>

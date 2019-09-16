@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -41,9 +42,6 @@ table {
 <title>Insert title here</title>
 </head>
 <script type="text/javascript">
-	$(document).ready(function() {
-		alert("${message}");
-	})
 </script>
 <body>
 	<div id="title">
@@ -69,37 +67,23 @@ table {
 		</div>
 		<br>
 		<table class="table table-hover">
-			<th><input type="checkbox" name="ok">&nbsp;&nbsp;&nbsp;전체선택</th>
 			<th>예약번호</th>
 			<th>병원명</th>
 			<th>예약자</th>
 			<th>예약일</th>
 			<th>비고</th>
 			<th>진료정보</th>
-			<tr>
-				<td><input type="checkbox" name="ok"></td>
-				<td>2</td>
-				<td><a href="/finddoc/search/search.do">방배소아과</a></td>
-				<td>이복숭아</td>
-				<td>2019-08-14</td>
-				<td>코가 막힘</td>
-				<td><a href="/finddoc/user/bookinfo.do?action=read&booknum=">예약완료</a></td>
-			</tr>
-			<tr>
-				<td><input type="checkbox" name="ok"></td>
-				<td>1</td>
-				<td>방배안과</td>
-				<td>이바보</td>
-				<td>2019-08-13</td>
-				<td>눈이 아픔</td>
-				<td>진료완료</td>
-			</tr>
+			<c:forEach var="userbooklist" items="${userbooklist}">
+					<tr>
+						<td><a href="/finddoc/user/bookinfo.do?booknum=${userbooklist.booknum}&action=read">${userbooklist.booknum}</a></td>
+						<td>${userbooklist.hname}</td>
+						<td>${userbooklist.name}</td>
+						<td>${userbooklist.bookdate} ${userbooklist.hour} ${userbooklist.mint}분</td>
+						<td>${userbooklist.text}</td>
+						<td>${userbooklist.ing}</td>
+					</tr>
+				</c:forEach>
 		</table>
-
-		<div id="cancel">
-			<input type="button" value="예약취소" class="btn btn-default"
-				onclick="location.href='/finddoc/user/booklist.do'">
-		</div>
 	</div>
 </body>
 </html>

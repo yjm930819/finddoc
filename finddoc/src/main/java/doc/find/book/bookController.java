@@ -1,5 +1,7 @@
 package doc.find.book;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -9,12 +11,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import doc.find.member.HadminDTO;
 import doc.find.member.UserDTO;
+import doc.find.mypage.MyhospitalDTO;
+import doc.find.mypage.mypageService;
 
 @Controller
 public class bookController {
 	@Autowired
 	bookService service;
+	@Autowired
+	mypageService mypageservice;
 	
 	// 예약 화면과 예약버튼 눌렀을때 둘다 처리
 	@RequestMapping("/user/book.do")
@@ -39,6 +46,7 @@ public class bookController {
 		return mav;
 	}
 
+	//예약하기
 	@RequestMapping("/user/insertbook.do")
 	public ModelAndView userbook(BookDTO bookdto, HttpServletRequest req) {
 		ModelAndView mav = new ModelAndView();
@@ -51,34 +59,80 @@ public class bookController {
 
 	// 예약 목록
 	@RequestMapping("/user/booklist.do")
-	public String user_booklist() {
-		return "user/booklist";
+	public ModelAndView user_booklist(HttpServletRequest req) {
+		ModelAndView mav = new ModelAndView();
+		List<BookDTO> userbooklist = service.booklist(getid(req));
+		mav.setViewName("user/booklist");
+		mav.addObject("userbooklist", userbooklist);
+		return mav;
 	}
 
 	// 예약 상세 페이지
 	@RequestMapping("/user/bookinfo.do")
-	public String user_bookinfo(String action) {
+	public ModelAndView user_bookinfo(String action, String booknum) {
+		ModelAndView mav = new ModelAndView();
 		// 진료정보 링크 눌렀을때 예약 상세페이지
 		if (action.equals("read")) {
-			return "user/bookinfo";
+			mav.setViewName("user/bookinfo");
 			// 수정버튼 눌렀을때 수정 페이지로 이동
 		} else {
-			return "user/bookupdate";
+			mav.setViewName("user/bookupdate");
 		}
+		BookDTO userbookinfo = service.userbookinfo(booknum);
+		mav.addObject("userbookinfo", userbookinfo);
+		return mav;
 	}
 
 	// 예약 수정
 	@RequestMapping("/user/bookupdate.do")
-	public String user_bookupdate() {
-		return "user/booklist";
+	public String user_bookupdate(BookDTO updatedto) {
+		int result = service.userbookupdate(updatedto);
+		return "redirect:/user/booklist.do";
+	}
+	
+	// 예약 취소
+	@RequestMapping("/user/bookcancel.do")
+	public String user_bookcancel(String booknum) {
+		int result= service.userbookcancel(booknum);
+		return "redirect:/user/booklist.do";
+	}
+	
+	// 병원관계자 예약 목록
+	@RequestMapping("/doc/todaybooklist.do")
+	public ModelAndView todaybooklist(HttpServletRequest req) {
+		HttpSession ses = req.getSession(false);
+		HadminDTO loginuser = (HadminDTO) ses.getAttribute("loginuser");
+		String hadminid = loginuser.getHadminid();
+		List<BookDTO> todaylist = service.todaylist(hadminid);
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("doc/todaylist");
+		mav.addObject("todaylist", todaylist);
+		return mav;
 	}
 
 	// 병원관계자 예약 목록
 	@RequestMapping("/doc/booklist.do")
-	public String doc_booklist() {
-		return "doc/booklist";
+	public ModelAndView doc_booklist(HttpServletRequest req) {
+		HttpSession ses = req.getSession(false);
+		HadminDTO loginuser = (HadminDTO) ses.getAttribute("loginuser");
+		String hadminid = loginuser.getHadminid();
+		List<BookDTO> list = service.doclist(hadminid);
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("doc/todaylist");
+		mav.addObject("list", list);
+		return mav;
 	}
-
+	
+	@RequestMapping("/user/book/findbookmarkhos.do")
+	public ModelAndView find_bookmark_hos(HttpServletRequest req) {
+		String id = getid(req);
+		ModelAndView mav = new ModelAndView();
+		List<MyhospitalDTO> findbooklist = mypageservice.selectAll(id);
+		mav.addObject("findbooklist", findbooklist);
+		System.out.println("팝엄...");
+		mav.setViewName("book/BookmarkHosPopup");
+		return mav;
+	}
 	// 로그인 세션
 	public String getid(HttpServletRequest req) {
 		HttpSession ses = req.getSession(false);
