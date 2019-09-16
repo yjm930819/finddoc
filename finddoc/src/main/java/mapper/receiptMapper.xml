@@ -2,6 +2,44 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="erp.board">
-	
+<mapper namespace="finddoc.receipt">
+	<select id="myhoslist" parameterType="String"
+		resultType="hadmin">
+		select h.* from myhospital m,hadmin h where
+		h.ykiho=m.ykiho
+		and
+		userid=#{userid}
+	</select>
+	<insert id="receipt" parameterType="receipt">
+		insert into receipt
+		values(#{userid},receiptnum_seq.nextval,'o','o',sysdate,#{name},#{birthday},#{cp},#{text},'접수완료',#{hname})
+	</insert>
+	<select id="receiptlist" parameterType="String"
+		resultType="receipt">
+		select * from receipt where userid=#{userid}
+	</select>
+	<update id="cancel" parameterType="receipt">
+		update receipt set ing='접수취소'
+		where receiptnum=#{receiptnum}
+	</update>
+	<select id="receiptinfo" parameterType="String"
+		resultType="receipt">
+		select * from receipt where receiptnum=#{receiptnum}
+	</select>
+	<update id="receiptupdate" parameterType="receipt">
+		update receipt set
+		name=#{name},text=#{text},cp=#{cp} where
+		receiptnum=#{receiptnum}
+	</update>
+	<select id="doclist" resultType="receipt" parameterType="String">
+		select
+		r.* from receipt r,hadmin
+		h where h.hname=r.hname and
+		h.hadminid=#{hadminid}
+	</select>
+	<update id="docok" parameterType="receipt">
+		update receipt set ing='진료완료'
+		where receiptnum=#{receiptnum}
+	</update>
+
 </mapper>

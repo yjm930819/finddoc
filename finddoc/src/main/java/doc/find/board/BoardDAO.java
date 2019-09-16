@@ -2,6 +2,8 @@ package doc.find.board;
 
 import java.util.List;
 
+import doc.find.member.HadminDTO;
+
 public interface BoardDAO {
 	// 공지사항게시판에 글쓰기
 	int noticeinsert(Notice_BoardDTO noticedto);
@@ -11,6 +13,9 @@ public interface BoardDAO {
 
 	// 공지사항 게시판 전체 글갯수
 	int noticeCount(String id, String tag);
+
+	// 후기게시판에서 병원리스트에 해당하는 병원명 찾기
+	String hname(String category);
 
 	// 공지사항게시판 글읽기
 	Notice_BoardDTO noticeread(String noticeboardnum);
@@ -37,8 +42,14 @@ public interface BoardDAO {
 	// 후기 게시판 전체 글갯수
 	int reviewCount(String id, String tag);
 
-	// 후기 게시판에서 병원목록
-	//List<Review_BoardDTO> hospitallist();
+	// 후기 게시판 처음화면에서 왼쪽위에 해당 병원리스트
+	List<Review_BoardDTO> hoslist(String hadminid);
+
+	// 후기 게시판 처음화면에서 왼쪽위에 전체 병원리스트
+	List<Review_BoardDTO> hoslistall();
+
+	// 후기 게시판 처음화면에서 왼쪽위에 모든 병원명리스트
+	List<HadminDTO> hnamelist();
 
 	// 후기 게시판 조회수
 	int reviewcount(String reviewboardnum);

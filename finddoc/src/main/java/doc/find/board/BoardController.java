@@ -9,6 +9,7 @@ import org.apache.tiles.request.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -23,8 +24,8 @@ public class BoardController {
 
 	// 후기 게시판
 	@RequestMapping("/board/reviewBoardList.do")
-	public ModelAndView review(String category, HttpServletRequest req, @RequestParam(defaultValue = "1") int curPage)
-			throws Exception {
+	public ModelAndView review(String category, HttpServletRequest req, @RequestParam(defaultValue = "1") int curPage,
+			@RequestParam(defaultValue = "all") String hadminid) throws Exception {
 		ModelAndView mav = new ModelAndView();
 		HttpSession ses = req.getSession(false);
 		MemberDTO memberdto = null;
@@ -32,6 +33,8 @@ public class BoardController {
 		int count = 0;
 		List<Review_BoardDTO> reviewlist = null;
 		BoardPagingDTO pagedto = null;
+		List<HadminDTO> hnamelist = null;
+		List<Review_BoardDTO> hoslist = null;
 
 		if (ses != null) {
 			memberdto = (MemberDTO) ses.getAttribute("loginuser");
@@ -42,7 +45,11 @@ public class BoardController {
 			pagedto = new BoardPagingDTO(count, curPage);
 			startIndex = pagedto.getStartIndex();
 			reviewlist = boardService.reviewlist(userdto.getUserid(), "user", startIndex);
-			// List<Review_BoardDTO> hospitallist = boardService.hospitallist();
+			hnamelist = boardService.hnamelist();
+			hoslist = boardService.hoslist(hadminid);
+
+			mav.addObject("hnamelist", hnamelist);
+			mav.addObject("hoslist", hoslist);
 			mav.addObject("pagedto", pagedto);
 			mav.addObject("reviewlist", reviewlist);
 		} else {
@@ -51,6 +58,7 @@ public class BoardController {
 			pagedto = new BoardPagingDTO(count, curPage);
 			startIndex = pagedto.getStartIndex();
 			reviewlist = boardService.reviewlist(hadmindto.getHadminid(), "hadmin", startIndex);
+
 			mav.addObject("pagedto", pagedto);
 			mav.addObject("reviewlist", reviewlist);
 		}
@@ -102,7 +110,7 @@ public class BoardController {
 	}
 
 	// 후기 게시판 병원별 검색
-	@RequestMapping("/board/reviewBoard_searchhname.do")
+	@RequestMapping(value = "/board/reviewBoard_searchhname.do")
 	public ModelAndView reviewsearchhname(String category, HttpServletRequest req,
 			@RequestParam(defaultValue = "1") int curPage) throws Exception {
 		ModelAndView mav = new ModelAndView();
@@ -116,8 +124,9 @@ public class BoardController {
 			userdto = (UserDTO) ses.getAttribute("loginuser");
 		}
 		List<Review_BoardDTO> reviewlist = boardService.reviewsearchhname(category, userdto.getUserid(), startIndex);
+		String hname = boardService.hname(category);
 		mav.addObject("reviewlist", reviewlist);
-		mav.addObject("category", category);
+		mav.addObject("category", hname);
 		mav.setViewName("board/reviewBoardList");
 		return mav;
 	}

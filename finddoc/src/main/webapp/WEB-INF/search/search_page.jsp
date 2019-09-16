@@ -272,7 +272,7 @@
 			});
 		});
 		
-		//에러 메세지 
+		//에러 메세지
 		function error_run(obj, msg, statusMsg) {
 			/*
 				obj=XMLHttpRequest 객체, msg=응답, statusMsg=에러메세지
@@ -380,14 +380,18 @@
 				+hospall.hospUrl+"</div><div> 총 의사 수 : "+hospall.drTotCnt+"</div><div> 전문의 수 : "
 				+hospall.sdrCnt+"</div><div> 일반의 수 : "+hospall.gdrCnt+"</div>"+
 				"<input class='btn btn-default' type='button' value='접수' onclick='location.href="+'"/finddoc/receipt/book.do"'+"'>"+
-				"<input class='btn btn-default' type='button' value='예약' onclick='location.href="+'"/finddoc/user/book.do"'+"'>"+
+				"<input class='btn btn-default' type='button' id='book' value='예약'>"+
 				"<input class='btn btn-default' type='button' value='길찾기' onclick='location.href="+'"/finddoc/search/search.do"'+"'>"+
 				"<input class='btn btn-default' type='button' id='insert_mypage' value='자주가는 병원 등록'>"+
 				"<input class='btn btn-default' type='button' value='게시판' onclick='location.href="+'"/finddoc/board/noticeBoardList.do?category=all"'+"'>";
-				//상세정보에서 자주가는 병원으로 등록할 때의 기능
-				insertbookmark(hospall.ykiho);
 				$("#hospinfo").empty();
 				$("#hospinfo").append(hospinfo);
+			});
+			$(document).on("click","#book",function(){
+				location.href="/finddoc/user/book.do?action=search&hname="+encodeURI(hospall.yadmNm)+"&ykiho="+hospall.ykiho;
+			});
+			$(document).on("click","#insert_mypage",function(){
+				insertbookmark(hospall.ykiho);
 			});
 			$("#hosplist").empty();
 			$("#hosplist").append(hosplist);
@@ -395,7 +399,6 @@
 		
 		//상세정보에서 자주가는 병원으로 등록할 때의 기능
 		function insertbookmark(ykiho) {
-			$(document).on("click","#insert_mypage",function(){
 				var user="${loginuser}";
 				if(user==""){
 					alert("로그인 후 이용 가능합니다")
@@ -414,7 +417,6 @@
 						}
 					});
 				}
-			});
 		}
 		
 		function success_pasing(pasingdata) {
@@ -454,12 +456,17 @@
 								+hospall[num].hospUrl+"</div><div> 총 의사 수 : "+hospall[num].drTotCnt+" /  전문의 수 : "
 								+hospall[num].sdrCnt+" /  일반의 수 : "+hospall[num].gdrCnt+"</div>"
 								+"<input class='btn btn-default' type='button' value='접수' onclick='location.href="+'"/finddoc/receipt/book.do"'+"'>"
-								+"<input class='btn btn-default' type='button' value='예약' onclick='location.href="+'"/finddoc/user/book.do"'+"'>"
+								+"<input class='btn btn-default' type='button' id='book' value='예약'>"
 								+"<input class='btn btn-default' type='button' value='길찾기' onclick='location.href="+'"/finddoc/search/search.do"'+"'>"
 								+"<input class='btn btn-default' type='button' id='insert_mypage' value='자주가는 병원 등록'>"
 								+"<input class='btn btn-default' type='button' value='게시판' onclick='location.href="+'"/finddoc/board/noticeBoardList.do?category=all"'+"'>";
+								$(document).on("click","#book",function(){
+									location.href="/finddoc/user/book.do?action=search&hname="+encodeURI(hospall[num].yadmNm)+"&ykiho="+ykiholist[num];
+								});
 								//상세정보에서 자주가는 병원으로 등록할 때의 기능
-								insertbookmark(ykiholist[num]);
+								$(document).on("click","#insert_mypage",function(){
+									insertbookmark(ykiholist[num]);
+								});
 								$("#hospinfo").empty();
 								$("#hospinfo").append(hospinfo);
 							},

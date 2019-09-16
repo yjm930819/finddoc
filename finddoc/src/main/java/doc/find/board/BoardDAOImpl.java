@@ -7,6 +7,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import doc.find.member.HadminDTO;
+
 @Repository
 public class BoardDAOImpl implements BoardDAO {
 	@Autowired
@@ -131,9 +133,23 @@ public class BoardDAOImpl implements BoardDAO {
 		return sqlSession.selectOne("finddoc.board.reviewread", reviewboardnum);
 	}
 
-	// @Override
-	// public List<Review_BoardDTO> hospitallist() {
-	// return sqlSession.selectList("finddoc.board.hospital");
-	// }
+	@Override
+	public List<Review_BoardDTO> hoslistall() {
+		return sqlSession.selectList("finddoc.board.hoslistall");
+	}
 
+	@Override
+	public List<Review_BoardDTO> hoslist(String hadminid) {
+		return sqlSession.selectList("finddoc.board.hoslist", hadminid);
+	}
+
+	@Override
+	public List<HadminDTO> hnamelist() {
+		return sqlSession.selectList("finddoc.board.hnamelistall");
+	}
+
+	@Override
+	public String hname(String category) {
+		return sqlSession.selectOne("finddoc.board.hname", category);
+	}
 }

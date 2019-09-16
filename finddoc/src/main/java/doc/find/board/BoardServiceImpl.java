@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import doc.find.member.HadminDTO;
+
 @Service
 public class BoardServiceImpl implements BoardService {
 	@Autowired
@@ -180,9 +182,25 @@ public class BoardServiceImpl implements BoardService {
 		return dto;
 	}
 
-	// @Override
-	// public List<Review_BoardDTO> hospitallist() {
-	// return dao.hospitallist();
-	// }
+	@Override
+	public List<Review_BoardDTO> hoslist(String hadminid) {
+		List<Review_BoardDTO> hoslist = null;
+		if (hadminid.equals("all")) {
+			hoslist = dao.hoslistall();
+		} else {
+			hoslist = dao.hoslist(hadminid);
+		}
+		return hoslist;
+	}
+
+	@Override
+	public List<HadminDTO> hnamelist() {
+		return dao.hnamelist();
+	}
+
+	@Override
+	public String hname(String category) {
+		return dao.hname(category);
+	}
 
 }
