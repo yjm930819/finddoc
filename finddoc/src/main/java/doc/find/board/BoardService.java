@@ -2,6 +2,8 @@ package doc.find.board;
 
 import java.util.List;
 
+import doc.find.member.HadminDTO;
+
 public interface BoardService {
 	// 공지사항게시판에 글쓰기
 	int noticeinsert(Notice_BoardDTO noticedto);
@@ -22,10 +24,23 @@ public interface BoardService {
 	int noticeupdate(Notice_BoardDTO noticedto);
 
 	// 공지사항 게시판 검색
-	List<Notice_BoardDTO> noticesearch(String id, String category, String search, int startIndex);
+	List<Notice_BoardDTO> noticesearch(String id, String category, String search, String state, String hadminid,
+			int startIndex);
+
+	// 공지사항 게시판 검색한 총갯수
+	List<Notice_BoardDTO> noticesearchcount(String id, String category, String search, String state, String hadminid);
 
 	// 후기 게시판 글쓰기
 	int reviewinsert(Review_BoardDTO reviewdto);
+
+	// 후기 게시판 처음화면에서 병원리스트
+	List<HadminDTO> hnamelist();
+
+	// 후기게시판에서 병원리스트에 해당하는 병원명 찾기
+	String hname(String category);
+
+	// 후기 게시판 처음화면에서 병원리스트 선택하면 나오는 화면
+	List<Review_BoardDTO> hoslist(String hadminid);
 
 	// 후기 게시판 글읽기
 	Review_BoardDTO reviewread(String reviewboardnum);

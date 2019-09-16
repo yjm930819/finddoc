@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import doc.find.member.HadminDTO;
+
 @Service
 public class BoardServiceImpl implements BoardService {
 	@Autowired
@@ -47,8 +49,62 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public List<Notice_BoardDTO> noticesearch(String id, String category, String search, int startIndex) {
-		return dao.noticesearch(id, category, search, startIndex);
+	public List<Notice_BoardDTO> noticesearch(String id, String category, String search, String state, String hadminid,
+			int startIndex) {
+		List<Notice_BoardDTO> noticelist = null;
+		String tag;
+		if (search == "") {
+			if (state.equals("hadmin")) {
+				tag = "finddoc.board.noticeall";
+				noticelist = dao.noticelist(id, tag, startIndex);
+			} else {
+				tag = "finddoc.board.noticeuserall";
+				noticelist = dao.noticelist(id, tag, startIndex);
+			}
+			return noticelist;
+		} else {
+			if (state.equals("user")) {
+				if (hadminid.equals("all")) {
+					tag = "finddoc.board.noticesearch";
+					noticelist = dao.noticesearch(tag, id, category, search, hadminid, startIndex);
+				} else {
+					tag = "finddoc.board.noticesearcheach";
+					noticelist = dao.noticesearch(tag, id, category, search, hadminid, startIndex);
+				}
+				return noticelist;
+			} else {
+				tag = "finddoc.board.noticesearcheach";
+				noticelist = dao.noticesearch(tag, id, category, search, hadminid, startIndex);
+				return noticelist;
+			}
+		}
+	}
+
+	@Override
+	public List<Notice_BoardDTO> noticesearchcount(String id, String category, String search, String state,
+			String hadminid) {
+		List<Notice_BoardDTO> noticelist = null;
+		String tag;
+		if (search == "") {
+			if (state.equals("hadmin")) {
+				tag = "finddoc.board.noticeallcount";
+				noticelist = dao.noticelist(id, tag, 0);
+			} else {
+				tag = "finddoc.board.noticeuserallcount";
+				noticelist = dao.noticelist(id, tag, 0);
+			}
+			return noticelist;
+		} else {
+			if (hadminid.equals("all")) {
+				tag = "finddoc.board.noticesearchcount";
+				noticelist = dao.noticesearchcount(tag, id, category, search, hadminid);
+			} else {
+				tag = "finddoc.board.noticesearcheachcount";
+				noticelist = dao.noticesearchcount(tag, id, category, search, hadminid);
+			}
+
+			return noticelist;
+		}
 	}
 
 	@Override
@@ -125,4 +181,26 @@ public class BoardServiceImpl implements BoardService {
 		Review_BoardDTO dto = dao.reviewread(reviewboardnum);
 		return dto;
 	}
+
+	@Override
+	public List<Review_BoardDTO> hoslist(String hadminid) {
+		List<Review_BoardDTO> hoslist = null;
+		if (hadminid.equals("all")) {
+			hoslist = dao.hoslistall();
+		} else {
+			hoslist = dao.hoslist(hadminid);
+		}
+		return hoslist;
+	}
+
+	@Override
+	public List<HadminDTO> hnamelist() {
+		return dao.hnamelist();
+	}
+
+	@Override
+	public String hname(String category) {
+		return dao.hname(category);
+	}
+
 }

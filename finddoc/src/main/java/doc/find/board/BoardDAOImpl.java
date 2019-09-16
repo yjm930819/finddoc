@@ -7,6 +7,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import doc.find.member.HadminDTO;
+
 @Repository
 public class BoardDAOImpl implements BoardDAO {
 	@Autowired
@@ -49,7 +51,19 @@ public class BoardDAOImpl implements BoardDAO {
 	}
 
 	@Override
-	public List<Notice_BoardDTO> noticesearch(String id, String category, String search, int startIndex) {
+	public List<Notice_BoardDTO> noticesearchcount(String tag, String id, String category, String search,
+			String hadminid) {
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("category", category);
+		map.put("search", search);
+		map.put("id", id);
+		map.put("hadminid", hadminid);
+		return sqlSession.selectList(tag, map);
+	}
+
+	@Override
+	public List<Notice_BoardDTO> noticesearch(String tag, String id, String category, String search, String hadminid,
+			int startIndex) {
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("category", category);
 		map.put("search", search);
@@ -58,8 +72,8 @@ public class BoardDAOImpl implements BoardDAO {
 		map.put("id", id);
 		map.put("start", start);
 		map.put("end", end);
-		System.out.println("카" + category + "서" + search + "아" + id + "스" + start + "엔" + end);
-		return sqlSession.selectList("finddoc.board.noticesearch", map);
+		map.put("hadminid", hadminid);
+		return sqlSession.selectList(tag, map);
 	}
 
 	@Override
@@ -119,4 +133,23 @@ public class BoardDAOImpl implements BoardDAO {
 		return sqlSession.selectOne("finddoc.board.reviewread", reviewboardnum);
 	}
 
+	@Override
+	public List<Review_BoardDTO> hoslistall() {
+		return sqlSession.selectList("finddoc.board.hoslistall");
+	}
+
+	@Override
+	public List<Review_BoardDTO> hoslist(String hadminid) {
+		return sqlSession.selectList("finddoc.board.hoslist", hadminid);
+	}
+
+	@Override
+	public List<HadminDTO> hnamelist() {
+		return sqlSession.selectList("finddoc.board.hnamelistall");
+	}
+
+	@Override
+	public String hname(String category) {
+		return sqlSession.selectOne("finddoc.board.hname", category);
+	}
 }
