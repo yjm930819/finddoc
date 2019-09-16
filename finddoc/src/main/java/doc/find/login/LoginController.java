@@ -21,17 +21,17 @@ public class LoginController {
 	LoginService loginService;
 
 	// 로그아웃
-	@RequestMapping("/login/logout.do")
+	/*@RequestMapping("/login/logout.do")
 	public String logout(HttpServletRequest req) throws Exception {
 		HttpSession ses = req.getSession(false);
 		if (ses != null) {
 			ses.invalidate();
 		}
 		return "login/login";
-	}
+	}*/
 
 	// 로그인 눌렀을때 아이디,비밀번호 비교해서 로그인처리
-	@RequestMapping("/login/login.do")
+	/*@RequestMapping("/login/login.do")
 	public ModelAndView login(String action, LoginDTO logindto, HttpServletRequest req) throws Exception {
 		ModelAndView mav = new ModelAndView();
 		if (action == null) {
@@ -78,7 +78,7 @@ public class LoginController {
 	@RequestMapping("/login/loginAfter.do")
 	public String loginAfter() {
 		return "login/loginAfter";
-	}
+	}*/
 
 	// 아이디찾기 버튼 눌렀을때
 	@RequestMapping("/login/idSearch.do")
