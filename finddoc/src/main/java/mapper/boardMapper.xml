@@ -8,11 +8,6 @@
 		insert into notice_board
 		values(noticeboardnum_seq.nextval,'0',#{hadminid},#{title},#{text},'o',sysdate,sysdate,#{hname},#{name})
 	</insert>
-	<select id="hname" parameterType="String" resultType="String">
-		select
-		hname
-		from hadmin where hadminid=#{category}
-	</select>
 	<select id="noticeCount" parameterType="String" resultType="int">
 		select
 		count(*) from notice_board where
@@ -224,11 +219,12 @@
 		SELECT ROWNUM AS rn, a.*
 		FROM(
 		SELECT * FROM
-		review_board ORDER BY txupdate desc
+		review_board where del='o' ORDER BY txupdate desc
 		) a
 		)
-		WHERE rn BETWEEN #{start} AND
-		#{end} and del='o'
+		WHERE rn BETWEEN
+		#{start} AND
+		#{end}
 	</select>
 	<update id="reviewcount" parameterType="String">
 		update review_board
@@ -271,9 +267,41 @@
 	</select>
 	<select id="reviewsearchhname" parameterType="Map"
 		resultType="reviewboard">
-		select * from review_board where hname=#{category} and
-		id=#{id} and del='o'
+		SELECT *
+		FROM(
+		SELECT ROWNUM AS rn, a.*
+		FROM(
+		SELECT r.* FROM
+		review_board r,hadmin h where
+		r.hname=h.hname and
+		h.hadminid=#{category} and r.del='o' ORDER BY txupdate
+		desc
+		) a
+		)
+		WHERE rn
+		BETWEEN
+		#{start} AND
+		#{end}
 	</select>
+	<select id="reviewsearchhnamecount" parameterType="String"
+		resultType="int">
+		select count(*) from review_board r,hadmin h where
+		r.hname=h.hname and h.hadminid=#{category} and del='o'
+	</select>
+	<select id="reviewmyhname" parameterType="String"
+		resultType="reviewboard">
+		select distinct hname from receipt where userid=#{userid}
+		and ing='진료완료'
+	</select>
+	<update id="reviewupdate" parameterType="reviewboard">
+		update review_board set
+		moddate=sysdate,title=#{title},text=#{text},reco=#{reco} where
+		reviewboardnum=#{reviewboardnum}
+	</update>
+	<update id="reviewdelete">
+		update review_board set del='x' where
+		reviewboardnum=#{reviewboardnum}
+	</update>
 	<select id="hoslist" resultType="reviewboard"
 		parameterType="String">
 		select r.* from review_board
@@ -297,6 +325,7 @@
 		a.hadminid=h.hadminid and
 		a.approval='o'
 	</select>
+
 
 
 </mapper>

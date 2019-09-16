@@ -9,6 +9,7 @@ create table notice_board(
 	txupdate date,
 	moddate date
 );
+select distinct hname from receipt where userid='java' and ing='진료완료'
 select h.hadminid from hadmin h,myhospital m where
 		h.ykiho=m.ykiho and m.userid=#{userid}
 select * from receipt		
