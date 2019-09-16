@@ -11,7 +11,7 @@ create table notice_board(
 );
 select h.hadminid from hadmin h,myhospital m where
 		h.ykiho=m.ykiho and m.userid=#{userid}
-		
+select * from receipt		
 SELECT *
 		FROM(
 		SELECT ROWNUM AS rn, a.*
@@ -65,15 +65,20 @@ create table myhospital(
 create table book(
 	userid varchar2(30),
 	booknum number(30) primary key,
-	approvalnum number(30),
+	ykiho varchar2(100),
+	hname varchar2(50),
 	major varchar2(50),
-	bookdate varchar2(20),
+	bookdate date,
+	hour varchar2(30),
+	mint varchar2(30),
 	name varchar2(30),
-	birthday varchar2(30),
+	birthday date,
 	cp varchar2(30),
 	text varchar2(200),
 	ing varchar2(30)
 );
+
+drop table book;
 
 #병원접수
 create table receipt(
@@ -170,6 +175,9 @@ create table test(
 	test varchar2(10)
 	)
 alter table admin_app
+
+select count(*) from book where ykiho='JDQ4MTg4MSM1MSMkMSMkMCMkODkkMzgxMzUxIzExIyQxIyQzIyQ3OSQ0NjEwMDIjNjEjJDEjJDQjJDgz' and major='피부과' and bookdate=2019-09-11 00:00:00.0 and hour='오후 12시' and mint='20'
+
 drop column ykiho;
 insert into admin_app values('hos9','o');
 insert into admin_app values('hos2','o',(select ykiho from hadmin where hadminid='hos2'));
@@ -177,9 +185,10 @@ insert into admin_app values('hos4','o',(select ykiho from hadmin where hadminid
 insert into admin_app values('hos5','o',(select ykiho from hadmin where hadminid='hos5'));
 insert into admin_app values('hos3','x');
 delete from admin_app where hadminid='hos7'
+delete from book where booknum=2
 delete hadmin where hadminid='hos3'
 select * from hadmin where hadminid='hos3';
-select * from admin_app;
+select * from admin_app; 
 select * from hadmin;
 delete from hadmin where hadminid='hos6';
 select * from myhospital where userid='java' and ox='x';
@@ -187,7 +196,7 @@ select * from myhospital where userid='java';
 delete myhospital where userid='java';
 delete from myhospital where userid='java' and ykiho='JDQ4MTAxMiM1MSMkMSMkMCMkODkkMzgxMzUxIzExIyQxIyQzIyQ3OSQzNjEyMjIjNTEjJDEjJDYjJDgz';
 select count(a.hadminid) from admin_app a, hadmin h where h.ykiho='JDQ4MTAxMiM1MSMkMSMkMCMkODkkMzgxMzUxIzExIyQxIyQzIyQ3OSQzNjEyMjIjNTEjJDEjJDYjJDgz' and h.hadminid=a.hadminid and a.approval='o'
-update admin_app set approval='o'
+update admin_app set approval='x'
 where hadminid='hos9';
-
+select h.* from HADMIN h, ADMIN_APP a where a.APPROVAL='o' and a.HADMINID=h.HADMINID
 alter table myhospital drop column ox;

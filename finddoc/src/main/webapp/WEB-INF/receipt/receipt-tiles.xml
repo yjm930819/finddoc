@@ -43,14 +43,14 @@
 			value="/WEB-INF/receipt/receipt_bookupdate.jsp" />
 	</definition>
 
-	<!-- 병원관계자 접수 목록 확인 페이지 -->
-	<definition extends="mainTemplate" name="doc/receiptlist">
-		<put-attribute name="top"
-			value="/WEB-INF/include/doctop.jsp" />
+	<!-- 관계자 접수목록 페이지 -->
+	<definition name="doc/receiptlist" extends="mainTemplate">
 		<put-attribute name="menu"
-			value="/WEB-INF/menu/doc_book_menu.jsp" />
+			value="/WEB-INF/menu/user_receipt_menu.jsp" />
 		<put-attribute name="content"
 			value="/WEB-INF/receipt/doc_receiptlist.jsp" />
 	</definition>
+
+
 </tiles-definitions>
 	

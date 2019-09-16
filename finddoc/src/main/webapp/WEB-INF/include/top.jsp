@@ -65,7 +65,7 @@ div a:hover {
 					<ul class="list-inline" id="menu_list">
 						<c:choose>
 							<c:when test="${loginuser.state=='hadmin'}">
-								<li id="find"><a href="/finddoc/doc/booklist.do">병원관리</a></li>
+								<li id="find"><a href="/finddoc/doc/receiptlist.do">병원관리</a></li>
 								<li id="board"><a href="/finddoc/board/noticeBoardList.do">게시판</a></li>
 							</c:when>
 							<c:otherwise>
