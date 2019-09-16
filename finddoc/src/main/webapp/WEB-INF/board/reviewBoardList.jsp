@@ -71,10 +71,18 @@ table {
 									"selected");
 						}
 					});
+
 	function fn_paging(curPage) {
-		location.href = "/finddoc/board/reviewBoardList.do?curPage=" + curPage
-				+ "&category=" + $("#category").val();
+		if ($("#hadminid").val() == 'all') {
+			location.href = "/finddoc/board/reviewBoardList.do?curPage="
+					+ curPage + "&category=" + $("#category").val();
+		} else {
+			location.href = "/finddoc/board/reviewBoard_searchhname.do?category="
+					+ encodeURI($("#hadminid").val()) + "&curPage=" + curPage
+		}
+
 	}
+
 	function link(reviewboardnum, hname) {
 		location.href = "/finddoc/board/reviewBoard_read.do?reviewboardnum="
 				+ reviewboardnum + "&hname=" + encodeURI(hname)
@@ -89,7 +97,8 @@ table {
 	<div class="container-fluid">
 		<form>
 			<c:if test="${loginuser.state=='user' }">
-				<select class="form-control col-sm-2" name="hadminid" id="hadminid">
+				<select class="form-control col-sm-4" name="hadminid" id="hadminid">
+					<option value="all">전체</option>
 					<c:forEach var="hoslist" items="${hnamelist }">
 						<option value="${hoslist.hadminid }">${hoslist.hname }</option>
 					</c:forEach>
@@ -119,32 +128,35 @@ table {
 				</c:forEach>
 			</table>
 			<div id="paging">
-				<c:if test="${pagedto.curPage ne 1}">
-					<a href="#" onClick="fn_paging('${pagedto.prevPage }')">[이전]</a>
-				</c:if>
+				<c:if test="${not empty reviewlist}">
+					<c:if test="${pagedto.curPage ne 1}">
+						<a href="#" onClick="fn_paging('${pagedto.prevPage }')">[이전]</a>
+					</c:if>
 
-				<c:forEach var="pageNum" begin="${pagedto.startPage }"
-					end="${pagedto.endPage }">
-					<c:choose>
-						<c:when test="${pageNum eq  pagedto.curPage}">
-							<span style="font-weight: bold;"><a href="#"
-								onClick="fn_paging('${pageNum }')">${pageNum }</a></span>
-						</c:when>
-						<c:otherwise>
-							<a href="#" onClick="fn_paging('${pageNum }')">${pageNum }</a>
-						</c:otherwise>
-					</c:choose>
-				</c:forEach>
+					<c:forEach var="pageNum" begin="${pagedto.startPage }"
+						end="${pagedto.endPage }">
+						<c:choose>
+							<c:when test="${pageNum eq  pagedto.curPage}">
+								<span style="font-weight: bold;"><a href="#"
+									onClick="fn_paging('${pageNum }')">${pageNum }</a></span>
+							</c:when>
+							<c:otherwise>
+								<a href="#" onClick="fn_paging('${pageNum }')">${pageNum }</a>
+							</c:otherwise>
+						</c:choose>
+					</c:forEach>
 
-				<c:if test="${pagedto.curPage ne pagedto.pageCnt}">
-					<a href="#" onClick="fn_paging('${pagedto.nextPage }')">[다음]</a>
+					<c:if test="${pagedto.curPage ne pagedto.pageCnt}">
+						<a href="#" onClick="fn_paging('${pagedto.nextPage }')">[다음]</a>
+					</c:if>
 				</c:if>
 			</div>
 		</form>
 	</div>
 
 	<form action="/finddoc/board/reviewBoard_search.do">
-		<select class="form-control col-sm-2" name="category">
+		<input type="hidden" name="hadminid" value="${category }"> <select
+			class="form-control col-sm-2" name="category">
 			<option value="title">제목</option>
 			<option value="text">본문</option>
 			<option value="txupdate">작성일</option>
@@ -153,7 +165,7 @@ table {
 			class="btn btn-default">
 		<c:if test="${loginuser.state=='user' }">
 			<input type="button" value="글쓰기" class="btn btn-default" id="write"
-				onclick='location.href="/finddoc/board/reviewBoard_writeView.do"'>
+				onclick='location.href="/finddoc/board/reviewBoard_writeView.do?userid=${loginuser.userid}"'>
 		</c:if>
 	</form>
 
