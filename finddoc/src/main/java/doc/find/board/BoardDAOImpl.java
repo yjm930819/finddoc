@@ -95,16 +95,24 @@ public class BoardDAOImpl implements BoardDAO {
 	@Override
 	public List<Review_BoardDTO> reviewsearch(String category, String search, int startIndex) {
 		HashMap<String, String> map = new HashMap<String, String>();
+		String start = startIndex + "";
+		String end = startIndex + 9 + "";
 		map.put("category", category);
 		map.put("search", search);
+		map.put("start", start);
+		map.put("end", end);
 		return sqlSession.selectList("finddoc.board.reviewsearch", map);
 	}
 
 	@Override
 	public List<Review_BoardDTO> reviewsearchhname(String category, String id, int startIndex) {
 		HashMap<String, String> map = new HashMap<String, String>();
+		String start = startIndex + "";
+		String end = startIndex + 9 + "";
 		map.put("category", category);
 		map.put("id", id);
+		map.put("start", start);
+		map.put("end", end);
 		return sqlSession.selectList("finddoc.board.reviewsearchhname", map);
 	}
 
@@ -146,6 +154,26 @@ public class BoardDAOImpl implements BoardDAO {
 	@Override
 	public List<HadminDTO> hnamelist() {
 		return sqlSession.selectList("finddoc.board.hnamelistall");
+	}
+
+	@Override
+	public int reviewsearchhnamecount(String category) {
+		return sqlSession.selectOne("finddoc.board.reviewsearchhnamecount", category);
+	}
+
+	@Override
+	public List<Review_BoardDTO> reviewmyhname(String userid) {
+		return sqlSession.selectList("finddoc.board.reviewmyhname", userid);
+	}
+
+	@Override
+	public int reviewdelete(String reviewboardnum) {
+		return sqlSession.update("finddoc.board.reviewdelete", reviewboardnum);
+	}
+
+	@Override
+	public int reviewupdate(Review_BoardDTO reviewdto) {
+		return sqlSession.update("finddoc.board.reviewupdate", reviewdto);
 	}
 
 }

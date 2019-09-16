@@ -133,7 +133,7 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public List<Review_BoardDTO> reviewsearchhname(String category, String id, int startIndex) {
-		if (category.equals("전체")) {
+		if (category.equals("all")) {
 			String tag = "finddoc.board.reviewuserall";
 			return dao.reviewlist(id, tag, startIndex);
 		}
@@ -196,6 +196,26 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public List<HadminDTO> hnamelist() {
 		return dao.hnamelist();
+	}
+
+	@Override
+	public int reviewsearchhnamecount(String category) {
+		return dao.reviewsearchhnamecount(category);
+	}
+
+	@Override
+	public List<Review_BoardDTO> reviewmyhname(String userid) {
+		return dao.reviewmyhname(userid);
+	}
+
+	@Override
+	public int reviewdelete(String reviewboardnum) {
+		return dao.reviewdelete(reviewboardnum);
+	}
+
+	@Override
+	public int reviewupdate(Review_BoardDTO reviewdto) {
+		return dao.reviewupdate(reviewdto);
 	}
 
 }

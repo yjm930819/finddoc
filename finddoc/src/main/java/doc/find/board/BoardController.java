@@ -9,6 +9,7 @@ import org.apache.tiles.request.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -46,7 +47,7 @@ public class BoardController {
 			reviewlist = boardService.reviewlist(userdto.getUserid(), "user", startIndex);
 			hnamelist = boardService.hnamelist();
 			hoslist = boardService.hoslist(hadminid);
-
+			System.out.println("처음" + pagedto);
 			mav.addObject("hnamelist", hnamelist);
 			mav.addObject("hoslist", hoslist);
 			mav.addObject("pagedto", pagedto);
@@ -74,10 +75,43 @@ public class BoardController {
 		return mav;
 	}
 
+	// 후기 게시판 글삭제
+	@RequestMapping("/board/reviewBoard_delete.do")
+	public String reviewdelete(String reviewboardnum) {
+		boardService.reviewdelete(reviewboardnum);
+		return "redirect:/board/reviewBoardList.do";
+	}
+
+	// 후기 게시판 글수정
+	@RequestMapping("/board/reviewBoard_update.do")
+	public ModelAndView reviewupdate(String action, Review_BoardDTO reviewdto, String reviewboardnum) {
+		ModelAndView mav = new ModelAndView();
+		if (action.equals("read")) {
+			Review_BoardDTO reviewread = boardService.reviewread(reviewboardnum);
+			mav.addObject("review", reviewread);
+			mav.setViewName("board/reviewBoard_update");
+			return mav;
+		}
+		boardService.reviewupdate(reviewdto);
+		mav.setViewName("redirect:/board/reviewBoardList.do");
+		return mav;
+	}
+
+	// 후기 게시판 글등록 화면
+	@RequestMapping("/board/reviewBoard_writeView.do")
+	public ModelAndView reviewWrite(String userid) {
+		ModelAndView mav = new ModelAndView();
+		List<Review_BoardDTO> myhname = boardService.reviewmyhname(userid);
+		mav.addObject("myhname", myhname);
+		mav.setViewName("board/reviewBoard_writeView");
+		return mav;
+	}
+
 	// 후기 게시판 카테고리별로 검색
 	@RequestMapping("/board/reviewBoard_search.do")
 	public ModelAndView reviewSearch(String category, String search, HttpServletRequest req,
-			@RequestParam(defaultValue = "1") int curPage) throws Exception {
+			@RequestParam(defaultValue = "1") int curPage, @RequestParam(defaultValue = "all") String hadminid)
+			throws Exception {
 		ModelAndView mav = new ModelAndView();
 		HttpSession ses = req.getSession(false);
 		MemberDTO memberdto = null;
@@ -109,8 +143,8 @@ public class BoardController {
 	}
 
 	// 후기 게시판 병원별 검색
-	@RequestMapping("/board/reviewBoard_searchhname.do")
-	public ModelAndView reviewsearchhname(String category, HttpServletRequest req,
+	@RequestMapping(value = "/board/reviewBoard_searchhname.do")
+	public ModelAndView reviewsearchhname(@RequestParam(defaultValue = "all") String category, HttpServletRequest req,
 			@RequestParam(defaultValue = "1") int curPage) throws Exception {
 		ModelAndView mav = new ModelAndView();
 		HttpSession ses = req.getSession(false);
@@ -118,12 +152,21 @@ public class BoardController {
 		int startIndex = 0;
 		int count = 0;
 		BoardPagingDTO pagedto = null;
-
+		List<HadminDTO> hnamelist = null;
+		List<Review_BoardDTO> reviewlist = null;
 		if (ses != null) {
 			userdto = (UserDTO) ses.getAttribute("loginuser");
 		}
-		List<Review_BoardDTO> reviewlist = boardService.reviewsearchhname(category, userdto.getUserid(), startIndex);
+		count = boardService.reviewsearchhnamecount(category);
+		pagedto = new BoardPagingDTO(count, curPage);
+		startIndex = pagedto.getStartIndex();
+		reviewlist = boardService.reviewsearchhname(category, userdto.getUserid(), startIndex);
+		System.out.println(reviewlist);
+		hnamelist = boardService.hnamelist();
+		System.out.println(count + "나중" + pagedto);
+		mav.addObject("hnamelist", hnamelist);
 		mav.addObject("reviewlist", reviewlist);
+		mav.addObject("pagedto", pagedto);
 		mav.addObject("category", category);
 		mav.setViewName("board/reviewBoardList");
 		return mav;

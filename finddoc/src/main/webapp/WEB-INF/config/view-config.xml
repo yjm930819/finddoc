@@ -12,9 +12,6 @@
 	<!-- 회원탈퇴화면 -->
 	<view-controller path="/member/deleteView.do"
 		view-name="member/delete" />
-	<!-- 후기게시판 글등록 화면 -->
-	<view-controller path="/board/reviewBoard_writeView.do"
-		view-name="board/reviewBoard_write" />
 	<!-- Q&A게시판 글등록 화면 -->
 	<view-controller path="/board/qaBoard_writeView.do"
 		view-name="board/qaBoard_write" />

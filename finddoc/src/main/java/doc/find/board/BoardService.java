@@ -56,4 +56,17 @@ public interface BoardService {
 
 	// 후기게시판에서 병원명으로 검색
 	List<Review_BoardDTO> reviewsearchhname(String category, String id, int startIndex);
+
+	// 후기 게시판 병원선택해서 나오는 병원갯수
+	int reviewsearchhnamecount(String category);
+
+	// 후기 게시판 글등록에서 병원리스트
+	List<Review_BoardDTO> reviewmyhname(String userid);
+
+	// 후기 게시판 글삭제
+	int reviewdelete(String reviewboardnum);
+
+	// 후기 게시판 글수정
+	int reviewupdate(Review_BoardDTO reviewdto);
+
 }
