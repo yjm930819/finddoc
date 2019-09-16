@@ -36,6 +36,9 @@ public interface BoardService {
 	// 후기 게시판 처음화면에서 병원리스트
 	List<HadminDTO> hnamelist();
 
+	// 후기게시판에서 병원리스트에 해당하는 병원명 찾기
+	String hname(String category);
+
 	// 후기 게시판 처음화면에서 병원리스트 선택하면 나오는 화면
 	List<Review_BoardDTO> hoslist(String hadminid);
 

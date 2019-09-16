@@ -9,6 +9,7 @@ import org.apache.tiles.request.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -109,7 +110,7 @@ public class BoardController {
 	}
 
 	// 후기 게시판 병원별 검색
-	@RequestMapping("/board/reviewBoard_searchhname.do")
+	@RequestMapping(value = "/board/reviewBoard_searchhname.do")
 	public ModelAndView reviewsearchhname(String category, HttpServletRequest req,
 			@RequestParam(defaultValue = "1") int curPage) throws Exception {
 		ModelAndView mav = new ModelAndView();
@@ -123,8 +124,9 @@ public class BoardController {
 			userdto = (UserDTO) ses.getAttribute("loginuser");
 		}
 		List<Review_BoardDTO> reviewlist = boardService.reviewsearchhname(category, userdto.getUserid(), startIndex);
+		String hname = boardService.hname(category);
 		mav.addObject("reviewlist", reviewlist);
-		mav.addObject("category", category);
+		mav.addObject("category", hname);
 		mav.setViewName("board/reviewBoardList");
 		return mav;
 	}

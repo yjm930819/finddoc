@@ -54,20 +54,20 @@ table {
 	$(document)
 			.ready(
 					function() {
-						$("#hnameserach")
+						$("#hadminid")
 								.change(
 										function() {
 											location.href = "/finddoc/board/reviewBoard_searchhname.do?category="
-													+ encodeURI($(
-															"#hnameserach")
+													+ encodeURI($("#hadminid")
 															.val())
 										});
 						var category = '${category}';
 						if (category == "") {
-							$("#hnameserach").closest("option").attr(
-									"selected", "selected");
+							$("#hadminid").closest("option").attr("selected",
+									"selected");
 						} else {
-							$("#hnameserach").val(category).attr("selected",
+							alert(category)
+							$("#hadminid").val(category).attr("selected",
 									"selected");
 						}
 					});

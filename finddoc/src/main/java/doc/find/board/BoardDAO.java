@@ -14,6 +14,9 @@ public interface BoardDAO {
 	// 공지사항 게시판 전체 글갯수
 	int noticeCount(String id, String tag);
 
+	// 후기게시판에서 병원리스트에 해당하는 병원명 찾기
+	String hname(String category);
+
 	// 공지사항게시판 글읽기
 	Notice_BoardDTO noticeread(String noticeboardnum);
 

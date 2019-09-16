@@ -198,4 +198,9 @@ public class BoardServiceImpl implements BoardService {
 		return dao.hnamelist();
 	}
 
+	@Override
+	public String hname(String category) {
+		return dao.hname(category);
+	}
+
 }

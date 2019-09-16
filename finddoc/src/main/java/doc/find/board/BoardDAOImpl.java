@@ -148,4 +148,8 @@ public class BoardDAOImpl implements BoardDAO {
 		return sqlSession.selectList("finddoc.board.hnamelistall");
 	}
 
+	@Override
+	public String hname(String category) {
+		return sqlSession.selectOne("finddoc.board.hname", category);
+	}
 }
