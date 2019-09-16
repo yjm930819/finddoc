@@ -4,9 +4,9 @@ public class ReceiptDTO {
 	// 사용자 아이디
 	private String userid;
 	// 접수번호
-	private int receiptnum_seq;
-	// 병원 회원번호
-	private String APPROVALNUM;
+	private int receiptnum;
+	// 병원명
+	private String hname;
 	// 진료과
 	private String major;
 	// 접수날짜
@@ -22,12 +22,12 @@ public class ReceiptDTO {
 	// 예약현황
 	private String ing;
 
-	public ReceiptDTO(String userid, int receiptnum_seq, String aPPROVALNUM, String major, String receiptdate,
-			String name, String birthday, String cp, String text, String ing) {
+	public ReceiptDTO(String userid, int receiptnum, String hname, String major, String receiptdate, String name,
+			String birthday, String cp, String text, String ing) {
 		super();
 		this.userid = userid;
-		this.receiptnum_seq = receiptnum_seq;
-		APPROVALNUM = aPPROVALNUM;
+		this.receiptnum = receiptnum;
+		this.hname = hname;
 		this.major = major;
 		this.receiptdate = receiptdate;
 		this.name = name;
@@ -49,20 +49,20 @@ public class ReceiptDTO {
 		this.userid = userid;
 	}
 
-	public int getReceiptnum_seq() {
-		return receiptnum_seq;
+	public int getReceiptnum() {
+		return receiptnum;
 	}
 
-	public void setReceiptnum_seq(int receiptnum_seq) {
-		this.receiptnum_seq = receiptnum_seq;
+	public void setReceiptnum(int receiptnum) {
+		this.receiptnum = receiptnum;
 	}
 
-	public String getAPPROVALNUM() {
-		return APPROVALNUM;
+	public String getHname() {
+		return hname;
 	}
 
-	public void setAPPROVALNUM(String aPPROVALNUM) {
-		APPROVALNUM = aPPROVALNUM;
+	public void setHname(String hname) {
+		this.hname = hname;
 	}
 
 	public String getMajor() {
@@ -123,9 +123,9 @@ public class ReceiptDTO {
 
 	@Override
 	public String toString() {
-		return "ReceiptDTO [userid=" + userid + ", receiptnum_seq=" + receiptnum_seq + ", APPROVALNUM=" + APPROVALNUM
-				+ ", major=" + major + ", receiptdate=" + receiptdate + ", name=" + name + ", birthday=" + birthday
-				+ ", cp=" + cp + ", text=" + text + ", ing=" + ing + "]";
+		return "ReceiptDTO [userid=" + userid + ", receiptnum=" + receiptnum + ", hname=" + hname + ", major=" + major
+				+ ", receiptdate=" + receiptdate + ", name=" + name + ", birthday=" + birthday + ", cp=" + cp
+				+ ", text=" + text + ", ing=" + ing + "]";
 	}
 
 }

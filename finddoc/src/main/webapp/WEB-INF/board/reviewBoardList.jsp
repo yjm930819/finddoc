@@ -54,20 +54,20 @@ table {
 	$(document)
 			.ready(
 					function() {
-						$("#hnameserach")
+						$("#hadminid")
 								.change(
 										function() {
 											location.href = "/finddoc/board/reviewBoard_searchhname.do?category="
-													+ encodeURI($(
-															"#hnameserach")
+													+ encodeURI($("#hadminid")
 															.val())
 										});
 						var category = '${category}';
 						if (category == "") {
-							$("#hnameserach").closest("option").attr(
-									"selected", "selected");
+							$("#hadminid").closest("option").attr("selected",
+									"selected");
 						} else {
-							$("#hnameserach").val(category).attr("selected",
+							alert(category)
+							$("#hadminid").val(category).attr("selected",
 									"selected");
 						}
 					});
@@ -75,8 +75,9 @@ table {
 		location.href = "/finddoc/board/reviewBoardList.do?curPage=" + curPage
 				+ "&category=" + $("#category").val();
 	}
-	function link(reviewboardnum,hname) {
-		location.href="/finddoc/board/reviewBoard_read.do?reviewboardnum="+reviewboardnum+"&hname="+encodeURI(hname)
+	function link(reviewboardnum, hname) {
+		location.href = "/finddoc/board/reviewBoard_read.do?reviewboardnum="
+				+ reviewboardnum + "&hname=" + encodeURI(hname)
 	}
 </script>
 </head>
@@ -88,11 +89,10 @@ table {
 	<div class="container-fluid">
 		<form>
 			<c:if test="${loginuser.state=='user' }">
-				<select class="form-control col-sm-2" name="search" id="hnameserach">
-					<option value="전체">전체</option>
-					<option value="굿닥">굿닥</option>
-					<option value="똑닥">똑닥</option>
-					<option value="뚝닥">뚝닥</option>
+				<select class="form-control col-sm-2" name="hadminid" id="hadminid">
+					<c:forEach var="hoslist" items="${hnamelist }">
+						<option value="${hoslist.hadminid }">${hoslist.hname }</option>
+					</c:forEach>
 				</select>
 			</c:if>
 			<br>
@@ -110,7 +110,7 @@ table {
 						<td>${review.rn }</td>
 						<td><a href="#"
 							onClick="link('${review.reviewboardnum }','${review.hname}')">
-						${review.hname}</a></td>
+								${review.hname}</a></td>
 						<td>${review.title }</td>
 						<td>${loginuser.name }</td>
 						<td>${review.txupdate }</td>
