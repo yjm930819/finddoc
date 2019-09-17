@@ -46,7 +46,7 @@
 
 	<div class="container-fluid">
 		<form role="form" class="form-horizontal" name="myform"
-			action="/finddoc/login/login.do" method="post">
+			action="/finddoc/j_spring_security_check" method="post">
 			<div class="form-group">
 				<div class="col-sm-7" id="choice">
 					<input type="radio" name="action" value="user">사용자 <input
@@ -64,8 +64,8 @@
 			<div class="form-group">
 				<label class="control-label col-sm-2" for="orgtel">비밀번호</label>
 				<div class="col-sm-3">
-					<input type="password" id="password" name="password"
-						placeholder="비밀번호" class="form-control" minlength="4" required>
+					<input type="password" id="pw" name="pw" placeholder="비밀번호"
+						class="form-control" minlength="4" required>
 				</div>
 
 				<input type="submit" value="로그인" class="btn btn-success" id="login" />

@@ -91,7 +91,7 @@ public class MemberController {
 	}
 
 	// 회원탈퇴 버튼 눌렀을때(사용자랑 병원관계자 둘다 이 메소드로 처리)
-	@RequestMapping("/member/delete.do")
+	/*@RequestMapping("/member/delete.do")
 	public ModelAndView delete(String id, String pw, String action, HttpServletRequest req) throws Exception {
 		ModelAndView mav = new ModelAndView();
 		LoginDTO logindto = new LoginDTO(id, pw, null, null);
@@ -110,7 +110,7 @@ public class MemberController {
 
 		return mav;
 	}
-
+*/
 	// 회원가입할때 아이디 중복체크
 	@RequestMapping(value = "/member/idcheck.do", method = RequestMethod.GET, produces = "application/text;charset=utf-8")
 	public @ResponseBody String idcheck(String id) {

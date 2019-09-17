@@ -131,9 +131,9 @@ public class BoardController {
 		} else {
 			userdto = (UserDTO) memberdto;
 		}
-
+		// 검색할때 병원선택한 범위내에서 처리되야하는데 아직안함
 		if (search != "") {
-			reviewlist = boardService.reviewsearch(category, search, startIndex, hadminid);
+			reviewlist = boardService.reviewsearch(category, search, startIndex);
 		} else {
 			reviewlist = boardService.reviewsearch(hadmindto.getHadminid(), "hadmin", startIndex);
 		}
