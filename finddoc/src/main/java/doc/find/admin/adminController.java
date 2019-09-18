@@ -31,7 +31,7 @@ public class adminController {
 	}
 
 	// 관리자 병원 승인한 병원목록 화면
-	@RequestMapping("admin/hos_list.do")
+	@RequestMapping("/admin/hos_list.do")
 	public ModelAndView hos_list(HttpServletRequest req) {
 		ModelAndView mav = new ModelAndView();
 		List<HadminDTO> hoslist= service.listAll();
@@ -41,7 +41,7 @@ public class adminController {
 	}
 	
 	// 병원 승인
-	@RequestMapping(value="admin/accept_hospital.do", method = RequestMethod.GET, produces = "application/text; charset=utf-8")
+	@RequestMapping(value="/admin/accept_hospital.do", method = RequestMethod.GET, produces = "application/text; charset=utf-8")
 	public @ResponseBody String hos_accept(String hadminid) {
 		System.out.println(hadminid);
 		int result = service.accept(hadminid);

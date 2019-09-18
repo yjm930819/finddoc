@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" session="true"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="se"
+	uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE>
 <html>
 <head>
@@ -54,6 +56,13 @@
 		</div>
 		<div class="form-group">
 			<div class="col-md-2 text-right">
+				<label for="title" class="control-label">후기점수</label>
+
+			</div>
+			<div class="col-md-8">${reviewread.reco }</div>
+		</div>
+		<div class="form-group">
+			<div class="col-md-2 text-right">
 				<label for="title" class="control-label">작성날짜</label>
 
 			</div>
@@ -68,31 +77,19 @@
 				${reviewread.text }</div>
 		</div>
 
-		<div class="form-group">
-			<div class="col-md-10 text-center">
-				<input type="submit" class="btn btn-lg btn-primary" value="수정">
-
-				<button type="button" class="btn btn-danger btn-lg"
-					onclick="location.href='/erp/board/list.do?category=all'">
-					<i class="fa fa-fw fa-close"></i> 목록
-				</button>
-				<button type="button" class="btn btn-danger btn-lg" id="deletebtn"
-					onclick="location.href='/erp/board/delete.do?board_no=${board.board_no}'">
-					<i class="fa fa-fw fa-close"></i> 삭제
-				</button>
-			</div>
-		</div>
-
+		<c:set var="loginId"
+			value="<se:authentication property="principal.id" />" />
+		${loginId}
 		<div class="form-group">
 			<div class="col-sm-3 col-sm-offset-2">
-				<c:if test="${reviewread.id==loginuser.userid }">
+				<c:if test="${reviewread.id==loginId }">
 					<input type="submit" value="수정" class="btn btn-success" id="update" />
 				</c:if>
 				<input type="button" value="취소" class="btn btn-success"
-					onclick="location.href='/finddoc/board/noticeBoardList.do'" />
-				<c:if test="${reviewread.id==loginuser.userid }">
+					onclick="location.href='/finddoc/board/reviewBoardList.do'" />
+				<c:if test="${reviewread.id==loginId }">
 					<input type="button" value="삭제" class="btn btn-success"
-						onclick="location.href='/finddoc/board/noticeBoard_delete.do?noticeboardnum=${noticeread.noticeboardnum}'" />
+						onclick="location.href='/finddoc/board/reviewBoard_delete.do?reviewboardnum=${reviewread.reviewboardnum}'" />
 				</c:if>
 			</div>
 		</div>

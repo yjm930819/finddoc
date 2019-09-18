@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" session="true"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="se"
+	uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE>
 <html>
 <head>
@@ -74,15 +76,15 @@
 
 		<div class="form-group">
 			<div class="col-sm-3 col-sm-offset-2">
-				<c:if test="${loginuser.state=='hadmin' }">
+				<se:authorize access="hasRole('hadmin')">
 					<input type="submit" value="수정" class="btn btn-success" id="update" />
-				</c:if>
+				</se:authorize>
 				<input type="button" value="취소" class="btn btn-success"
 					onclick="location.href='/finddoc/board/noticeBoardList.do'" />
-				<c:if test="${loginuser.state=='hadmin' }">
+				<se:authorize access="hasRole('hadmin')">
 					<input type="button" value="삭제" class="btn btn-success"
 						onclick="location.href='/finddoc/board/noticeBoard_delete.do?noticeboardnum=${noticeread.noticeboardnum}'" />
-				</c:if>
+				</se:authorize>
 			</div>
 		</div>
 	</form>

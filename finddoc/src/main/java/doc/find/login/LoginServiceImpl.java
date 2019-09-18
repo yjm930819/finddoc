@@ -10,7 +10,7 @@ public class LoginServiceImpl implements LoginService {
 	@Autowired
 	LoginDAO dao;
 
-	@Override
+	/*@Override
 	public MemberDTO login(String action, LoginDTO logindto) {
 		String tag;
 		if (action.equals("user")) {
@@ -21,7 +21,7 @@ public class LoginServiceImpl implements LoginService {
 			tag = "finddoc.login.loginAdmin";
 		}
 		return dao.login(logindto, tag);
-	}
+	}*/
 
 	@Override
 	public MemberDTO idSearch(LoginDTO logindto) {

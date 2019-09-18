@@ -3,22 +3,42 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="finddoc.login">
-	<select id="loginUser" parameterType="login" resultType="user">
-		select *
+	<select id="loginUser" parameterType="String" resultType="user">
+		select
+		*
 		from member where
-		userid=#{id} and pw=#{password}
+		userid=#{id}
 	</select>
-	<select id="loginHadmin" parameterType="login"
+	<select id="loginHadmin" parameterType="String"
 		resultType="hadmin">
 		select
 		* from hadmin where
-		hadminid=#{id} and
-		pw=#{password}
+		hadminid=#{id}
 	</select>
-	<select id="loginAdmin" parameterType="login" resultType="admin">
+	<select id="loginAdmin" parameterType="String"
+		resultType="admin">
 		select
 		* from admin where
-		adminid=#{id} and pw=#{password}
+		adminid=#{id}
+	</select>
+	<select id="authorityuser" parameterType="String"
+		resultType="String">
+		select state from
+		member where userid=#{id}
+	</select>
+	<select id="authorityhadmin" parameterType="String"
+		resultType="String">
+		select
+		state from
+		hadmin where
+		hadminid=#{id}
+	</select>
+	<select id="authorityadmin" parameterType="String"
+		resultType="String">
+		select
+		state from admin
+		where
+		adminid=#{id}
 	</select>
 	<select id="idSearchUser" parameterType="Map" resultType="user">
 		select

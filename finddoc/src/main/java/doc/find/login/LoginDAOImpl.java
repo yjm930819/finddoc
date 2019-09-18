@@ -14,8 +14,8 @@ public class LoginDAOImpl implements LoginDAO {
 	SqlSession sqlSession;
 
 	@Override
-	public MemberDTO login(LoginDTO logindto, String tag) {
-		return sqlSession.selectOne(tag, logindto);
+	public MemberDTO login(String id, String tag) {
+		return sqlSession.selectOne(tag, id);
 	}
 
 	@Override
