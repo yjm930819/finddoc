@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="se"
+	uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,20 +27,25 @@
 
 				<form class="form-horizontal style-form"
 					action="/finddoc/board/noticeBoard_insert.do" method="post">
-					<input type="hidden" name="name" value="${loginuser.name}">
-					<input type="hidden" name="hname" value="${loginuser.hname }">
-					<input type="hidden" name="hadminid" value="${loginuser.hadminid }">
+					<input type="hidden" name="name"
+						value="<se:authentication property="principal.name" />"> <input
+						type="hidden" name="hname"
+						value="<se:authentication property="principal.hname" />">
+					<input type="hidden" name="hadminid"
+						value="<se:authentication property="principal.id" />">
 					<div class="form-group" style="border: 1px solid #eff2f7;">
 						<div class="form-group">
 							<label class="col-sm-2 col-sm-2 control-label">작성자</label>
 							<div class="col-sm-3">
-								<label class="control-label col-sm-6" for="tags">${loginuser.name}</label>
+								<label class="control-label col-sm-6" for="tags"><se:authentication
+										property="principal.name" /></label>
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-sm-2 col-sm-2 control-label">병원 이름</label>
 							<div class="col-sm-6">
-								<label class="control-label col-sm-6" for="tags">${loginuser.hname }</label>
+								<label class="control-label col-sm-6" for="tags"><se:authentication
+										property="principal.hname" /></label>
 							</div>
 						</div>
 						<div class="form-group">

@@ -34,31 +34,36 @@
 				<label class="control-label col-sm-2" for="orgtel">아이디</label>
 				<div class="col-sm-3">
 					<input type="text" id="userid" name="userid" class="form-control"
-						value="${loginuser.userid}" disabled="disabled">
+						value="<se:authentication property="principal.cp" />"
+						disabled="disabled">
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="control-label col-sm-2" for="orgtel">이름</label>
 				<div class="col-sm-3">
 					<input type="text" id="name" name="name" class="form-control"
-						value="${loginuser.name}" disabled="disabled">
+						value="<se:authentication property="principal.name" />"
+						disabled="disabled">
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="control-label col-sm-2" for="orgtel">비밀번호</label>
 				<div class="col-sm-3">
 					<input type="text" id="pw" name="pw" class="form-control"
-						value="${loginuser.pw }" disabled="disabled">
+						value="<se:authentication property="principal.pw" />"
+						disabled="disabled">
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="control-label col-sm-2" for="orgtel">성별</label>
 				<div class="col-sm-3">
-					<c:if test="${loginuser.gender=='m'}">
+					<c:set var="gender"
+						value="<se:authentication property="principal.gender" />" />
+					<c:if test="${gender=='m'}">
 						<input type="text" id="gender" name="gender" class="form-control"
 							value="남자" disabled="disabled">
 					</c:if>
-					<c:if test="${loginuser.gender=='f'}">
+					<c:if test="${gender=='f'}">
 						<input type="text" id="gender" name="gender" class="form-control"
 							value="여자" disabled="disabled">
 					</c:if>
@@ -68,7 +73,8 @@
 				<label class="control-label col-sm-2" for="phonehome">핸드폰번호</label>
 				<div class="col-sm-5">
 					<input type="text" id="cp" name="cp" class="form-control"
-						value="${loginuser.cp }" disabled="disabled">
+						value="<se:authentication property="principal.cp" />"
+						disabled="disabled">
 
 				</div>
 			</div>
@@ -76,25 +82,29 @@
 				<label class="control-label col-sm-2" for="sn">주민번호</label>
 				<div class="col-sm-2">
 					<input type="text" id="sn1" name="sn1" class="form-control"
-						value="${loginuser.sn1 }" disabled="disabled">
+						value="<se:authentication property="principal.sn1" />"
+						disabled="disabled">
 				</div>
 				<div class="col-sm-2">
 					<input type="text" id="sn2" name="sn2" class="form-control"
-						value="${loginuser.sn2 }" disabled="disabled">
+						value="<se:authentication property="principal.sn2" />"
+						disabled="disabled">
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="control-label col-sm-2" for="addr">주소</label>
 				<div class="col-sm-6">
 					<input type="text" id="addr" name="addr" class="form-control"
-						value="${loginuser.addr }" disabled="disabled">
+						value="<se:authentication property="principal.addr" />"
+						disabled="disabled">
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="control-label col-sm-2" for="grade">이메일</label>
 				<div class="col-sm-3">
 					<input type="text" id="email" name="email" class="form-control"
-						value="${loginuser.email }" disabled="disabled">
+						value="<se:authentication property="principal.email" />"
+						disabled="disabled">
 
 				</div>
 			</div>
@@ -102,7 +112,9 @@
 				<label class="col-sm-2 col-sm-2 control-label">가입날짜</label>
 				<div class="col-sm-3">
 					<input type="text" class="form-control" name="signdate"
-						id="signdate" value="${loginuser.signdate }" disabled="disabled">
+						id="signdate"
+						value="<se:authentication property="principal.signdate" />"
+						disabled="disabled">
 				</div>
 			</div>
 

@@ -32,30 +32,29 @@ public class adminController {
 
 	// 관리자 병원 승인한 병원목록 화면
 	@RequestMapping("/admin/hos_list.do")
-	public ModelAndView hos_list(HttpServletRequest req) {
+	public ModelAndView hos_list() {
 		ModelAndView mav = new ModelAndView();
-		List<HadminDTO> hoslist= service.listAll();
+		List<HadminDTO> hoslist = service.listAll();
 		mav.addObject("hoslist", hoslist);
 		mav.setViewName("admin/hos_list");
 		return mav;
 	}
-	
+
 	// 병원 승인
-	@RequestMapping(value="/admin/accept_hospital.do", method = RequestMethod.GET, produces = "application/text; charset=utf-8")
+	@RequestMapping(value = "/admin/accept_hospital.do", method = RequestMethod.GET, produces = "application/text; charset=utf-8")
 	public @ResponseBody String hos_accept(String hadminid) {
 		System.out.println(hadminid);
 		int result = service.accept(hadminid);
-		String str="";
-		if(result>0) {
-			str="승인완료";
-		}
-		else {
-			str="승인오류";
+		String str = "";
+		if (result > 0) {
+			str = "승인완료";
+		} else {
+			str = "승인오류";
 		}
 		return str;
 	}
-	
-	//승인된 병원 검색
+
+	// 승인된 병원 검색
 	@RequestMapping("/admin/acceptsearch.do")
 	public ModelAndView searchAll(String tag, String search) {
 		ModelAndView mav = new ModelAndView();
@@ -80,7 +79,7 @@ public class adminController {
 		mav.setViewName("admin/oneboard_write");
 		return mav;
 	}
-	
+
 	// 첫 화면 페이지
 	@RequestMapping("/index.do")
 	public String index() {

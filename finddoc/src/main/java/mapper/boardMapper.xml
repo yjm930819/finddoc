@@ -219,7 +219,7 @@
 		SELECT ROWNUM AS rn, a.*
 		FROM(
 		SELECT * FROM
-		review_board where del='o' ORDER BY txupdate desc
+		review_board where id=#{id} and del='o' ORDER BY txupdate desc
 		) a
 		)
 		WHERE rn BETWEEN
@@ -240,7 +240,19 @@
 	</select>
 	<select id="reviewall" parameterType="String"
 		resultType="reviewboard">
-		select * from review_board where del='o'
+		SELECT *
+		FROM(
+		SELECT ROWNUM AS rn, a.*
+		FROM(
+		SELECT r.* FROM
+		review_board r,hadmin h where h.hname=r.hname and h.hadminid=#{id} and
+		del='o' ORDER BY txupdate desc
+		)
+		a
+		)
+		WHERE rn BETWEEN
+		#{start} AND
+		#{end}
 	</select>
 	<select id="reviewsearch" parameterType="Map"
 		resultType="reviewboard">
