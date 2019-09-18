@@ -16,12 +16,23 @@
 		<security:intercept-url pattern="/admin/**"
 			access="hasRole('admin')" />
 		<security:intercept-url
-			pattern="/login/loginView.do" access="permitAll" />
-		<security:intercept-url
-			pattern="/login/logout.do"
-			access="hasAnyRole('user','hadmin','admin')" />
+			pattern="/login/logout.do" access="authenticated" />
+		<security:intercept-url pattern="/login/**"
+			access="permitAll" />
 		<security:intercept-url pattern="/index.do"
 			access="permitAll" />
+		<security:intercept-url
+			pattern="/member/updateUser" access="authenticated" />
+		<security:intercept-url
+			pattern="/member/updateHadmin" access="authenticated" />
+		<security:intercept-url
+			pattern="/member/delete" access="authenticated" />
+		<security:intercept-url
+			pattern="/member/readUser" access="authenticated" />
+		<security:intercept-url
+			pattern="/member/readHadmin" access="authenticated" />
+		<security:intercept-url pattern="/member/**"
+			access="anonymous" />
 		<security:intercept-url pattern="/**/user/**"
 			access="hasAnyRole('user','admin')" />
 		<security:intercept-url pattern="/board/*"

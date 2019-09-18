@@ -61,7 +61,6 @@ public class MyUsernamePasswordAuthenticationFilter extends UsernamePasswordAuth
 	protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException failed) throws IOException, ServletException {
 		// authentication-failure-url에 해당하는 작업
-		request.getSession().removeAttribute("action");
 		setAuthenticationFailureHandler(new SimpleUrlAuthenticationFailureHandler("/login/loginView.do"));
 		super.unsuccessfulAuthentication(request, response, failed);
 	}

@@ -36,6 +36,13 @@
 		if (del != "") {
 			alert(del);
 		}
+		$("#login").click(function() {
+			if (document.myform.action.value == '') {
+				alert("사용자 유형을 선택하세요");
+			} else {
+				document.myform.submit();
+			}
+		})
 	})
 </script>
 </head>
@@ -68,7 +75,7 @@
 						class="form-control" minlength="4" required>
 				</div>
 
-				<input type="submit" value="로그인" class="btn btn-success" id="login" />
+				<input type="button" value="로그인" class="btn btn-success" id="login" />
 			</div>
 
 			<br />

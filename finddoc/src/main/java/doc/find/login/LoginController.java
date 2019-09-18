@@ -73,12 +73,12 @@ public class LoginController {
 			return mav;
 		}
 	}
-
+*/
 	// 로그인 성공후 화면
 	@RequestMapping("/login/loginAfter.do")
 	public String loginAfter() {
 		return "login/loginAfter";
-	}*/
+	}
 
 	// 아이디찾기 버튼 눌렀을때
 	@RequestMapping("/login/idSearch.do")

@@ -23,7 +23,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 		// 권한리스트를 추출
 		Collection<GrantedAuthority> authlist = dto.getAuthorities();
 		Iterator<GrantedAuthority> authlist_it = authlist.iterator();
-		String url = "/kimsaemERP/index.do";
+		String url = "/finddoc/login/loginAfter.do";
 		// 로그인한 사용자별로 사용자의 업무 메뉴를 보여주기 위해서 view파일의 정보를 수정해서 다시 셋팅
 		/*
 		 * if(dto!=null) { String menuPath = dto.getMenupath();
@@ -32,13 +32,13 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 		 * dto.setMenupath(menuPath); }
 		 */
 
-		while (authlist_it.hasNext()) {
-			GrantedAuthority authority = authlist_it.next();
-			// 설정되어 있는 권한 중 ROLE_ADMIN이 있다면
-			if (authority.getAuthority().equals("admin") | authority.getAuthority().equals("systemadmin")) {
-				url = "/kimsaemERP/admin/index.do";
-			}
-		}
+		/*
+		 * while (authlist_it.hasNext()) { GrantedAuthority authority =
+		 * authlist_it.next(); // 설정되어 있는 권한 중 ROLE_ADMIN이 있다면 if
+		 * (authority.getAuthority().equals("admin") |
+		 * authority.getAuthority().equals("systemadmin")) { url =
+		 * "/kimsaemERP/admin/index.do"; } }
+		 */
 
 		req.getSession().setAttribute("msg", "관리자페이지입니다.");
 		res.sendRedirect(url);
