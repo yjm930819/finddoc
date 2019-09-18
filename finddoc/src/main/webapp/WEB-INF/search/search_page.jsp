@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="se"
+	uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -475,25 +477,21 @@
 
 						//상세정보에서 자주가는 병원으로 등록할 때의 기능
 						function insertbookmark(ykiho) {
-							var user = "${loginuser}";
-							if (user == "") {
-								alert("로그인 후 이용 가능합니다")
-							} else {
-								$
-										.ajax({
-											url : "/finddoc/mypage/insert_bookmark.do",
-											type : "get",
-											data : {
-												"ykiho" : ykiho
-											},
-											success : function(message) {
-												var check = confirm(message);
-												if (check) {
-													location.href = "/finddoc/mypage/bookmark.do";
-												}
+							$
+									.ajax({
+										url : "/finddoc/mypage/insert_bookmark.do",
+										type : "get",
+										data : {
+											"ykiho" : ykiho
+										},
+										success : function(message) {
+											var check = confirm(message);
+											if (check) {
+												location.href = "/finddoc/mypage/bookmark.do";
 											}
-										});
-							}
+										}
+									});
+
 						}
 
 						function success_pasing(pasingdata) {

@@ -25,6 +25,7 @@ public class adminController {
 	public ModelAndView accept_list() {
 		ModelAndView mav = new ModelAndView();
 		List<HadminDTO> acceptlist = service.acceptlist();
+		System.out.println(acceptlist);
 		mav.setViewName("admin/accept_list");
 		mav.addObject("acceptlist", acceptlist);
 		return mav;

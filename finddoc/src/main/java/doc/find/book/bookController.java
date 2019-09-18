@@ -1,5 +1,6 @@
 package doc.find.book;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 
@@ -18,6 +19,7 @@ import doc.find.member.HadminDTO;
 import doc.find.member.UserDTO;
 import doc.find.mypage.MyhospitalDTO;
 import doc.find.mypage.mypageService;
+import doc.find.search.searchService;
 
 @Controller
 public class bookController {
@@ -25,26 +27,32 @@ public class bookController {
 	bookService service;
 	@Autowired
 	mypageService mypageservice;
+	@Autowired
+	searchService searchservice;
 
 	// 예약 화면과 예약버튼 눌렀을때 둘다 처리
 	@RequestMapping("/user/book.do")
-	public ModelAndView user_book(String action, String hname, String ykiho, Principal principal) {
+	public ModelAndView user_book(String action, String hname, String ykiho, Principal principal) throws IOException {
 		ModelAndView mav = new ModelAndView();
 		SecurityLoginDTO loginUser = (SecurityLoginDTO) ((UsernamePasswordAuthenticationToken) principal)
 				.getPrincipal();
 		List<MyhospitalDTO> myhos = mypageservice.selectAll(loginUser.getId());
+		String result = searchservice.getmajorByykiho(ykiho);
 		mav.setViewName("user/book");
 		// 검색한 결과에서 예약 버튼눌렀을 때
 		if (action.equals("search")) {
 			mav.addObject("book", hname);
 			mav.addObject("ykiho", ykiho);
+			mav.addObject("majorObject", result);
 		}
 		// 자주가는 병원에서 예약버튼 눌렀을 때
 		else if (action.equals("mypage")) {
-			mav.addObject("myhos", myhos);
+			mav.addObject("book", hname);
+			mav.addObject("ykiho", ykiho);
+			mav.addObject("majorObject", result);
 		}
 		// 메인페이지나 탑메뉴의 예약버튼을 눌럿을 때 // 자주가는 병원에서 예약버튼 눌렀을 때
-		else {
+		else if(action.equals("view")) {
 			mav.addObject("myhos", myhos);
 		}
 		mav.addObject("action", action);

@@ -114,7 +114,7 @@ table {
 						<td><a>${bookmark.hname}</a></td>
 						<td>${bookmark.addr}</td>
 						<td><input type="button" value="예약" onclick="location.href='/finddoc/user/book.do?action=mypage&hname=${bookmark.hname}&ykiho=${bookmark.ykiho}'"> 
-						<input type="button" value="접수"></td>
+						<input type="button" value="접수" onclick="location.href='/finddoc/receipt/book.do?action=view'"></td>
 					</tr>
 				</c:forEach>
 			</table>

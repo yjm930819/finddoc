@@ -1,13 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>jQuery UI Datepicker - Default functionality</title>
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet"
+	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <style>
@@ -22,28 +23,64 @@ body {
 </style>
 <script>
 	var dtNow = new Date();
-	dtNext = dtNow.getDate+1;
-	$(document).ready(function() {
-		$(".ykiho").hide();
-		$("#ohosname").hide();
-		EvtChangeMonthYear(dtNow.getFullYear(), dtNow.getMonth());
-		/* $("#submit").on("click", function() {
-			$.ajax({
-				url : "/finddoc/user/insertbook.do",
-				type : "get",
-				data : {
-					"ykiho" : $("#ykiho").val,
-					"hname" : $("#hosname").val,
-					
-				}
-			});
-		}); */
-	});
-	/* $(".findbookmarkhos").on("click", function() {
-		url = "/finddoc/user/book/findbookmarkhos.do";
-		var popupOption= "width=600,height=700,location=no,status=no,toolbars=no,top=70,left=800";    //팝업창 옵션(optoin)
-		openWin=window.open(url,"findbookmarkhos",popupOption);
-	}) */
+	dtNext = dtNow.getDate + 1;
+	$(document)
+			.ready(
+					function() {
+						$(".ykiho").hide();
+						$("#ohosname").hide();
+						$("#selecthos")
+								.change(
+										function() {
+											$("#ykiho").val(
+													$("#selecthos").val());
+											$("#ohosname")
+													.val(
+															$(
+																	"#selecthos option:selected")
+																	.text());
+											$
+													.ajax({
+														url : "/finddoc/search/getmajorByykiho.do",
+														type : "post",
+														data : {
+															"ykiho" : $(
+																	"#ykiho")
+																	.val()
+														},
+														success : function(data) {
+															$("#major").empty();
+															majorlist = data.response.body.items.item;
+															size = data.response.body.totalCount;
+															majorobj = '<option value="default">진료과목을 선택해주세요</option>';
+															if (size == 1) {
+																majorobj = majorobj
+																		+ "<option value='"+majorlist.dgsbjtCdNm+"'>"
+																		+ majorlist.dgsbjtCdNm
+																		+ "</option>"
+															} else {
+																for (i = 0; i < size; i++) {
+																	//alert(majorlist[i].dgsbjtCdNm);
+																	majorobj = majorobj
+																			+ "<option value='"+majorlist[i].dgsbjtCdNm+"'>"
+																			+ majorlist[i].dgsbjtCdNm
+																			+ "</option>"
+																}
+															}
+															$("#major").append(
+																	majorobj);
+														},
+														error : function() {
+															alert("에러");
+														}
+													});
+										})
+
+						EvtChangeMonthYear(dtNow.getFullYear(), dtNow.getMonth());
+						if(action=="mypage"){
+							alert(action);
+						}
+					});
 
 	$(function() {
 		$("#datepicker").datepicker(
@@ -64,7 +101,7 @@ body {
 					isRTL : false,
 					duration : 200,
 					showAnim : 'show',
-					minDate: dtNext,
+					minDate : dtNext,
 					showMonthAfterYear : true,
 					yearSuffix : '년',
 					showOtherMonths : true, // 나머지 날짜도 화면에 표시
@@ -84,7 +121,7 @@ body {
 		$.datepicker.setDefaults($.datepicker.regional['ko']);
 		// 월이나 년이 바뀔때의 이벤트
 	});
-	
+
 	$(function() {
 		$("#birthpicker").datepicker(
 				{
@@ -104,7 +141,7 @@ body {
 					isRTL : false,
 					duration : 200,
 					showAnim : 'show',
-					maxDate: dtNow,
+					maxDate : dtNow,
 					showMonthAfterYear : true,
 					yearSuffix : '년',
 					showOtherMonths : true, // 나머지 날짜도 화면에 표시
@@ -161,7 +198,6 @@ body {
 		}
 		return Day;
 	}
-	
 </script>
 </head>
 <body>
@@ -169,51 +205,50 @@ body {
 		<h2>예약하기</h2>
 	</div>
 	<div class="container-fluid">
-		<form role="form" class="form-horizontal" name="myform" method="get" action="/finddoc/user/insertbook.do">
+		<form role="form" class="form-horizontal" name="myform" method="get"
+			action="/finddoc/user/insertbook.do">
 			<c:choose>
-				<c:when test="${action=='search' }">
+				<c:when test="${action=='view' }">
 					<div class="form-group">
-				<input type="text" class="ykiho" name="ykiho" value="${ykiho}">
-				<label class="control-label col-sm-2" for="orgtel">병원명</label>
-				<div class="col-sm-3">
-					<input type="text" id="hosname" class="form-control" name="hname" value="${book}"
-						placeholder="병원명" required>
-				</div>
-			</div>
+						<input type="text" id="ykiho" class="ykiho" name="ykiho">
+						<input type="text" id="ohosname" class="form-control" name="hname"
+							required>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-sm-2" for="orgtel">병원명</label>
+						<div class="col-sm-3">
+							<select name="selecthos" class="form-control" id="selecthos">
+								<option value="default">자주가는 병원 목록에서 선택하기</option>
+								<c:forEach var="myhos" items="${myhos}">
+									<option value="${myhos.ykiho}">${myhos.hname}</option>
+								</c:forEach>
+							</select>
+						</div>
+					</div>
 				</c:when>
 				<c:otherwise>
 					<div class="form-group">
-						<input type="text" class="ykiho" name="ykiho">
-						<input type="text" id="ohosname" class="form-control" name="hname" required>
+						<input type="text" class="ykiho" name="ykiho" value="${ykiho}">
+						<label class="control-label col-sm-2" for="orgtel">병원명</label>
+						<div class="col-sm-3">
+							<input type="text" id="hosname" class="form-control" name="hname"
+								value="${book}" placeholder="병원명" required>
+						</div>
 					</div>
-					<div class="form-group">
-					<label class="control-label col-sm-2" for="orgtel">병원명</label>
-					<div class="col-sm-3">
-						<select name="deptno" class="form-control" >
-							<option value="default">자주가는 병원 목록에서 선택하기</option>
-								<c:forEach var="myhos" items="${myhos}">
-									<option value="${myhos.ykiho }">${myhos.hname}</option>
-								</c:forEach>
-						</select>
-					</div>
-			</div>
 				</c:otherwise>
 			</c:choose>
 			<div class="form-group">
 				<label class="control-label col-sm-2" for="orgtel">진료과</label>
 				<div class="col-sm-3">
 					<select class="form-control" name="major" id="major">
-						<option>소아과</option>
-						<option>정형외과</option>
-						<option>피부과</option>
-						<option>내과</option>
 					</select>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-sm-2 col-sm-2 control-label">예약 날짜</label>
 				<div class="col-sm-3">
-					<input type="text" id="datepicker" class="form-control" name="bookdate">
+					<input type="text" id="datepicker" class="form-control"
+						name="bookdate">
 				</div>
 			</div>
 			<div class="form-group">
@@ -251,8 +286,8 @@ body {
 			<div class="form-group">
 				<label class="col-sm-2 col-sm-2 control-label"></label>
 				<div class="col-sm-6">
-					<input type="radio" name="mint" value="0">0분 &nbsp;&nbsp;&nbsp;
-					<input type="radio" name="mint" value="10">10분&nbsp;&nbsp;&nbsp;
+					<input type="radio" name="mint" value="0">0분
+					&nbsp;&nbsp;&nbsp; <input type="radio" name="mint" value="10">10분&nbsp;&nbsp;&nbsp;
 					<input type="radio" name="mint" value="20">20분&nbsp;&nbsp;&nbsp;
 					<input type="radio" name="mint" value="30">30분&nbsp;&nbsp;&nbsp;
 					<input type="radio" name="mint" value="40">40분&nbsp;&nbsp;&nbsp;
@@ -269,14 +304,15 @@ body {
 			<div class="form-group">
 				<label class="control-label col-sm-2" for="ssn">생년월일</label>
 				<div class="col-sm-3">
-					<input type="text" name="birthday" class="form-control" id="birthpicker">
+					<input type="text" name="birthday" class="form-control"
+						id="birthpicker">
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="control-label col-sm-2" for="phonehome">연락처</label>
 				<div class="col-sm-5">
-					<input type="text" id="tel" name="cp"
-						placeholder="010-1234-1234" class="form-control" minlength="15" required>
+					<input type="text" id="tel" name="cp" placeholder="010-1234-1234"
+						class="form-control" minlength="15" required>
 				</div>
 			</div>
 			<div class="form-group">
