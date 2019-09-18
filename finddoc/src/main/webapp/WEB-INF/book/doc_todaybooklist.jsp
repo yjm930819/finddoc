@@ -51,17 +51,26 @@ table {
 	<div class="container-fluid">
 		<form>
 			<br>
-		<div>
-			<select class="form-control col-sm-2" name="search">
-				<option>모든 예약목록 확인</option>
-				<option>예약 신청</option>
-				<option>예약 완료</option>
-				<option>예약 취소</option>
-				<option>진료 완료</option>
-			</select>
-		</div>
-		<br>
-		<br>
+			<div>
+				<select class="form-control col-sm-2" name="search">
+					<option>예약번호</option>
+					<option>예약자</option>
+					<option>날짜</option>
+					<option>진료정보</option>
+				</select>
+			</div>
+			<div class="input-group col-sm-2">
+				<input type="text" class="form-control"> <span
+					class="input-group-btn">
+					<button class="btn btn-default " type="button">
+						<span class="glyphicon glyphicon-search "></span>
+					</button>
+				</span>
+			</div>
+			<div id="num">
+				<label>오늘의 예약환자 수 : 1명</label>
+			</div>
+			<br>
 			<table class="table table-hover">
 				<th><input type="checkbox" name="ok">&nbsp;&nbsp;&nbsp;전체선택</th>
 				<th>예약번호</th>
@@ -80,27 +89,9 @@ table {
 					</tr>
 				</c:forEach>
 			</table>
-			<br>
-		<br>
-		<div>
-			<select class="form-control col-sm-2" name="search">
-				<option>예약자</option>
-				<option>날짜</option>
-			</select>
-		</div>
-		<div class="input-group col-sm-2">
-			<input type="text" class="form-control"> <span
-				class="input-group-btn">
-				<button class="btn btn-default " type="button">
-					<span class="glyphicon glyphicon-search "></span>
-				</button>
-			</span>
-		</div>
+
 			<div id="cancel">
-				<input type="button" value="예약확인" class="btn btn-default"
-					onclick="location.href='/finddoc/doc/booklist.do'"> <input
-					type="button" value="예약취소" class="btn btn-default"
-					onclick="location.href='/finddoc/doc/booklist.do'">
+				<input type="button" value="진료완료" class="btn btn-default" onclick="location.href='/finddoc/doc/todaycomplate.do'">
 			</div>
 		</form>
 	</div>

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,10 +22,28 @@ body {
 </style>
 <script>
 	var dtNow = new Date();
+	dtNext = dtNow.getDate+1;
 	$(document).ready(function() {
 		$(".ykiho").hide();
+		$("#ohosname").hide();
 		EvtChangeMonthYear(dtNow.getFullYear(), dtNow.getMonth());
+		/* $("#submit").on("click", function() {
+			$.ajax({
+				url : "/finddoc/user/insertbook.do",
+				type : "get",
+				data : {
+					"ykiho" : $("#ykiho").val,
+					"hname" : $("#hosname").val,
+					
+				}
+			});
+		}); */
 	});
+	/* $(".findbookmarkhos").on("click", function() {
+		url = "/finddoc/user/book/findbookmarkhos.do";
+		var popupOption= "width=600,height=700,location=no,status=no,toolbars=no,top=70,left=800";    //팝업창 옵션(optoin)
+		openWin=window.open(url,"findbookmarkhos",popupOption);
+	}) */
 
 	$(function() {
 		$("#datepicker").datepicker(
@@ -45,6 +64,47 @@ body {
 					isRTL : false,
 					duration : 200,
 					showAnim : 'show',
+					minDate: dtNext,
+					showMonthAfterYear : true,
+					yearSuffix : '년',
+					showOtherMonths : true, // 나머지 날짜도 화면에 표시
+					selectOtherMonths : true, // 나머지 날짜에도 선택을 하려면 true
+
+					onChangeMonthYear : function(year, month, inst) {
+						EvtChangeMonthYear(year, month);
+					},
+
+					beforeShow : function(input, inst) {
+						// 일자 선택되기전 이벤트 발생
+					},
+					onSelect : function(dateText, inst) {
+					}
+
+				});
+		$.datepicker.setDefaults($.datepicker.regional['ko']);
+		// 월이나 년이 바뀔때의 이벤트
+	});
+	
+	$(function() {
+		$("#birthpicker").datepicker(
+				{
+					dateFormat : 'yy-mm-dd', // 데이터는 yyyy-MM-dd로 나옴
+					closeText : '닫기',
+					prevText : '이전달',
+					nextText : '다음달',
+					monthNames : [ '1월', '2월', '3월', '4월', '5월', '6월', '7월',
+							'8월', '9월', '10월', '11월', '12월' ],
+					monthNamesShort : [ '1월', '2월', '3월', '4월', '5월', '6월',
+							'7월', '8월', '9월', '10월', '11월', '12월' ],
+					dayNames : [ '일', '월', '화', '수', '목', '금', '토' ],
+					dayNamesShort : [ '일', '월', '화', '수', '목', '금', '토' ],
+					dayNamesMin : [ '일', '월', '화', '수', '목', '금', '토' ],
+					weekHeader : 'Wk',
+					firstDay : 0,
+					isRTL : false,
+					duration : 200,
+					showAnim : 'show',
+					maxDate: dtNow,
 					showMonthAfterYear : true,
 					yearSuffix : '년',
 					showOtherMonths : true, // 나머지 날짜도 화면에 표시
@@ -109,30 +169,40 @@ body {
 		<h2>예약하기</h2>
 	</div>
 	<div class="container-fluid">
-		<form role="form" class="form-horizontal" name="myform" method="get"
-			action="/finddoc/user/insertbook.do">
-			<div class="form-group">
+		<form role="form" class="form-horizontal" name="myform" method="get" action="/finddoc/user/insertbook.do">
+			<c:choose>
+				<c:when test="${action=='search' }">
+					<div class="form-group">
 				<input type="text" class="ykiho" name="ykiho" value="${ykiho}">
 				<label class="control-label col-sm-2" for="orgtel">병원명</label>
 				<div class="col-sm-3">
 					<input type="text" id="hosname" class="form-control" name="hname" value="${book}"
 						placeholder="병원명" required>
 				</div>
-				<div class="col-sm-3">
-					<button type="button" class="btn btn-round btn-primary form-control">방문했던
-						병원목록에서 선택
-					</button>
-				</div>
-				<div class="col-sm-3">
-					<button type="button"
-						class="btn btn-round btn-primary form-control">자주가는 병원목록에서 선택
-					</button>
-				</div>
 			</div>
+				</c:when>
+				<c:otherwise>
+					<div class="form-group">
+						<input type="text" class="ykiho" name="ykiho">
+						<input type="text" id="ohosname" class="form-control" name="hname" required>
+					</div>
+					<div class="form-group">
+					<label class="control-label col-sm-2" for="orgtel">병원명</label>
+					<div class="col-sm-3">
+						<select name="deptno" class="form-control" >
+							<option value="default">자주가는 병원 목록에서 선택하기</option>
+								<c:forEach var="myhos" items="${myhos}">
+									<option value="${myhos.ykiho }">${myhos.hname}</option>
+								</c:forEach>
+						</select>
+					</div>
+			</div>
+				</c:otherwise>
+			</c:choose>
 			<div class="form-group">
 				<label class="control-label col-sm-2" for="orgtel">진료과</label>
 				<div class="col-sm-3">
-					<select class="form-control" name="major">
+					<select class="form-control" name="major" id="major">
 						<option>소아과</option>
 						<option>정형외과</option>
 						<option>피부과</option>
@@ -143,8 +213,7 @@ body {
 			<div class="form-group">
 				<label class="col-sm-2 col-sm-2 control-label">예약 날짜</label>
 				<div class="col-sm-3">
-					<input type="text" id="datepicker" class="form-control" name="bookdate"
-						placeholder="예약날짜">
+					<input type="text" id="datepicker" class="form-control" name="bookdate">
 				</div>
 			</div>
 			<div class="form-group">
@@ -200,8 +269,7 @@ body {
 			<div class="form-group">
 				<label class="control-label col-sm-2" for="ssn">생년월일</label>
 				<div class="col-sm-3">
-					<input type="text" name="birthday" class="form-control"
-						placeholder="2019-09-06">
+					<input type="text" name="birthday" class="form-control" id="birthpicker">
 				</div>
 			</div>
 			<div class="form-group">
