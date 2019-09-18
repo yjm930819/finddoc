@@ -1,5 +1,7 @@
 package doc.find.book;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,6 +40,53 @@ public class bookServiceImpl implements bookService {
 		}
 		System.out.println(message);
 		return message;
+	}
+	
+	public List<BookDTO> booklist(String userid){
+		return dao.booklist(userid);
+	}
+
+	@Override
+	public BookDTO userbookinfo(String booknum) {
+		return dao.userbookinfo(booknum);
+	}
+
+	@Override
+	public int userbookupdate(BookDTO bookdto) {
+		System.out.println(bookdto);
+		int result = 3000;
+		String message="";
+		int bookcheck = 4000;
+		bookcheck = dao.book_check(bookdto);
+		if(bookcheck==0) {
+			result = dao.userbookupdate(bookdto); 
+			if(result>0) {
+				message="예약 수정 완료";
+			}
+			else {
+				message="예약 수정 실패";
+			}
+		}
+		else {
+			message="예약 불가능한 시간입니다.";
+		}
+		System.out.println(message);
+		return result;
+	}
+
+	@Override
+	public int userbookcancel(String booknum) {
+		return dao.userbookcancel(booknum);
+	}
+
+	@Override
+	public List<BookDTO> todaylist(String hadminid) {
+		return dao.todaylist(hadminid);
+	}
+
+	@Override
+	public List<BookDTO> doclist(String hadminid) {
+		return dao.doclist(hadminid);
 	}
 
 }

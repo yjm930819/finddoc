@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="se"
+	uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,7 +33,8 @@ body {
 		<form role="form" class="form-horizontal" name="myform" method="post"
 			action="/finddoc/receipt/book.do">
 			<input type="hidden" name="action" value="book"> <input
-				type="hidden" name="userid" value="${loginuser.userid }">
+				type="hidden" name="userid"
+				value="<se:authentication property="principal.id" />">
 			<div class="form-group">
 				<label class="control-label col-sm-2" for="orgtel">병원명</label>
 				<div class="col-sm-3">

@@ -10,7 +10,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<se:authorize access="hasRole('user)">
+	<se:authorize access="hasRole('user')">
 		<div class="list-group">
 			<a href="/finddoc/receipt/book.do?action=view"
 				class="list-group-item">병원 접수</a> <a
@@ -18,7 +18,7 @@
 				접수 목록</a>
 		</div>
 	</se:authorize>
-	<se:authorize access="hasRole('hadmin)">
+	<se:authorize access="hasRole('hadmin')">
 		<div class="list-group">
 			<a href="/finddoc/doc/receiptlist.do" class="list-group-item">접수
 				목록</a>

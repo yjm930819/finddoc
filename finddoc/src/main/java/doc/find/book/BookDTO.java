@@ -6,7 +6,7 @@ public class BookDTO {
 	// 사용자 아이디
 	private String userid;
 	// 예약번호
-	private int booknum_seq;
+	private int booknum;
 	// 병원 회원번호
 	private String ykiho;
 	
@@ -34,11 +34,11 @@ public class BookDTO {
 		
 	}
 	
-	public BookDTO(String userid, int booknum_seq, String ykiho, String hname, String major, Date bookdate,
+	public BookDTO(String userid, int booknum, String ykiho, String hname, String major, Date bookdate,
 			String hour, String mint, String name, Date birthday, String cp, String text, String ing) {
 		super();
 		this.userid = userid;
-		this.booknum_seq = booknum_seq;
+		this.booknum = booknum;
 		this.ykiho = ykiho;
 		this.hname = hname;
 		this.major = major;
@@ -56,6 +56,23 @@ public class BookDTO {
 	public BookDTO(String ykiho, String hname, String major, Date bookdate, String hour, String mint,
 			String name, Date birthday, String cp, String text) {
 		super();
+		this.ykiho = ykiho;
+		this.hname = hname;
+		this.major = major;
+		this.bookdate = bookdate;
+		this.hour = hour;
+		this.mint = mint;
+		this.name = name;
+		this.birthday = birthday;
+		this.cp = cp;
+		this.text = text;
+	}
+
+	//예약 수정
+	public BookDTO(int booknum, String ykiho, String hname, String major, Date bookdate, String hour, String mint,
+			String name, Date birthday, String cp, String text) {
+		super();
+		this.booknum = booknum;
 		this.ykiho = ykiho;
 		this.hname = hname;
 		this.major = major;
@@ -86,12 +103,12 @@ public class BookDTO {
 		this.userid = userid;
 	}
 
-	public int getBooknum_seq() {
-		return booknum_seq;
+	public int getBooknum() {
+		return booknum;
 	}
 
-	public void setBooknum_seq(int booknum_seq) {
-		this.booknum_seq = booknum_seq;
+	public void setBooknum(int booknum) {
+		this.booknum = booknum;
 	}
 
 	public String getYkiho() {
@@ -184,8 +201,9 @@ public class BookDTO {
 
 	@Override
 	public String toString() {
-		return "BookDTO [userid=" + userid + ", ykiho=" + ykiho + ", hname=" + hname + ", major=" + major
-				+ ", bookdate=" + bookdate + ", hour=" + hour + ", mint=" + mint + ", name=" + name + ", birthday="
-				+ birthday + ", cp=" + cp + ", text=" + text + "]";
+		return "BookDTO [userid=" + userid + ", booknum=" + booknum + ", ykiho=" + ykiho + ", hname=" + hname
+				+ ", major=" + major + ", bookdate=" + bookdate + ", hour=" + hour + ", mint=" + mint + ", name=" + name
+				+ ", birthday=" + birthday + ", cp=" + cp + ", text=" + text + ", ing=" + ing + "]";
 	}
+
 }

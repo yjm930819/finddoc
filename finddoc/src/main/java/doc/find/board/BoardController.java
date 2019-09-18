@@ -53,7 +53,6 @@ public class BoardController {
 			pagedto = new BoardPagingDTO(count, curPage);
 			startIndex = pagedto.getStartIndex();
 			reviewlist = boardService.reviewlist(loginUser.getId(), "hadmin", startIndex);
-
 			mav.addObject("pagedto", pagedto);
 			mav.addObject("reviewlist", reviewlist);
 		}
@@ -221,6 +220,8 @@ public class BoardController {
 			startIndex = pagedto.getStartIndex();
 			noticelist = boardService.noticelist(loginUser.getId(), "user", startIndex);
 			List<Notice_BoardDTO> myhospitallist = boardService.myhospitallist(loginUser.getId());
+			System.out.println(pagedto);
+			System.out.println(myhospitallist);
 			mav.addObject("myhospitallist", myhospitallist);
 			mav.addObject("pagedto", pagedto);
 			mav.addObject("noticelist", noticelist);

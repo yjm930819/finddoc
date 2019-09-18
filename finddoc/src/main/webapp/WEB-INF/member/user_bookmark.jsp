@@ -89,7 +89,7 @@ table {
 		<form name="search" action="/finddoc/mypage/search_bookmark.do">
 			<select class="form-control col-sm-2" name="tag" id="tag">
 				<option value="hname">병원명</option>
-				<option value="addr">병웑 주소</option>
+				<option value="addr">병원 주소</option>
 			</select>
 			<div class="input-group">
 				<input type="text" class="form-control col-sm-2" name="search"> <span

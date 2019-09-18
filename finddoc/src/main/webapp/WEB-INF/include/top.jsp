@@ -54,7 +54,6 @@ div a:hover {
 			<a href="/finddoc/index.do"> <i class="fas fa-clinic-medical"></i>&nbsp;FINDDOC
 			</a>
 		</div>
-
 		<se:authorize access="isAnonymous()">
 			<div id="top_logo" class="col-sm-10" align="right">
 				<a href="/finddoc/login/loginView.do"><i
