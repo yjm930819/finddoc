@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="se"
+	uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -96,14 +98,14 @@ table {
 
 	<div class="container-fluid">
 		<form>
-			<c:if test="${loginuser.state=='user' }">
+			<se:authorize access="hasRole('user')">
 				<select class="form-control col-sm-4" name="hadminid" id="hadminid">
 					<option value="all">전체</option>
 					<c:forEach var="hoslist" items="${hnamelist }">
 						<option value="${hoslist.hadminid }">${hoslist.hname }</option>
 					</c:forEach>
 				</select>
-			</c:if>
+			</se:authorize>
 			<br>
 
 			<table class="table table-hover">
@@ -121,7 +123,7 @@ table {
 							onClick="link('${review.reviewboardnum }','${review.hname}')">
 								${review.hname}</a></td>
 						<td>${review.title }</td>
-						<td>${loginuser.name }</td>
+						<td>${review.name }</td>
 						<td>${review.txupdate }</td>
 						<td>${review.reviewcount }</td>
 					</tr>
@@ -163,10 +165,10 @@ table {
 		</select> <input type="text" name="search" class="form-control col-sm-3"
 			id="searchbar"> <input type="submit" value="검색"
 			class="btn btn-default">
-		<c:if test="${loginuser.state=='user' }">
+		<se:authorize access="hasRole('user')">
 			<input type="button" value="글쓰기" class="btn btn-default" id="write"
-				onclick='location.href="/finddoc/board/reviewBoard_writeView.do?userid=${loginuser.userid}"'>
-		</c:if>
+				onclick='location.href="/finddoc/board/reviewBoard_writeView.do?userid=<se:authentication property="principal.id" />"'>
+		</se:authorize>
 	</form>
 
 </body>

@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="se"
+	uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,8 +28,9 @@
 	<div class="container-fluid">
 
 		<div class="form-group">
-			<label class="control-label col-sm-2 col-sm-offset-2" for="orgtel">${loginuser.name }</label>
-			<label class="control-label col-sm-2" for="orgtel">님 환영합니다.</label>
+			<label class="control-label col-sm-2 col-sm-offset-2" for="orgtel"><se:authentication
+					property="principal.name" /></label> <label class="control-label col-sm-2"
+				for="orgtel">님 환영합니다.</label>
 		</div>
 
 
@@ -36,14 +39,14 @@
 			<div class="col-sm-6 col-sm-offset-2">
 				<input type="button" value="로그아웃" class="btn btn-success" id=find
 					onclick="location.href='/finddoc/login/logout.do'" />
-				<c:if test="${loginuser.state=='user' }">
+				<se:authorize access="hasRole('user')">
 					<input type="button" value="정보수정" class="btn btn-success"
 						onclick="location.href='/finddoc/member/updateUser.do'" />
-				</c:if>
-				<c:if test="${loginuser.state=='hadmin' }">
+				</se:authorize>
+				<se:authorize access="hasRole('hadmin')">
 					<input type="button" value="정보수정" class="btn btn-success"
 						onclick="location.href='/finddoc/member/updateHadmin.do'" />
-				</c:if>
+				</se:authorize>
 			</div>
 		</div>
 
