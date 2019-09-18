@@ -40,25 +40,37 @@ table {
 }
 </style>
 <script type="text/javascript">
-	$(document).ready(function() {
-		$("#cancel").click(function() {
-			$('input:checkbox[name="ok"]').each(function() {
-				if ($(this).is(":checked")) {
-					$.ajax({
-						url : "/finddoc/receipt/cancel.do",
-						type : "get",
-						data : {
-							"receiptnum" : $(this).val(),
-						},
-						success : function(massage) {
-							alert(massage)
-							location.href = "/finddoc/receipt/booklist.do?action=view";
-						}
-					});
-				}
-			});
-		});
-	})
+	$(document)
+			.ready(
+					function() {
+						$("#cancel")
+								.click(
+										function() {
+											$('input:checkbox[name="ok"]')
+													.each(
+															function() {
+																if ($(this)
+																		.is(
+																				":checked")) {
+																	$
+																			.ajax({
+																				url : "/finddoc/receipt/cancel.do",
+																				type : "get",
+																				data : {
+																					"receiptnum" : $(
+																							this)
+																							.val(),
+																				},
+																				success : function(
+																						massage) {
+																					alert(massage)
+																					location.href = "/finddoc/receipt/booklist.do?action=view";
+																				}
+																			});
+																}
+															});
+										});
+					})
 </script>
 </head>
 <body>
@@ -94,14 +106,14 @@ table {
 						<td>${receiptlist.text }</td>
 						<c:choose>
 							<c:when test="${receiptlist.ing=='접수완료' }">
-							<td><a
-							href="/finddoc/receipt/bookinfo.do?action=read&receiptnum=${receiptlist.receiptnum }">${receiptlist.ing }</a></td>
+								<td><a
+									href="/finddoc/receipt/bookinfo.do?action=read&receiptnum=${receiptlist.receiptnum }">${receiptlist.ing }</a></td>
 							</c:when>
 							<c:otherwise>
 								<td>${receiptlist.ing }</td>
 							</c:otherwise>
 						</c:choose>
-						
+
 					</tr>
 				</c:forEach>
 

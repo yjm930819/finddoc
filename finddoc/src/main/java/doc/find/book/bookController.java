@@ -1,16 +1,19 @@
 package doc.find.book;
 
+import java.security.Principal;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import doc.find.authentication.SecurityLoginDTO;
 import doc.find.member.HadminDTO;
 import doc.find.member.UserDTO;
 import doc.find.mypage.MyhospitalDTO;
@@ -22,13 +25,14 @@ public class bookController {
 	bookService service;
 	@Autowired
 	mypageService mypageservice;
-	
+
 	// 예약 화면과 예약버튼 눌렀을때 둘다 처리
 	@RequestMapping("/user/book.do")
-	public ModelAndView user_book(String action, String hname, String ykiho, HttpServletRequest req) {
+	public ModelAndView user_book(String action, String hname, String ykiho, Principal principal) {
 		ModelAndView mav = new ModelAndView();
-		String id = getid(req);
-		List<MyhospitalDTO> myhos = mypageservice.selectAll(id);
+		SecurityLoginDTO loginUser = (SecurityLoginDTO) ((UsernamePasswordAuthenticationToken) principal)
+				.getPrincipal();
+		List<MyhospitalDTO> myhos = mypageservice.selectAll(loginUser.getId());
 		mav.setViewName("user/book");
 		// 검색한 결과에서 예약 버튼눌렀을 때
 		if (action.equals("search")) {
@@ -47,12 +51,14 @@ public class bookController {
 		return mav;
 	}
 
-	//예약하기
+	// 예약하기
 	@RequestMapping("/user/insertbook.do")
-	public ModelAndView userbook(BookDTO bookdto, HttpServletRequest req) {
+	public ModelAndView userbook(BookDTO bookdto, Principal principal) {
 		ModelAndView mav = new ModelAndView();
-		bookdto.setUserid(getid(req));
-		String message=service.insertbook(bookdto);
+		SecurityLoginDTO loginUser = (SecurityLoginDTO) ((UsernamePasswordAuthenticationToken) principal)
+				.getPrincipal();
+		bookdto.setUserid(loginUser.getId());
+		String message = service.insertbook(bookdto);
 		mav.setViewName("user/booklist");
 		mav.addObject("message", message);
 		return mav;
@@ -60,9 +66,11 @@ public class bookController {
 
 	// 예약 목록
 	@RequestMapping("/user/booklist.do")
-	public ModelAndView user_booklist(HttpServletRequest req) {
+	public ModelAndView user_booklist(Principal principal) {
 		ModelAndView mav = new ModelAndView();
-		List<BookDTO> userbooklist = service.booklist(getid(req));
+		SecurityLoginDTO loginUser = (SecurityLoginDTO) ((UsernamePasswordAuthenticationToken) principal)
+				.getPrincipal();
+		List<BookDTO> userbooklist = service.booklist(loginUser.getId());
 		mav.setViewName("user/booklist");
 		mav.addObject("userbooklist", userbooklist);
 		return mav;
@@ -90,21 +98,20 @@ public class bookController {
 		int result = service.userbookupdate(updatedto);
 		return "redirect:/user/booklist.do";
 	}
-	
+
 	// 예약 취소
 	@RequestMapping("/user/bookcancel.do")
 	public String user_bookcancel(String booknum) {
-		int result= service.userbookcancel(booknum);
+		int result = service.userbookcancel(booknum);
 		return "redirect:/user/booklist.do";
 	}
-	
+
 	// 병원관계자 예약 목록
 	@RequestMapping("/doc/todaybooklist.do")
-	public ModelAndView todaybooklist(HttpServletRequest req) {
-		HttpSession ses = req.getSession(false);
-		HadminDTO loginuser = (HadminDTO) ses.getAttribute("loginuser");
-		String hadminid = loginuser.getHadminid();
-		List<BookDTO> todaylist = service.todaylist(hadminid);
+	public ModelAndView todaybooklist(Principal principal) {
+		SecurityLoginDTO loginUser = (SecurityLoginDTO) ((UsernamePasswordAuthenticationToken) principal)
+				.getPrincipal();
+		List<BookDTO> todaylist = service.todaylist(loginUser.getId());
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("doc/todaylist");
 		mav.addObject("todaylist", todaylist);
@@ -113,32 +120,32 @@ public class bookController {
 
 	// 병원관계자 예약 목록
 	@RequestMapping("/doc/booklist.do")
-	public ModelAndView doc_booklist(HttpServletRequest req) {
-		HttpSession ses = req.getSession(false);
-		HadminDTO loginuser = (HadminDTO) ses.getAttribute("loginuser");
-		String hadminid = loginuser.getHadminid();
-		List<BookDTO> list = service.doclist(hadminid);
+	public ModelAndView doc_booklist(Principal principal) {
+		SecurityLoginDTO loginUser = (SecurityLoginDTO) ((UsernamePasswordAuthenticationToken) principal)
+				.getPrincipal();
+		List<BookDTO> list = service.doclist(loginUser.getId());
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("doc/booklist");
 		mav.addObject("list", list);
 		return mav;
 	}
-	
+
 	@RequestMapping("/user/book/findbookmarkhos.do")
-	public ModelAndView find_bookmark_hos(HttpServletRequest req) {
-		String id = getid(req);
+	public ModelAndView find_bookmark_hos(Principal principal) {
+		SecurityLoginDTO loginUser = (SecurityLoginDTO) ((UsernamePasswordAuthenticationToken) principal)
+				.getPrincipal();
 		ModelAndView mav = new ModelAndView();
-		List<MyhospitalDTO> findbooklist = mypageservice.selectAll(id);
+		List<MyhospitalDTO> findbooklist = mypageservice.selectAll(loginUser.getId());
 		mav.addObject("findbooklist", findbooklist);
 		System.out.println("팝엄...");
 		mav.setViewName("book/BookmarkHosPopup");
 		return mav;
 	}
+
 	// 로그인 세션
-	public String getid(HttpServletRequest req) {
-		HttpSession ses = req.getSession(false);
-		UserDTO loginuser = (UserDTO) ses.getAttribute("loginuser");
-		String id = loginuser.getUserid();
-		return id;
+	public String getid(Principal principal) {
+		SecurityLoginDTO loginUser = (SecurityLoginDTO) ((UsernamePasswordAuthenticationToken) principal)
+				.getPrincipal();
+		return loginUser.getId();
 	}
 }

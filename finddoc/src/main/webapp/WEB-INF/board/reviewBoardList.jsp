@@ -68,7 +68,6 @@ table {
 							$("#hadminid").closest("option").attr("selected",
 									"selected");
 						} else {
-							alert(category)
 							$("#hadminid").val(category).attr("selected",
 									"selected");
 						}

@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="se"
+	uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -39,8 +41,7 @@ i:hover {
 <title>Insert title here</title>
 </head>
 <body>
-<c:choose>
-	<c:when test="${loginuser.state=='hadmin' }">
+	<se:authorize access="hasRole('hadmin')">
 		<div id="link">
 			<div class="col-lg-4">
 				<a href="/finddoc/receipt/booklist.do?action=main"><i
@@ -58,8 +59,8 @@ i:hover {
 					<h4>게시판</h4> 병원 게시판 </a>
 			</div>
 		</div>
-	</c:when>
-	<c:otherwise>
+	</se:authorize>
+	<se:authorize access="anonymous">
 		<div id="link">
 			<div class="col-lg-3">
 				<a href="/finddoc/receipt/booklist.do?action=main"><i
@@ -82,7 +83,6 @@ i:hover {
 					<h4>게시판</h4> 게시판으로 이동 </a>
 			</div>
 		</div>
-	</c:otherwise>
-	</c:choose>
+	</se:authorize>
 </body>
 </html>

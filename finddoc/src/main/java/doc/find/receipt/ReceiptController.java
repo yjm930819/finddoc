@@ -1,18 +1,21 @@
 package doc.find.receipt;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import doc.find.authentication.SecurityLoginDTO;
 import doc.find.member.HadminDTO;
 import doc.find.member.UserDTO;
 import doc.find.mypage.mypageDTO;
@@ -25,15 +28,13 @@ public class ReceiptController {
 
 	// 접수 화면과 접수버튼 눌렀을때 둘다 처리
 	@RequestMapping("/receipt/book.do")
-	public ModelAndView receipt_book(String action, HttpServletRequest req, ReceiptDTO receiptdto) {
+	public ModelAndView receipt_book(String action, Principal principal, ReceiptDTO receiptdto) {
 		ModelAndView mav = new ModelAndView();
 		if (action.equals("view")) {
-			HttpSession ses = req.getSession(false);
-			UserDTO userdto = null;
-			if (ses != null) {
-				userdto = (UserDTO) ses.getAttribute("loginuser");
-			}
-			List<HadminDTO> hoslist = receiptService.myhospital(userdto.getUserid());
+			SecurityLoginDTO loginUser = (SecurityLoginDTO) ((UsernamePasswordAuthenticationToken) principal)
+					.getPrincipal();
+
+			List<HadminDTO> hoslist = receiptService.myhospital(loginUser.getId());
 			mav.addObject("hoslist", hoslist);
 			mav.setViewName("receipt/book");
 			return mav;
@@ -47,14 +48,12 @@ public class ReceiptController {
 
 	// 접수 목록
 	@RequestMapping("/receipt/booklist.do")
-	public ModelAndView receipt_booklist(HttpServletRequest req) {
+	public ModelAndView receipt_booklist(Principal principal) {
 		ModelAndView mav = new ModelAndView();
-		HttpSession ses = req.getSession(false);
-		UserDTO userdto = null;
-		if (ses != null) {
-			userdto = (UserDTO) ses.getAttribute("loginuser");
-		}
-		List<ReceiptDTO> receiptlist = receiptService.receiptlist(userdto.getUserid());
+		SecurityLoginDTO loginUser = (SecurityLoginDTO) ((UsernamePasswordAuthenticationToken) principal)
+				.getPrincipal();
+
+		List<ReceiptDTO> receiptlist = receiptService.receiptlist(loginUser.getId());
 		mav.addObject("receiptlist", receiptlist);
 		mav.setViewName("receipt/booklist");
 		return mav;
@@ -95,14 +94,12 @@ public class ReceiptController {
 
 	// 병원관계자 접수 목록
 	@RequestMapping("/doc/receiptlist.do")
-	public ModelAndView doc_receiptlist(HttpServletRequest req) {
+	public ModelAndView doc_receiptlist(Principal principal) {
 		ModelAndView mav = new ModelAndView();
-		HttpSession ses = req.getSession(false);
-		HadminDTO hadmindto = null;
-		if (ses != null) {
-			hadmindto = (HadminDTO) ses.getAttribute("loginuser");
-		}
-		List<ReceiptDTO> doclist = receiptService.doclist(hadmindto.getHadminid());
+		SecurityLoginDTO loginUser = (SecurityLoginDTO) ((UsernamePasswordAuthenticationToken) principal)
+				.getPrincipal();
+
+		List<ReceiptDTO> doclist = receiptService.doclist(loginUser.getId());
 		mav.addObject("doclist", doclist);
 		mav.setViewName("doc/receiptlist");
 		return mav;
