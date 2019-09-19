@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	<%@ taglib prefix="se"
+	uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -58,14 +61,38 @@ body {
 				<label class="control-label col-sm-2">진료정보</label>
 				<div class="col-sm-3">${userbookinfo.ing}</div>
 			</div>
-			<div class="form-group">
-				<div class="col-sm-3 col-sm-offset-2">
-					<input type="button" value="수정" class="btn btn-success"
-						onclick="location.href='/finddoc/user/bookinfo.do?booknum=${userbookinfo.booknum}&action=update'" />
-						<input type="button" value="예약 취소" class="btn btn-success"
-						onclick="location.href='/finddoc/user/bookcancel.do?booknum=${userbookinfo.booknum}'" />
-				</div>
-			</div>
+			<se:authorize access="hasRole('user')">
+			<c:choose>
+				<c:when test="${userbookinfo.ing=='예약완료'}">
+					<div class="form-group">
+						<div class="col-sm-8 col-sm-offset-2">
+							<input type="button" value="예약수정" class="btn btn-success"
+								onclick="location.href='/finddoc/user/bookinfo.do?booknum=${userbookinfo.booknum}&action=update'" />
+								<input type="button" value="예약취소" class="btn btn-success"
+								onclick="location.href='/finddoc/user/bookcancel.do?booknum=${userbookinfo.booknum}'" />
+								<input type="button" value="목록으로 돌아가기" class="btn btn-success"
+						onclick="location.href='/finddoc/user/booklist.do'" />
+						</div>
+					</div>
+				</c:when>
+				<c:otherwise>
+					<div class="form-group">
+						<div class="col-sm-8 col-sm-offset-2">
+							<input type="button" value="목록으로 돌아가기" class="btn btn-success"
+								onclick="location.href='/finddoc/user/booklist.do'" />
+						</div>
+					</div>
+				</c:otherwise>
+			</c:choose>
+			</se:authorize>
+			<se:authorize access="hasRole('hadmin')">
+				<div class="form-group">
+						<div class="col-sm-8 col-sm-offset-2">
+						<input type="button" value="목록으로 돌아가기" class="btn btn-success"
+						onclick="location.href='/finddoc/doc/booklist.do?action=all'" />
+						</div>
+					</div>
+			</se:authorize>
 		</form>
 	</div>
 </body>

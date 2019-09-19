@@ -24,8 +24,51 @@ body {
 	$(document).ready(function() {
 		$(".ykiho").hide();
 		$(".booknum").hide();
+		$
+		.ajax({
+			url : "/finddoc/search/getmajorByykiho.do",
+			type : "post",
+			data : {
+				"ykiho" : "${userbookinfo.ykiho}"
+			},
+			success : function(data) {
+				$("#major").empty();
+				majorlist = data.response.body.items.item;
+				size = data.response.body.totalCount;
+				majorobj = '<option value="default">진료과목을 선택해주세요</option>';
+				if (size == 1) {
+					majorobj = majorobj
+							+ "<option value='"+majorlist.dgsbjtCdNm+"'>"
+							+ majorlist.dgsbjtCdNm
+							+ "</option>"
+				} else {
+					for (i = 0; i < size; i++) {
+						//alert(majorlist[i].dgsbjtCdNm);
+						majorobj = majorobj
+								+ "<option value='"+majorlist[i].dgsbjtCdNm+"'>"
+								+ majorlist[i].dgsbjtCdNm
+								+ "</option>"
+					}
+				}
+				$("#major").append(majorobj);
+				majorchoice();
+			},
+			error : function() {
+				alert("에러");
+			}
+		});
+		$("#hour").val("${userbookinfo.hour}").attr("selected","selected");
+		for(i=0; i<6; i++){
+			if($('input:radio[name="mint"]').val()=="${userbookinfo.mint}"){
+				this.attr("selected","selected");
+			}
+		}
 		EvtChangeMonthYear(dtNow.getFullYear(), dtNow.getMonth());
 	});
+	function majorchoice() {
+		major="${userbookinfo.major}";
+		$("#major").val(major).attr("selected","selected");
+	}
 
 	$(function() {
 		$("#datepicker").datepicker(
@@ -124,10 +167,6 @@ body {
 				<label class="control-label col-sm-2" for="orgtel">진료과</label>
 				<div class="col-sm-3">
 					<select class="form-control" name="major" id="major">
-						<option>소아과</option>
-						<option>정형외과</option>
-						<option>피부과</option>
-						<option>내과</option>
 					</select>
 				</div>
 			</div>
@@ -141,7 +180,7 @@ body {
 			<div class="form-group">
 				<label class="col-sm-2 col-sm-2 control-label">예약 시간</label>
 				<div class="col-sm-3">
-					<select name="hour" class="form-control">
+					<select name="hour" class="form-control" id="hour">
 						<option value="default">진료시간 선택</option>
 						<option value="오전 12시">오전 12시</option>
 						<option value="오전 1시">오전 1시</option>
@@ -199,7 +238,7 @@ body {
 				<label class="control-label col-sm-2" for="phonehome">연락처</label>
 				<div class="col-sm-5">
 					<input type="text" id="tel" name="cp"
-						placeholder="010-1234-1234" class="form-control" minlength="15" value="${userbookinfo.cp}" required>
+						placeholder="010-1234-1234" class="form-control" minlength="13" value="${userbookinfo.cp}" required>
 				</div>
 			</div>
 			<div class="form-group">
@@ -211,9 +250,9 @@ body {
 			</div>
 			<br />
 			<div class="form-group">
-				<div class="col-sm-3 col-sm-offset-2">
+				<div class="col-sm-8 col-sm-offset-2">
 					<input type="submit" value="예약하기" class="btn btn-success" id="book" />
-					<input type="button" value="취소" class="btn btn-success"
+					<input type="button" value="목록으로 돌아가기" class="btn btn-success"
 						onclick="location.href='/finddoc/user/booklist.do'" />
 				</div>
 			</div>

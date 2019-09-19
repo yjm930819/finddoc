@@ -53,11 +53,12 @@ public class bookServiceImpl implements bookService {
 
 	@Override
 	public int userbookupdate(BookDTO bookdto) {
-		System.out.println(bookdto);
 		int result = 3000;
 		String message="";
 		int bookcheck = 4000;
 		bookcheck = dao.book_check(bookdto);
+		System.out.println("예약 존재 유무"+bookcheck);
+		System.out.println(bookdto);
 		if(bookcheck==0) {
 			result = dao.userbookupdate(bookdto); 
 			if(result>0) {
@@ -85,8 +86,13 @@ public class bookServiceImpl implements bookService {
 	}
 
 	@Override
-	public List<BookDTO> doclist(String hadminid) {
-		return dao.doclist(hadminid);
+	public List<BookDTO> hos_booklist_all(String hadminid) {
+		return dao.hos_booklist_all(hadminid);
 	}
 
+	@Override
+	public int hosp_check(String ykiho) {
+		return mypagedao.hosp_check(ykiho);
+	}
+	
 }

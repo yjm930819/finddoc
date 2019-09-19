@@ -20,7 +20,7 @@
 	<se:authorize access="hasRole('hadmin')">
 		<div class="list-group">
 			<a href="/finddoc/doc/todaybooklist.do" class="list-group-item">오늘
-				예약 조회</a> <a href="/finddoc/doc/booklist.do" class="list-group-item">모든
+				예약 조회</a> <a href="/finddoc/doc/booklist.do?action=all" class="list-group-item">모든
 				예약 목록</a>
 		</div>
 	</se:authorize>

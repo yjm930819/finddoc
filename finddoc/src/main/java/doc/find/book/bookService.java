@@ -9,5 +9,6 @@ public interface bookService {
 	int userbookupdate(BookDTO bookdto);
 	int userbookcancel(String booknum);
 	List<BookDTO> todaylist(String hadminid);
-	List<BookDTO> doclist(String hadminid);
+	List<BookDTO> hos_booklist_all(String hadminid);
+	int hosp_check(String ykiho);
 }

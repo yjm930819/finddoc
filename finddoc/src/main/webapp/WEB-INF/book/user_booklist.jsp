@@ -49,7 +49,7 @@ table {
 	</div>
 	<div class="container-fluid">
 		<br>
-		<div>
+		<!-- <div>
 			<select class="form-control col-sm-2" name="search">
 				<option>모든 예약목록 확인</option>
 				<option>예약 신청</option>
@@ -57,7 +57,7 @@ table {
 				<option>예약 취소</option>
 				<option>진료 완료</option>
 			</select>
-		</div>
+		</div> -->
 		<br>
 		<br>
 		<table class="table table-hover">

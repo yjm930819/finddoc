@@ -217,6 +217,7 @@
 			<artifactId>spring-security-taglibs</artifactId>
 			<version>3.2.10.RELEASE</version>
 		</dependency>
+<<<<<<< HEAD
 
 		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-validator -->
 		<dependency>
@@ -225,6 +226,9 @@
 			<version>5.4.2.Final</version>
 		</dependency>
 
+=======
+	
+>>>>>>> refs/heads/yjm
 	</dependencies>
 
 	<build>

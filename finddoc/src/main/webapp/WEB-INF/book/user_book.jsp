@@ -24,64 +24,156 @@ body {
 <script>
 	var dtNow = new Date();
 	dtNext = dtNow.getDate + 1;
-	$(document)
-			.ready(
-					function() {
-						$(".ykiho").hide();
-						$("#ohosname").hide();
-						$("#selecthos")
-								.change(
-										function() {
-											$("#ykiho").val(
-													$("#selecthos").val());
-											$("#ohosname")
-													.val(
-															$(
-																	"#selecthos option:selected")
-																	.text());
-											$
-													.ajax({
-														url : "/finddoc/search/getmajorByykiho.do",
-														type : "post",
-														data : {
-															"ykiho" : $(
-																	"#ykiho")
-																	.val()
-														},
-														success : function(data) {
-															$("#major").empty();
-															majorlist = data.response.body.items.item;
-															size = data.response.body.totalCount;
-															majorobj = '<option value="default">진료과목을 선택해주세요</option>';
-															if (size == 1) {
-																majorobj = majorobj
-																		+ "<option value='"+majorlist.dgsbjtCdNm+"'>"
-																		+ majorlist.dgsbjtCdNm
-																		+ "</option>"
-															} else {
-																for (i = 0; i < size; i++) {
-																	//alert(majorlist[i].dgsbjtCdNm);
-																	majorobj = majorobj
-																			+ "<option value='"+majorlist[i].dgsbjtCdNm+"'>"
-																			+ majorlist[i].dgsbjtCdNm
-																			+ "</option>"
-																}
-															}
-															$("#major").append(
-																	majorobj);
-														},
-														error : function() {
-															alert("에러");
-														}
-													});
-										})
-
-						EvtChangeMonthYear(dtNow.getFullYear(), dtNow.getMonth());
-						if(action=="mypage"){
-							alert(action);
+	$(document).ready(function() {
+		$(".ykiho").hide();
+		$("#ohosname").hide();
+		if("${action}"=="mypage"|"${action}"=="search"){
+			$
+			.ajax({
+				url : "/finddoc/search/getmajorByykiho.do",
+				type : "post",
+				data : {
+					"ykiho" : "${ykiho}"
+				},
+				success : function(data) {
+					$("#major").empty();
+					majorlist = data.response.body.items.item;
+					size = data.response.body.totalCount;
+					majorobj = '<option value="default">진료과목을 선택해주세요</option>';
+					if (size == 1) {
+						majorobj = majorobj
+								+ "<option value='"+majorlist.dgsbjtCdNm+"'>"
+								+ majorlist.dgsbjtCdNm
+								+ "</option>"
+					} else {
+						for (i = 0; i < size; i++) {
+							//alert(majorlist[i].dgsbjtCdNm);
+							majorobj = majorobj
+									+ "<option value='"+majorlist[i].dgsbjtCdNm+"'>"
+									+ majorlist[i].dgsbjtCdNm
+									+ "</option>"
 						}
-					});
+					}
+					$("#major").append(
+							majorobj);
+				},
+				error : function() {
+					alert("에러");
+				}
+			});
+		}
+		
+		$("#selecthos").change(function() {
+			$("#ykiho").val($("#selecthos").val());
+			$("#ohosname").val($("#selecthos option:selected").text());
+			$
+			.ajax({
+				url : "/finddoc/search/getmajorByykiho.do",
+				type : "post",
+				data : {
+					"ykiho" : $("#ykiho").val()
+				},
+				success : function(data) {
+					$("#major").empty();
+					majorlist = data.response.body.items.item;
+					size = data.response.body.totalCount;
+					majorobj = '<option value="default">진료과목을 선택해주세요</option>';
+					if (size == 1) {
+						majorobj = majorobj
+								+ "<option value='"+majorlist.dgsbjtCdNm+"'>"
+								+ majorlist.dgsbjtCdNm
+								+ "</option>"
+					} else {
+						for (i = 0; i < size; i++) {
+							//alert(majorlist[i].dgsbjtCdNm);
+							majorobj = majorobj
+									+ "<option value='"+majorlist[i].dgsbjtCdNm+"'>"
+									+ majorlist[i].dgsbjtCdNm
+									+ "</option>"
+						}
+					}
+					$("#major").append(
+							majorobj);
+				},
+				error : function() {
+					alert("에러");
+				}
+			});
+		})
 
+		EvtChangeMonthYear(dtNow.getFullYear(), dtNow.getMonth());
+	});
+	/* function getMajor() {
+		$
+		.ajax({
+			url : "/finddoc/search/getmajorByykiho.do",
+			type : "post",
+			data : {
+				"ykiho" : $("#ykiho").val()
+			},
+			success : function(data) {
+				$("#major").empty();
+				majorlist = data.response.body.items.item;
+				size = data.response.body.totalCount;
+				majorobj = '<option value="default">진료과목을 선택해주세요</option>';
+				if (size == 1) {
+					majorobj = majorobj
+							+ "<option value='"+majorlist.dgsbjtCdNm+"'>"
+							+ majorlist.dgsbjtCdNm
+							+ "</option>"
+				} else {
+					for (i = 0; i < size; i++) {
+						//alert(majorlist[i].dgsbjtCdNm);
+						majorobj = majorobj
+								+ "<option value='"+majorlist[i].dgsbjtCdNm+"'>"
+								+ majorlist[i].dgsbjtCdNm
+								+ "</option>"
+					}
+				}
+				$("#major").append(
+						majorobj);
+			},
+			error : function() {
+				alert("에러");
+			}
+		});
+	}
+	function getMajor2() {
+		$
+		.ajax({
+			url : "/finddoc/search/getmajorByykiho.do",
+			type : "post",
+			data : {
+				"ykiho" : ${ykiho}
+			},
+			success : function(data) {
+				$("#major").empty();
+				majorlist = data.response.body.items.item;
+				size = data.response.body.totalCount;
+				majorobj = '<option value="default">진료과목을 선택해주세요</option>';
+				if (size == 1) {
+					majorobj = majorobj
+							+ "<option value='"+majorlist.dgsbjtCdNm+"'>"
+							+ majorlist.dgsbjtCdNm
+							+ "</option>"
+				} else {
+					for (i = 0; i < size; i++) {
+						//alert(majorlist[i].dgsbjtCdNm);
+						majorobj = majorobj
+								+ "<option value='"+majorlist[i].dgsbjtCdNm+"'>"
+								+ majorlist[i].dgsbjtCdNm
+								+ "</option>"
+					}
+				}
+				$("#major").append(
+						majorobj);
+			},
+			error : function() {
+				alert("에러");
+			}
+		});
+	}
+ */
 	$(function() {
 		$("#datepicker").datepicker(
 				{
@@ -208,7 +300,7 @@ body {
 		<form role="form" class="form-horizontal" name="myform" method="get"
 			action="/finddoc/user/insertbook.do">
 			<c:choose>
-				<c:when test="${action=='view' }">
+				<c:when test="${action=='view'}">
 					<div class="form-group">
 						<input type="text" id="ykiho" class="ykiho" name="ykiho">
 						<input type="text" id="ohosname" class="form-control" name="hname"

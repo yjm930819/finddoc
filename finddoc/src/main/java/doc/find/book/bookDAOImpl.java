@@ -48,8 +48,8 @@ public class bookDAOImpl implements bookDAO {
 	}
 
 	@Override
-	public List<BookDTO> doclist(String hadminid) {
-		return sqlSession.selectList("user.book.doclist", hadminid);
+	public List<BookDTO> hos_booklist_all(String hadminid) {
+		return sqlSession.selectList("user.book.booklist_all", hadminid);
 	}
 	
 }

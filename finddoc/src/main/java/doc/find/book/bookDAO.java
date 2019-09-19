@@ -12,5 +12,5 @@ public interface bookDAO {
 	int userbookupdate(BookDTO bookdto);
 	int userbookcancel(String booknum);
 	List<BookDTO> todaylist(String hadminid);
-	List<BookDTO> doclist(String hadminid);
+	List<BookDTO> hos_booklist_all(String hadminid);
 }

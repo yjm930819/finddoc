@@ -46,7 +46,7 @@ table {
 </head>
 <body>
 	<div id="title">
-		<h2>예약 목록</h2>
+		<h2>오늘 예약 목록</h2>
 	</div>
 	<div class="container-fluid">
 		<form>

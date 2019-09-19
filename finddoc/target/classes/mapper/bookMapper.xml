@@ -4,7 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="user.book">
   	<insert id="insert" parameterType="book">
-  		insert into book values(#{userid},booknum_seq.nextval,#{ykiho},#{hname},#{major},#{bookdate},#{hour},#{mint},#{name},#{birthday},#{cp},#{text},'예약신청')
+  		insert into book values(#{userid},booknum_seq.nextval,#{ykiho},#{hname},#{major},#{bookdate},#{hour},#{mint},#{name},#{birthday},#{cp},#{text},'예약완료')
   	</insert>
   	<select id="check" parameterType="book" resultType="String">
   		select count(booknum) from book where ykiho=#{ykiho} and major=#{major} and bookdate=#{bookdate} and hour=#{hour} and mint=#{mint}
@@ -16,7 +16,7 @@
   		select * from book where booknum=#{booknum}
   	</select>
   	<update id="bookupdate" parameterType="book">
-  		update book set major=#{major}, bookdate=#{bookdate}, hour=#{hour}, mint=#{mint}, name=#{name}, birthday=#{birthday}, cp=#{cp}, text=#{text}, ing='예약신청' where booknum=#{booknum}
+  		update book set major=#{major}, bookdate=#{bookdate}, hour=#{hour}, mint=#{mint}, name=#{name}, birthday=#{birthday}, cp=#{cp}, text=#{text} where booknum=#{booknum}
   	</update>
   	<delete id="bookcancel" parameterType="String">
   		delete book where booknum=#{booknum}
@@ -24,7 +24,7 @@
   	<select id="todaylist" parameterType="String" resultType="book">
   		select b.* from book b, hadmin h where h.hadminid=#{hadminid} and h.ykiho=b.ykiho and b.bookdate=to_date(sysdate,'yy/mm/dd')
   	</select>
-  	<select id="doclist" parameterType="String" resultType="book">
+  	<select id="booklist_all" parameterType="String" resultType="book">
   		select b.* from book b, hadmin h where h.hadminid=#{hadminid} and h.ykiho=b.ykiho
   	</select>
   </mapper>

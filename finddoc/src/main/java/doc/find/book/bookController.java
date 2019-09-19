@@ -12,6 +12,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import doc.find.authentication.SecurityLoginDTO;
@@ -37,39 +38,35 @@ public class bookController {
 		SecurityLoginDTO loginUser = (SecurityLoginDTO) ((UsernamePasswordAuthenticationToken) principal)
 				.getPrincipal();
 		List<MyhospitalDTO> myhos = mypageservice.selectAll(loginUser.getId());
-		String result = searchservice.getmajorByykiho(ykiho);
 		mav.setViewName("user/book");
 		// 검색한 결과에서 예약 버튼눌렀을 때
 		if (action.equals("search")) {
 			mav.addObject("book", hname);
 			mav.addObject("ykiho", ykiho);
-			mav.addObject("majorObject", result);
 		}
 		// 자주가는 병원에서 예약버튼 눌렀을 때
 		else if (action.equals("mypage")) {
 			mav.addObject("book", hname);
 			mav.addObject("ykiho", ykiho);
-			mav.addObject("majorObject", result);
 		}
 		// 메인페이지나 탑메뉴의 예약버튼을 눌럿을 때 // 자주가는 병원에서 예약버튼 눌렀을 때
 		else if(action.equals("view")) {
 			mav.addObject("myhos", myhos);
 		}
+		
 		mav.addObject("action", action);
 		return mav;
 	}
 
 	// 예약하기
 	@RequestMapping("/user/insertbook.do")
-	public ModelAndView userbook(BookDTO bookdto, Principal principal) {
+	public String userbook(BookDTO bookdto, Principal principal) {
 		ModelAndView mav = new ModelAndView();
 		SecurityLoginDTO loginUser = (SecurityLoginDTO) ((UsernamePasswordAuthenticationToken) principal)
 				.getPrincipal();
 		bookdto.setUserid(loginUser.getId());
-		String message = service.insertbook(bookdto);
-		mav.setViewName("user/booklist");
-		mav.addObject("message", message);
-		return mav;
+		service.insertbook(bookdto);
+		return "redirect:/user/booklist.do";
 	}
 
 	// 예약 목록
@@ -114,7 +111,7 @@ public class bookController {
 		return "redirect:/user/booklist.do";
 	}
 
-	// 병원관계자 예약 목록
+	// 병원관계자 오늘 예약 목록
 	@RequestMapping("/doc/todaybooklist.do")
 	public ModelAndView todaybooklist(Principal principal) {
 		SecurityLoginDTO loginUser = (SecurityLoginDTO) ((UsernamePasswordAuthenticationToken) principal)
@@ -126,28 +123,43 @@ public class bookController {
 		return mav;
 	}
 
-	// 병원관계자 예약 목록
+	//병원관계자 모든 예약 확인
 	@RequestMapping("/doc/booklist.do")
-	public ModelAndView doc_booklist(Principal principal) {
+	public ModelAndView user_booklist(String action, Principal principal) {
+		ModelAndView mav = new ModelAndView();
 		SecurityLoginDTO loginUser = (SecurityLoginDTO) ((UsernamePasswordAuthenticationToken) principal)
 				.getPrincipal();
-		List<BookDTO> list = service.doclist(loginUser.getId());
-		ModelAndView mav = new ModelAndView();
+		List<BookDTO> list=null;
+		if(action.equals("all")) {
+			list = service.hos_booklist_all(loginUser.getId());
+			System.out.println(list);
+		}else if(action.equals("book")){
+			
+		}else if(action.equals("compl")) {
+			
+		}else {
+			
+		}
 		mav.setViewName("doc/booklist");
 		mav.addObject("list", list);
+		mav.addObject("action", action);
 		return mav;
 	}
-
-	@RequestMapping("/user/book/findbookmarkhos.do")
-	public ModelAndView find_bookmark_hos(Principal principal) {
-		SecurityLoginDTO loginUser = (SecurityLoginDTO) ((UsernamePasswordAuthenticationToken) principal)
-				.getPrincipal();
-		ModelAndView mav = new ModelAndView();
-		List<MyhospitalDTO> findbooklist = mypageservice.selectAll(loginUser.getId());
-		mav.addObject("findbooklist", findbooklist);
-		System.out.println("팝엄...");
-		mav.setViewName("book/BookmarkHosPopup");
-		return mav;
+	
+	//등록된 병원인가 확인
+	@RequestMapping(value ="/search/check_inserthos.do", method = RequestMethod.GET, produces = "application/text; charset=utf-8")
+	public @ResponseBody String check_inserthos(String ykiho) {
+		String message = "";
+		//등록되지 않은 병원일 경우 
+		int hoscheck = service.hosp_check(ykiho);
+		System.out.println("등록된 병원 결과"+hoscheck);
+		if(hoscheck!=0) {
+			message="예약 페이지로 이동합니다.";
+		}
+		else {
+			message="이용 불가능한 병원입니다.";
+		}
+		return message;
 	}
 
 	// 로그인 세션
