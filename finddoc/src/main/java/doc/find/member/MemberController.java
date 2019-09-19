@@ -3,27 +3,13 @@ package doc.find.member;
 import java.io.IOException;
 import java.util.Calendar;
 
-<<<<<<< HEAD
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import javax.swing.JFrame;
-import javax.swing.text.html.HTMLEditorKit.Parser;
 import javax.validation.Valid;
-import javax.xml.ws.Response;
 
-import org.apache.tiles.request.Request;
-import org.json.simple.JSONArray;
-=======
->>>>>>> refs/heads/yjm
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-<<<<<<< HEAD
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.RequestBody;
-=======
->>>>>>> refs/heads/yjm
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;

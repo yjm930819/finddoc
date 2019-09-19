@@ -28,12 +28,8 @@
 		<security:intercept-url
 			pattern="/member/updateUser.do" access="hasAnyRole('user','hadmin')" />
 		<security:intercept-url
-<<<<<<< HEAD
-			pattern="/member/updateHadmin.do"
-			access="hasAnyRole('user','hadmin')" />
-=======
 			pattern="/member/updateHadmin.do" access="hasAnyRole('user','hadmin')" />
->>>>>>> refs/heads/yjm
+
 		<security:intercept-url
 			pattern="/member/delete.do" access="hasAnyRole('user','hadmin')" />
 		<security:intercept-url
