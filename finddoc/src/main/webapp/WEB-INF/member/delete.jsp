@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="se"
+	uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,8 +22,8 @@
 </style>
 <script type="text/javascript">
 	$(document).ready(function() {
-		var result="${result}";
-		if(result!=""){
+		var result = "${result}";
+		if (result != "") {
 			alert(result);
 		}
 		$("#delete").click(function() {
@@ -40,28 +42,34 @@
 	<div class="container-fluid">
 		<form role="form" class="form-horizontal" name="myform" method="post"
 			action="/finddoc/member/delete.do" id="formid">
-			<input type="hidden" name="action" value="${loginuser.state }">
+			<input type="hidden" name="action"
+				value="<se:authentication property="principal.state" />">
 
 			<div class="form-group">
 				<label class="control-label col-sm-2" for="orgtel">아이디</label>
 				<div class="col-sm-3">
-					<c:if test="${loginuser.state=='user' }">
+					<se:authorize access="hasRole('user')">
 						<input type="text" id="id" class="form-control"
-							disabled="disabled" value="${loginuser.userid}">
-						<input type="hidden" name="id" value="${loginuser.userid }">
-					</c:if>
-					<c:if test="${loginuser.state=='hadmin' }">
+							disabled="disabled"
+							value="<se:authentication property="principal.id" />">
+						<input type="hidden" name="id"
+							value="<se:authentication property="principal.id" />">
+					</se:authorize>
+					<se:authorize access="hasRole('hadmin')">
 						<input type="text" id="id" class="form-control"
-							disabled="disabled" value="${loginuser.hadminid }">
-						<input type="hidden" name="id" value="${loginuser.hadminid }">
-					</c:if>
+							disabled="disabled"
+							value="<se:authentication property="principal.id" />">
+						<input type="hidden" name="id"
+							value="<se:authentication property="principal.id" />">
+					</se:authorize>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="control-label col-sm-2" for="orgtel">이름</label>
 				<div class="col-sm-3">
 					<input type="text" id="name" name="name" class="form-control"
-						disabled="disabled" value="${loginuser.name}">
+						disabled="disabled"
+						value="<se:authentication property="principal.name" />">
 				</div>
 			</div>
 			<div class="form-group">

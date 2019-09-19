@@ -8,25 +8,32 @@ import java.net.URL;
 import java.net.URLEncoder;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class MemberServiceImpl implements MemberService {
 	@Autowired
 	MemberDAO dao;
+	@Autowired
+	ShaPasswordEncoder shaPasswordEncoder;
 
 	@Override
 	public int insertUser(UserDTO userdto) {
+		String securityPass = shaPasswordEncoder.encodePassword(userdto.getPw(), userdto.getUserid());
+		userdto.setPw(securityPass);
 		return dao.insertUser(userdto);
 	}
 
 	@Override
 	public int insertHadmin(HadminDTO hadmindto) {
-		int result=0;
-		int resulth=dao.insertHadmin(hadmindto);
-		int resulta=dao.insertAdmin_app(hadmindto.getHadminid());
-		if(resulth>0) {
-			result=1;
+		int result = 0;
+		String securityPass = shaPasswordEncoder.encodePassword(hadmindto.getPw(), hadmindto.getHadminid());
+		hadmindto.setPw(securityPass);
+		int resulth = dao.insertHadmin(hadmindto);
+		int resulta = dao.insertAdmin_app(hadmindto.getHadminid());
+		if (resulth > 0) {
+			result = 1;
 		}
 		return result;
 	}

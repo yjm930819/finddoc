@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
+<%@ taglib prefix="se"
+	uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -83,7 +84,8 @@
 				<label class="control-label col-sm-2" for="orgtel">아이디</label>
 				<div class="col-sm-3">
 					<input type="text" id="hadminid" name="hadminid"
-						class="form-control" value="${loginuser.userid }"
+						class="form-control"
+						value="<se:authentication property="principal.id" />"
 						disabled="disabled">
 				</div>
 			</div>
@@ -98,7 +100,8 @@
 				<label class="control-label col-sm-2" for="orgtel">이름</label>
 				<div class="col-sm-3">
 					<input type="text" id="name" name="name" class="form-control"
-						disabled="disabled" value="${loginuser.name }">
+						disabled="disabled"
+						value="<se:authentication property="principal.name" />">
 				</div>
 			</div>
 			<div class="form-group">

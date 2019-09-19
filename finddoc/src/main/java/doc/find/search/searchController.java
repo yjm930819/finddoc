@@ -67,5 +67,11 @@ public class searchController {
 		System.out.println(result);
 		return result;
 	}
+	@RequestMapping(value = "/search/getmajorByykiho.do", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
+	public @ResponseBody String getmajorByykiho(String ykiho) throws IOException {
+		String result = service.getmajorByykiho(ykiho);
+		System.out.println("병원 진료 과목" +result);
+		return result;
+	}
 
 }

@@ -9,6 +9,7 @@ create table notice_board(
 	txupdate date,
 	moddate date
 );
+select distinct hname from receipt where userid='java' and ing='진료완료'
 select h.hadminid from hadmin h,myhospital m where
 		h.ykiho=m.ykiho and m.userid=#{userid}
 select * from receipt		
@@ -164,12 +165,10 @@ modify (ykiho varchar2(100));
 alter table receipt
 modify (ykiho varchar2(100));
 
-select * from admin_app;
+select * from book;
 delete from admin_app;
 
-update myhospital set ox='o' 
-where ykiho='JDQ4MTAxMiM1MSMkMSMkMCMkODkkMzgxMzUxIzExIyQxIyQzIyQ3OSQzNjEyMjIjNTEjJDEjJDYjJDgz' 
-and userid='java';
+update book set ing='예약완료' where ing='예약신청'
 
 create table test(
 	test varchar2(10)

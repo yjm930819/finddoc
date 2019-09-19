@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="se"
+	uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -49,6 +51,7 @@ table {
 	width: 100%;
 	font-size: 15px;
 }
+
 #censearch {
 	text-align: center;
 	padding: 5px;
@@ -57,70 +60,102 @@ table {
 }
 </style>
 <script type="text/javascript">
-	function link(noticeboardnum,hname) {
-		location.href="/finddoc/board/noticeBoard_read.do?noticeboardnum="+noticeboardnum+"&hname="+encodeURI(hname)
+	function link(noticeboardnum, hname) {
+		location.href = "/finddoc/board/noticeBoard_read.do?noticeboardnum="
+				+ noticeboardnum + "&hname=" + encodeURI(hname)
 	}
 	function fn_paging(curPage) {
-		searchVal=$("#resultsearch").text();
-		state="${loginuser.state}";
-		if(state=='user'){
-			if(searchVal==""){
-			if($("#myhospital").val()=='all'){
-				location.href = "/finddoc/board/noticeBoardList.do?curPage=" + curPage
-					+ "&category=" + $("#category").val();
-			}else{
-				location.href = "/finddoc/board/noticeBoard_hospitalsearch.do?hadminid=" +encodeURI(hadminid)+"&curPage="+curPage+ "&category=" + $("#category").val();
-			}
-			}else{
+		searchVal = $("#resultsearch").text();
+		state = "${loginuser.state}";
+		if (state == 'user') {
+			if (searchVal == "") {
+				if ($("#myhospital").val() == 'all') {
+					location.href = "/finddoc/board/noticeBoardList.do?curPage="
+							+ curPage + "&category=" + $("#category").val();
+				} else {
+					location.href = "/finddoc/board/noticeBoard_hospitalsearch.do?hadminid="
+							+ encodeURI(hadminid)
+							+ "&curPage="
+							+ curPage
+							+ "&category=" + $("#category").val();
+				}
+			} else {
 				location.href = "/finddoc/board/noticeBoard_search.do?category="
-					+$("#category").val()+"&search="+'${search}'+"&curPage=" + curPage+"&hadminid=" +encodeURI(hadminid)
+						+ $("#category").val()
+						+ "&search="
+						+ '${search}'
+						+ "&curPage="
+						+ curPage
+						+ "&hadminid="
+						+ encodeURI(hadminid)
 			}
-		}else{
-			if(searchVal==""){
-				location.href = "/finddoc/board/noticeBoardList.do?curPage=" + curPage
-						+ "&category=" + $("#category").val();
-			}else{
+		} else {
+			if (searchVal == "") {
+				location.href = "/finddoc/board/noticeBoardList.do?curPage="
+						+ curPage + "&category=" + $("#category").val();
+			} else {
 				location.href = "/finddoc/board/noticeBoard_search.do?category="
-				+$("#category").val()+"&search="+'${search}'+"&curPage=" + curPage
+						+ $("#category").val()
+						+ "&search="
+						+ '${search}'
+						+ "&curPage=" + curPage
 			}
 		}
 	}
-	$(document).ready(function() {
-		$("#myhospital").change(function() {
-			location.href = "/finddoc/board/noticeBoard_hospitalsearch.do?hadminid=" + $(this).val()
-		})
-	})
-	$(document).ready(function() {
+	$(document)
+			.ready(
+					function() {
+						$("#myhospital")
+								.change(
+										function() {
+											location.href = "/finddoc/board/noticeBoard_hospitalsearch.do?hadminid="
+													+ $(this).val()
+										})
+					})
+	$(document)
+			.ready(
+					function() {
 
-	 	hadminid="${hadminid}";
-	 	if(hadminid==""){
-	 		$("#myhospital").closest().attr("selected", "selected");
-	 	}
-	 	else{
-			$("#myhospital").val(hadminid).attr("selected", "selected");
-		}
-	 	
-	 	var category="${category}";
-	 	if(category==""){
-	 		$("#category").closest().attr("selected", "selected");
-	 	}
-	 	else{
-			$("#category").val(category).attr("selected", "selected");
-		}
-		$("#searchB").click(function() {
-			state="${loginuser.state}";
-			if(state=='user'){
-			location.href = "/finddoc/board/noticeBoard_search.do?hadminid="+encodeURI($("#myhospital").val())+
-					"&category="+$("#category").val()+"&search="+$("#searchbar").val()
-			}else{
-				location.href = "/finddoc/board/noticeBoard_search.do?category="+
-				$("#category").val()+"&search="+$("#searchbar").val()
-			}
-			})
-		document.getElementById("resultsearch").innerHTML="${resultsearch}";
+						hadminid = "${hadminid}";
+						if (hadminid == "") {
+							$("#myhospital").closest().attr("selected",
+									"selected");
+						} else {
+							$("#myhospital").val(hadminid).attr("selected",
+									"selected");
+						}
 
-	})
-	
+						var category = "${category}";
+						if (category == "") {
+							$("#category").closest().attr("selected",
+									"selected");
+						} else {
+							$("#category").val(category).attr("selected",
+									"selected");
+						}
+						$("#searchB")
+								.click(
+										function() {
+											state = "${loginuser.state}";
+											if (state == 'user') {
+												location.href = "/finddoc/board/noticeBoard_search.do?hadminid="
+														+ encodeURI($(
+																"#myhospital")
+																.val())
+														+ "&category="
+														+ $("#category").val()
+														+ "&search="
+														+ $("#searchbar").val()
+											} else {
+												location.href = "/finddoc/board/noticeBoard_search.do?category="
+														+ $("#category").val()
+														+ "&search="
+														+ $("#searchbar").val()
+											}
+										})
+						document.getElementById("resultsearch").innerHTML = "${resultsearch}";
+
+					})
 </script>
 </head>
 <body>
@@ -130,15 +165,15 @@ table {
 
 	<div class="container-fluid">
 		<form>
-			<c:if test="${loginuser.state=='user' }">
-				<select class="form-control col-sm-3" name="myhospital" id="myhospital">
+			<se:authorize access="hasRole('user')">
+				<select class="form-control col-sm-3" name="myhospital"
+					id="myhospital">
 					<option value="all">전체</option>
 					<c:forEach var="myhospitallist" items="${myhospitallist }">
 						<option value="${myhospitallist.hadminid }">${myhospitallist.hname }</option>
 					</c:forEach>
 				</select>
-
-			</c:if>
+			</se:authorize>
 			<br>
 
 			<table class="table table-hover">
@@ -152,7 +187,8 @@ table {
 				<c:forEach var="notice" items="${noticelist }">
 					<tr>
 						<td>${notice.rn }</td>
-						<td><a href="#" onClick="link('${notice.noticeboardnum}','${notice.hname}')">${notice.hname}</a></td>
+						<td><a href="#"
+							onClick="link('${notice.noticeboardnum}','${notice.hname}')">${notice.hname}</a></td>
 						<td>${notice.title }</td>
 						<td>${notice.name }</td>
 						<td>${notice.txupdate }</td>
@@ -161,9 +197,9 @@ table {
 				</c:forEach>
 			</table>
 			<div id="paging">
-				<c:if test="${pagedto.curPage ne 1}"> 
+				<c:if test="${pagedto.curPage ne 1}">
 					<a href="#" onClick="fn_paging('${pagedto.prevPage }')">[이전]</a>
-				 </c:if>
+				</c:if>
 
 				<c:forEach var="pageNum" begin="${pagedto.startPage }"
 					end="${pagedto.endPage }">
@@ -192,16 +228,17 @@ table {
 			<option value="txupdate">작성일</option>
 		</select> <input type="text" name="search" class="form-control col-sm-3"
 			id="searchbar"> <input type="button" value="검색" id="searchB"
-			class="btn btn-default"><div class="form-group" id="censearch">
+			class="btn btn-default">
+		<div class="form-group" id="censearch">
 			<div class="col-md-2 text-right">
-				<label for="id" class="control-label" >검색어 : </label>
+				<label for="id" class="control-label">검색어 : </label>
 			</div>
 			<div class="col-md-2 text-reft" id="resultsearch"></div>
 		</div>
-		<c:if test="${loginuser.state=='hadmin' }">
+		<se:authorize access="hasRole('hadmin')">
 			<input type="button" value="글쓰기" class="btn btn-default" id="write"
 				onclick='location.href="/finddoc/board/noticeBoard_writeView.do"'>
-		</c:if>
+		</se:authorize>
 	</form>
 
 </body>

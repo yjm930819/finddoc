@@ -79,6 +79,9 @@ table {
 		});
 	});
 })
+function btn(hname, ykiho) {
+	location.href="/finddoc/user/book.do?action=mypage&hname="+ encodeURI(hname)+"&ykiho="+ykiho;
+}
 </script>
 <body>
 	<div id="title">
@@ -89,7 +92,7 @@ table {
 		<form name="search" action="/finddoc/mypage/search_bookmark.do">
 			<select class="form-control col-sm-2" name="tag" id="tag">
 				<option value="hname">병원명</option>
-				<option value="addr">병웑 주소</option>
+				<option value="addr">병원 주소</option>
 			</select>
 			<div class="input-group">
 				<input type="text" class="form-control col-sm-2" name="search"> <span
@@ -113,8 +116,8 @@ table {
 						</td>
 						<td><a>${bookmark.hname}</a></td>
 						<td>${bookmark.addr}</td>
-						<td><input type="button" value="예약" onclick="location.href='/finddoc/user/book.do?action=mypage&hname=${bookmark.hname}&ykiho=${bookmark.ykiho}'"> 
-						<input type="button" value="접수"></td>
+						<td><input type="button" value="예약" onclick="btn('${bookmark.hname}', '${bookmark.ykiho}')"> 
+						<input type="button" value="접수" onclick="location.href='/finddoc/receipt/book.do?action=view'"></td>
 					</tr>
 				</c:forEach>
 			</table>

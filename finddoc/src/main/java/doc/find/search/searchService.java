@@ -15,4 +15,6 @@ public interface searchService {
 	String ykiho_detailinfo(String ykiho, String path) throws IOException;
 
 	String majorsearch(String hname) throws IOException;
+	
+	String getmajorByykiho(String ykiho) throws IOException;
 }

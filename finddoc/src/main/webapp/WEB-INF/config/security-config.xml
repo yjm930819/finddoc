@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://www.springframework.org/schema/beans">
+	<!-- ============================================================== springsecurity를 
+		적용하고 인증절차를 spring security가 response하는 로그인페이지가 아닌 사용자 정의 로그인페이지로처리 =============================================================== -->
+	<!-- role별로 접근할 수 있는 리소스를 정의하는 작업 -->
+	<security:http security="none" pattern="/**/*.js" />
+	<security:http security="none" pattern="/**/*.css" />
+	<security:http security="none" pattern="/images/**" />
+	<security:http security="none"
+		pattern="//dapi.kakao.com/v2/maps/sdk.js" />
+	<security:http auto-config="true" use-expressions="true">
+		<!-- <security:intercept-url pattern="/images/**" access="ROLE_ANONYMOUS"/> -->
+		<security:intercept-url pattern="/admin/**"
+			access="permitAll" />
+		<security:intercept-url
+			pattern="/login/logout.do" access="authenticated" />
+		<security:intercept-url pattern="/login/**"
+			access="permitAll" />
+		<security:intercept-url pattern="/index.do"
+			access="permitAll" />
+			<security:intercept-url
+			pattern="/user/bookinfo.do" access="hasAnyRole('user','hadmin')" />
+		<security:intercept-url
+			pattern="/member/updateUser.do" access="hasAnyRole('user','hadmin')" />
+		<security:intercept-url
+			pattern="/member/updateHadmin.do" access="hasAnyRole('user','hadmin')" />
+		<security:intercept-url
+			pattern="/member/delete.do" access="hasAnyRole('user','hadmin')" />
+		<security:intercept-url
+			pattern="/member/readUser.do" access="hasAnyRole('user','hadmin')" />
+		<security:intercept-url
+			pattern="/member/readHadmin.do" access="hasAnyRole('user','hadmin')" />
+		<security:intercept-url pattern="/member/**"
+			access="anonymous" />
+		<security:intercept-url pattern="/**/user/**"
+			access="hasAnyRole('user','admin')" />
+		<security:intercept-url pattern="/board/*"
+			access="hasAnyRole('user','hadmin','admin')" />
+		<security:intercept-url pattern="/search/**"
+			access="permitAll" />
+		<security:intercept-url pattern="/**"
+			access="hasAnyRole('user','hadmin','admin')" />
+
+		<security:form-login
+			authentication-success-handler-ref="successHandler"
+			authentication-failure-url="/login/loginView.do"
+			default-target-url="/login/loginAfter.do"
+			login-page="/login/loginView.do" password-parameter="pw"
+			username-parameter="id" />
+		<security:logout invalidate-session="true"
+			logout-url="/login/logout.do"
+			logout-success-url="/login/loginView.do" delete-cookies="true" />
+		<security:custom-filter
+			before="FORM_LOGIN_FILTER" ref="usernamepassfilter" />
+	</security:http>
+	<bean
+		class="doc.find.authentication.MyUsernamePasswordAuthenticationFilter"
+		id="usernamepassfilter">
+		<property ref="authenticationManager"
+			name="authenticationManager" />
+		<property ref="successHandler"
+			name="authenticationSuccessHandler" />
+	</bean>
+	<!-- 로그인 성공시에 처리할 일들이 있는 경우 객체 정의 -->
+	<bean class="doc.find.authentication.LoginSuccessHandler"
+		id="successHandler" />
+	<security:authentication-manager
+		alias="authenticationManager">
+		<security:authentication-provider
+			ref="customProvider">
+		</security:authentication-provider>
+	</security:authentication-manager>
+	<bean
+		class="org.springframework.security.authentication.encoding.ShaPasswordEncoder"
+		id="passEncoder">
+		<constructor-arg name="strength" value="256" />
+	</bean>
+	<bean class="doc.find.authentication.CustomAuthenticationProvider"
+		id="customProvider" />
+	<import resource="spring-config.xml" />
+</beans>

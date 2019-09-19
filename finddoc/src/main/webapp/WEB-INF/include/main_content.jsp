@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="se"
+	uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -38,29 +41,72 @@ i:hover {
 <title>Insert title here</title>
 </head>
 <body>
-
-	<div id="link">
-		<div class="col-lg-3">
-			<a href="/finddoc/receipt/booklist.do?action=main"><i
-				class="fas fa-syringe"></i>
-				<h4>병원접수</h4> 가장 최근 병원 접수(자동) </a>
+	<se:authorize access="hasRole('hadmin')">
+		<div id="link">
+			<div class="col-lg-4">
+				<a href="/finddoc/receipt/booklist.do?action=main"><i
+					class="fas fa-syringe"></i>
+					<h4>병원접수</h4> 오늘의 병원 접수 목록 </a>
+			</div>
+			<div class="col-lg-4">
+				<a href="/finddoc/doc/todaybooklist.do"><i
+					class="fas fa-stethoscope"></i>
+					<h4>병원예약</h4> 오늘의 병원 예약 목록 </a>
+			</div>
+			<div class="col-lg-4">
+				<a href="/finddoc/board/noticeBoardList.do?category=all"><i
+					class="far fa-clipboard"></i>
+					<h4>게시판</h4> 병원 게시판 </a>
+			</div>
 		</div>
-		<div class="col-lg-3">
-			<a href="/finddoc/user/book.do?action=view"><i
-				class="fas fa-stethoscope"></i>
-				<h4>병원예약</h4> 병원 예약 </a>
+	</se:authorize>
+	<se:authorize access="hasRole('user')">
+		<div id="link">
+			<div class="col-lg-3">
+				<a href="/finddoc/receipt/booklist.do?action=main"><i
+					class="fas fa-syringe"></i>
+					<h4>병원접수</h4> 가장 최근 병원 접수(자동) </a>
+			</div>
+			<div class="col-lg-3">
+				<a href="/finddoc/user/book.do?action=view"><i
+					class="fas fa-stethoscope"></i>
+					<h4>병원예약</h4> 병원 예약 </a>
+			</div>
+			<div class="col-lg-3">
+				<a href="/finddoc/search/search.do"><i
+					class="fas fa-search-location"></i>
+					<h4>병원검색</h4> 현위치에서 병원검색 </a>
+			</div>
+			<div class="col-lg-3">
+				<a href="/finddoc/board/noticeBoardList.do?category=all"><i
+					class="far fa-clipboard"></i>
+					<h4>게시판</h4> 게시판으로 이동 </a>
+			</div>
 		</div>
-		<div class="col-lg-3">
-			<a href="/finddoc/search/search.do"><i
-				class="fas fa-search-location"></i>
-				<h4>병원검색</h4> 현위치에서 병원검색 </a>
+	</se:authorize>
+	<se:authorize access="anonymous">
+		<div id="link">
+			<div class="col-lg-3">
+				<a href="/finddoc/receipt/booklist.do?action=main"><i
+					class="fas fa-syringe"></i>
+					<h4>병원접수</h4> 가장 최근 병원 접수(자동) </a>
+			</div>
+			<div class="col-lg-3">
+				<a href="/finddoc/user/book.do?action=view"><i
+					class="fas fa-stethoscope"></i>
+					<h4>병원예약</h4> 병원 예약 </a>
+			</div>
+			<div class="col-lg-3">
+				<a href="/finddoc/search/search.do"><i
+					class="fas fa-search-location"></i>
+					<h4>병원검색</h4> 현위치에서 병원검색 </a>
+			</div>
+			<div class="col-lg-3">
+				<a href="/finddoc/board/noticeBoardList.do?category=all"><i
+					class="far fa-clipboard"></i>
+					<h4>게시판</h4> 게시판으로 이동 </a>
+			</div>
 		</div>
-		<div class="col-lg-3">
-			<a href="/finddoc/board/noticeBoardList.do?category=all"><i
-				class="far fa-clipboard"></i>
-				<h4>게시판</h4> 게시판으로 이동 </a>
-		</div>
-
-	</div>
+	</se:authorize>
 </body>
 </html>
