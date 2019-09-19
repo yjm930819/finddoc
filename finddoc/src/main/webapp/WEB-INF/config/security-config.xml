@@ -24,15 +24,16 @@
 		<security:intercept-url pattern="/index.do"
 			access="permitAll" />
 		<security:intercept-url
-			pattern="/member/updateUser" access="hasAnyRole('user','hadmin')" />
+			pattern="/member/updateUser.do" access="hasAnyRole('user','hadmin')" />
 		<security:intercept-url
-			pattern="/member/updateHadmin" access="hasAnyRole('user','hadmin')" />
+			pattern="/member/updateHadmin.do"
+			access="hasAnyRole('user','hadmin')" />
 		<security:intercept-url
-			pattern="/member/delete" access="hasAnyRole('user','hadmin')" />
+			pattern="/member/delete.do" access="hasAnyRole('user','hadmin')" />
 		<security:intercept-url
-			pattern="/member/readUser" access="hasAnyRole('user','hadmin')" />
+			pattern="/member/readUser.do" access="hasAnyRole('user','hadmin')" />
 		<security:intercept-url
-			pattern="/member/readHadmin" access="hasAnyRole('user','hadmin')" />
+			pattern="/member/readHadmin.do" access="hasAnyRole('user','hadmin')" />
 		<security:intercept-url pattern="/member/**"
 			access="anonymous" />
 		<security:intercept-url pattern="/**/user/**"

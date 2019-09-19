@@ -64,8 +64,13 @@ public class searchController {
 		String spcl = service.ykiho_detailinfo(ykiho, "getSpclMdlrtInfoList").substring(12);
 		spcl = spcl.substring(0, spcl.length() - 1);
 		String result = "{\"response\":[" + detail + "," + trans + "," + spcl + "]}";
-		System.out.println(result);
+		System.out.println("상세검색 결과" + result);
 		return result;
+	}
+
+	@RequestMapping("/search/loadSearch.do")
+	public String roadsearch() {
+		return "search/loadSearch";
 	}
 
 }
