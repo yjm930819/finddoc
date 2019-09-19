@@ -1,6 +1,9 @@
 package doc.find.member;
 
+import javax.validation.constraints.Pattern;
+
 public class MemberDTO {
+	@Pattern(regexp = "((?=.*[A-z])(?=.*[0-9])(?=.*[!@#$%^&]).{8,10})", message = "비밀번호를 확인하세요")
 	private String pw;
 	private String state;
 

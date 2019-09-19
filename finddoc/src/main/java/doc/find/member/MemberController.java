@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.swing.JFrame;
 import javax.swing.text.html.HTMLEditorKit.Parser;
+import javax.validation.Valid;
 import javax.xml.ws.Response;
 
 import org.apache.tiles.request.Request;
@@ -17,6 +18,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -38,29 +40,38 @@ public class MemberController {
 
 	// 회원가입 버튼 눌렀을때(사용자랑 병원관계자 둘다 이 메소드로 처리)
 	@RequestMapping("/member/insert.do")
-	public ModelAndView UserInsert(String action, UserDTO userdto, HadminDTO hadmindto) {
+	public ModelAndView UserInsert(String action, @Valid UserDTO userDTO, Errors erros1, @Valid HadminDTO hadminDTO,
+			Errors erros2) {
 		ModelAndView mav = new ModelAndView();
+		if (erros1.hasErrors()) {
+			mav.setViewName("member/signupUser");
+			return mav;
+		}
+		if (erros2.hasErrors()) {
+			mav.setViewName("member/signupDoc");
+			return mav;
+		}
 		if (action.equals("user")) {
 			// 성별 구하기
-			int gender = Integer.parseInt(userdto.getSn2().substring(0, 1));
+			int gender = Integer.parseInt(userDTO.getSn2().substring(0, 1));
 			if (gender == 1 || gender == 3) {
-				userdto.setGender("m");
+				userDTO.setGender("m");
 			} else {
-				userdto.setGender("f");
+				userDTO.setGender("f");
 			}
 			// 나이 구하기
 			Calendar cal = Calendar.getInstance();
 
-			if (Integer.parseInt(userdto.getSn2().substring(0, 1)) == 1
-					|| Integer.parseInt(userdto.getSn2().substring(0, 1)) == 2) {
-				userdto.setAge(cal.get(Calendar.YEAR) - (Integer.parseInt(userdto.getSn1().substring(0, 2)) + 1900));
+			if (Integer.parseInt(userDTO.getSn2().substring(0, 1)) == 1
+					|| Integer.parseInt(userDTO.getSn2().substring(0, 1)) == 2) {
+				userDTO.setAge(cal.get(Calendar.YEAR) - (Integer.parseInt(userDTO.getSn1().substring(0, 2)) + 1900));
 			} else {
-				userdto.setAge(cal.get((Calendar.YEAR) - 2000) - Integer.parseInt(userdto.getSn1().substring(0, 2)));
+				userDTO.setAge(cal.get((Calendar.YEAR) - 2000) - Integer.parseInt(userDTO.getSn1().substring(0, 2)));
 			}
-			memberService.insertUser(userdto);
+			memberService.insertUser(userDTO);
 			mav.setViewName("member/signupUser");
 		} else {
-			memberService.insertHadmin(hadmindto);
+			memberService.insertHadmin(hadminDTO);
 			mav.setViewName("member/signupDoc");
 		}
 		mav.addObject("result", "회원 가입 성공!");

@@ -106,6 +106,10 @@
 		<mapping path="/book/**"/> <beans:bean id="logincheckinterceptor" class="doc.find.login.LoginCheckInterceptor"></beans:bean> 
 		</interceptor> </interceptors> -->
 
+	<!-- validator등록 -->
+	<beans:bean id="localValidator"
+		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
+
 </beans:beans>
 
 

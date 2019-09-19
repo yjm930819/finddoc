@@ -60,6 +60,30 @@ i:hover {
 			</div>
 		</div>
 	</se:authorize>
+	<se:authorize access="hasAnyRole('user')">
+		<div id="link">
+			<div class="col-lg-3">
+				<a href="/finddoc/receipt/booklist.do?action=main"><i
+					class="fas fa-syringe"></i>
+					<h4>병원접수</h4> 가장 최근 병원 접수(자동) </a>
+			</div>
+			<div class="col-lg-3">
+				<a href="/finddoc/user/book.do?action=view"><i
+					class="fas fa-stethoscope"></i>
+					<h4>병원예약</h4> 병원 예약 </a>
+			</div>
+			<div class="col-lg-3">
+				<a href="/finddoc/search/search.do"><i
+					class="fas fa-search-location"></i>
+					<h4>병원검색</h4> 현위치에서 병원검색 </a>
+			</div>
+			<div class="col-lg-3">
+				<a href="/finddoc/board/noticeBoardList.do?category=all"><i
+					class="far fa-clipboard"></i>
+					<h4>게시판</h4> 게시판으로 이동 </a>
+			</div>
+		</div>
+	</se:authorize>
 	<se:authorize access="anonymous">
 		<div id="link">
 			<div class="col-lg-3">

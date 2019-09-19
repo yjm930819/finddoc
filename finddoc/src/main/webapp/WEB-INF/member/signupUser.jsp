@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -111,8 +111,8 @@
 		<h2>사용자 회원가입</h2>
 	</div>
 	<div class="container-fluid">
-		<form role="form" class="form-horizontal" name="myform" method="post"
-			action="/finddoc/member/insert.do">
+		<form:form commandName="userDTO" role="form" class="form-horizontal"
+			name="myform" method="post" action="/finddoc/member/insert.do">
 			<input type="hidden" name="action" value="user">
 			<div class="form-group">
 				<label class="control-label col-sm-2" for="orgtel">아이디</label>
@@ -126,7 +126,9 @@
 				<label class="control-label col-sm-2" for="orgtel">비밀번호</label>
 				<div class="col-sm-3">
 					<input type="password" id="pw" name="pw" placeholder="비밀번호"
-						class="form-control" minlength="4" required>
+						class="form-control"> <span>비밀번호는 8~10글자
+						영문자,숫자,특수기호(!@#$%^&)반드시 포함</span><span class="help-block"
+						style="color: red"><form:errors path="pw" /></span>
 				</div>
 			</div>
 			<div class="form-group">
@@ -202,8 +204,7 @@
 						onclick="location.href='/finddoc/login/loginView.do'" />
 				</div>
 			</div>
-
-		</form>
+		</form:form>
 	</div>
 </body>
 </html>

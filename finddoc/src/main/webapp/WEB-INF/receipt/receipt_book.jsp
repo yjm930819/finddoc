@@ -46,6 +46,7 @@ body {
 					<div class="container-fluid">
 						자주가능 병원에서 선택 <select class="form-control col-sm-4" name="hos"
 							id="hos">
+							<option value="default">선택해주세요</option>
 							<c:forEach var="hoslist" items="${hoslist }">
 								<option value="${hoslist.hname }">${hoslist.hname }</option>
 							</c:forEach>

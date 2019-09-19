@@ -73,7 +73,7 @@
 				<label for="text" class="control-label">내용</label>
 			</div>
 			<div class="col-md-8"
-				style="width: 500px; height: 400px; border: solid 1px;">
+				style="width: 500px; height: 200px; border: solid 1px;">
 				${reviewread.text }</div>
 		</div>
 
@@ -94,6 +94,34 @@
 			</div>
 		</div>
 	</form>
+	<form action="">
+		<div class="form-group">
+			<div class="col-md-2 text-right">
+				<label for="text" class="control-label">댓글</label>
+			</div>
+			<div class="col-sm-8">
+				<textarea id="text"
+					style="width: 100%; border: 1; overflow: visible; text-overflow: ellipsis;"
+					rows=15 name="reply"></textarea>
+			</div>
+		</div>
+	</form>
+	<c:set var="loginId"
+			value="<se:authentication property="principal.id" />" />
+		${loginId}
+		<div class="form-group">
+			<div class="col-sm-3 col-sm-offset-2">
+				<c:if test="${reviewread.id==loginId }">
+					<input type="submit" value="수정" class="btn btn-success" id="update" />
+				</c:if>
+				<input type="button" value="취소" class="btn btn-success"
+					onclick="location.href='/finddoc/board/reviewBoardList.do'" />
+				<c:if test="${reviewread.id==loginId }">
+					<input type="button" value="삭제" class="btn btn-success"
+						onclick="location.href='/finddoc/board/reviewBoard_delete.do?reviewboardnum=${reviewread.reviewboardnum}'" />
+				</c:if>
+			</div>
+		</div>
 
 </body>
 </html>
