@@ -534,7 +534,6 @@
 																searchlisty[num],
 																hospall[num].yadmNm);
 														//병원상세정보 ajax
-<<<<<<< HEAD
 														$.ajax({
 															url : "/finddoc/search/ykiho_DetailInfo.do",
 															type : "get",
@@ -569,58 +568,6 @@
 																		+ "'>";
 																$(document).on("click","#book",function() {
 																	location.href = "/finddoc/user/book.do?action=search&hname="+ encodeURI(hospall[num].yadmNm)+ "&ykiho="+ ykiholist[num];
-=======
-														$
-																.ajax({
-																	url : "/finddoc/search/ykiho_DetailInfo.do",
-																	type : "get",
-																	data : {
-																		"ykiho" : ykiholist[num]
-																	},
-																	success : function(
-																			result) {
-																		detail = result.response[0].body.items.item; //응급실 및 운영시간
-																		trans = result.response[1].body.items.item; //교통정보
-																		spcl = result.response[2].body.items.item; //특수진료
-																		hospinfo = "<div> 병원명 : "
-																				+ hospall[num].yadmNm
-																				+ "</div><div> 병원 종류 : "
-																				+ hospall[num].clCdNm
-																				+ "</div><div> 주소 : "
-																				+ hospall[num].addr
-																				+ "</div><div> 전화번호 : "
-																				+ hospall[num].telno
-																				+ "</div><div> 홈페이지 : "
-																				+ hospall[num].hospUrl
-																				+ "</div><div> 총 의사 수 : "
-																				+ hospall[num].drTotCnt
-																				+ " /  전문의 수 : "
-																				+ hospall[num].sdrCnt
-																				+ " /  일반의 수 : "
-																				+ hospall[num].gdrCnt
-																				+ "</div>"
-																				+ "<input class='btn btn-default' type='button' value='접수' onclick='location.href="+'"/finddoc/receipt/book.do"'+"'>"
-																				+ "<input class='btn btn-default' type='button' id='book' value='예약'>"
-																				+ "<input class='btn btn-default' type='button' value='길찾기' onclick='location.href="+'"/finddoc/search/search.do"'+"'>"
-																				+ "<input class='btn btn-default' type='button' id='insert_mypage' value='자주가는 병원 등록'>"
-																				+ "<input class='btn btn-default' type='button' value='게시판' onclick='location.href="
-																				+ '"/finddoc/board/noticeBoardList.do?category=all"'
-																				+ "'>";
-																				$(document).on("click","#book",function() {
-																					checkinserthos(ykiholist[num], hospall[num].yadmNm);
-																				});
-																		/* $(document).on("click","#book",function() {
-																			location.href = "/finddoc/user/book.do?action=search&hname="+ encodeURI(hospall[num].yadmNm)+ "&ykiho="+ ykiholist[num];
-																		}); */
-																		//상세정보에서 자주가는 병원으로 등록할 때의 기능
-																		$(document).on("click","#insert_mypage",function() {
-																				insertbookmark(ykiholist[num]);
-																		});
-																		$("#hospinfo").empty();
-																		$("#hospinfo").append(hospinfo);
-																	},
-																	error : error_run
->>>>>>> refs/heads/yjm
 																});
 
 																//상세정보에서 자주가는 병원으로 등록할 때의 기능
