@@ -64,7 +64,7 @@ public class searchController {
 		String spcl = service.ykiho_detailinfo(ykiho, "getSpclMdlrtInfoList").substring(12);
 		spcl = spcl.substring(0, spcl.length() - 1);
 		String result = "{\"response\":[" + detail + "," + trans + "," + spcl + "]}";
-		System.out.println(result);
+		System.out.println("상세검색 결과" + result);
 		return result;
 	}
 	@RequestMapping(value = "/search/getmajorByykiho.do", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
@@ -72,6 +72,11 @@ public class searchController {
 		String result = service.getmajorByykiho(ykiho);
 		System.out.println("병원 진료 과목" +result);
 		return result;
+	}
+
+	@RequestMapping("/search/loadSearch.do")
+	public String roadsearch() {
+		return "search/loadSearch";
 	}
 
 }
