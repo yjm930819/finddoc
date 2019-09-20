@@ -55,9 +55,8 @@
 							// GeoLocation을 이용해서 접속 위치를 얻어옵니다
 							navigator.geolocation
 									.getCurrentPosition(function(position) {
-										var lat = position.coords.latitude, // 위도
+										lat = position.coords.latitude, // 위도
 										lon = position.coords.longitude; // 경도
-
 										var locPosition = new kakao.maps.LatLng(
 												lat, lon), // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
 										message = '<div style="padding:5px;">현위치</div>'; // 인포윈도우에 표시될 내용입니다
@@ -255,7 +254,6 @@
 						$('input:checkbox[name="dgsbjtCd"]').click(function() {
 							if ($(this).is(":checked") == true) {
 								searchspec[speccount] = $(this).val();
-								alert(searchspec[speccount]);
 								speccount++;
 								$("#searchspec").append($(this).val());
 							}
@@ -341,7 +339,6 @@
 								pageno = data.response.body.pageNo;
 								endPage = (totalCount) / 10;
 								endPage = Math.floor(endPage);
-								alert("마지막 페이지" + endPage);
 								if (action == "search") {
 									pasing_ajax(pageno);
 								} else if (action == "drag") {
@@ -542,11 +539,8 @@
 																trans = result.response[1].body.items.item; //교통정보
 																spcl = result.response[2].body.items.item; //특수진료
 																if(detail==undefined){
-																	alert("응급실 정보");
 																}
-																alert(detail);
-																alert(trans);
-																alert(spcl);
+															
 																hospinfo = "<div> 병원명 : " + hospall[num].yadmNm
 																		+ "</div><div> 병원 종류 : "+ hospall[num].clCdNm
 																		+ "</div><div> 주소 : "+ hospall[num].addr
@@ -558,7 +552,7 @@
 																		+ "</div>"
 																		+ "<input class='btn btn-default' type='button' value='접수' onclick='location.href="+'"/finddoc/receipt/book.do"'+"'>"
 																		+ "<input class='btn btn-default' type='button' id='book' value='예약'>"
-																		+ "<input class='btn btn-default' type='button' value='길찾기' onclick='load(hospall[num].XPosy)'>"
+																		+ "<input class='btn btn-default' type='button' value='길찾기' onclick='load(hospall[num].XPos,hospall[num].YPos)'>"
 																		+ "<input class='btn btn-default' type='button' id='insert_mypage' value='자주가는 병원 등록'>"
 																		+ "<input class='btn btn-default' type='button' value='게시판' onclick='location.href="
 																		+ '"/finddoc/board/noticeBoardList.do?category=all"'
@@ -583,9 +577,10 @@
 							$("#hosplist").append(hosplist);
 						}
 					});
-	function load(xpos, ypos) {
+	
+	function load(ex,ey) {
 		popupOption = "width=600,height=700,location=no,status=no,toolbars=no,top=70,left=800"; //팝업창 옵션(optoin)
-		url = "/finddoc/search/loadSearch.do";
+		url = "/finddoc/search/loadSearch.do?ex="+ex+"&ey="+ey;
 		openWin = window.open(url, "child", popupOption);
 	}
 </script>

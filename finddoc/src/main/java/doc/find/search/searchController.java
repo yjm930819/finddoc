@@ -69,8 +69,12 @@ public class searchController {
 	}
 
 	@RequestMapping("/search/loadSearch.do")
-	public String roadsearch() {
-		return "search/loadSearch";
+	public ModelAndView roadsearch(String ex, String ey) {
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("ex", ex);
+		mav.addObject("ey", ey);
+		mav.setViewName("search/loadSearch");
+		return mav;
 	}
 
 }
