@@ -46,11 +46,11 @@ public class mypageController {
 		String message = "";
 		int result = service.insertbookmark(mypage); // 병원이 등록되었을 때 실행 하도록 변경
 		if (result == 20000) {
-			message = "등록할 수 없는 병원입니다.\n 확인을 누르면 자주가는 병원 목록으로 이동합니다.";
+			message = "등록할 수 없는 병원입니다. 확인을 누르면 자주가는 병원 목록으로 이동합니다.";
 		} else if (result == 0) {
-			message = "이미 등록된 병원입니다.\n 확인을 누르면 자주가는 병원 목록으로 이동합니다.";
+			message = "이미 등록된 병원입니다. 확인을 누르면 자주가는 병원 목록으로 이동합니다.";
 		} else {
-			message = "등록이 완료되었습니다.\n 확인을 누르면 자주가는 병원 목록으로 이동합니다.";
+			message = "등록이 완료되었습니다. 확인을 누르면 자주가는 병원 목록으로 이동합니다.";
 		}
 		return message;
 	}

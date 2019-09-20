@@ -51,14 +51,14 @@ table {
 	<div class="container-fluid">
 		<form>
 			<br>
-			<div>
+			<!-- <div>
 				<select class="form-control col-sm-2" name="search">
 					<option>예약번호</option>
 					<option>예약자</option>
 					<option>날짜</option>
 					<option>진료정보</option>
 				</select>
-			</div>
+			</div> 
 			<div class="input-group col-sm-2">
 				<input type="text" class="form-control"> <span
 					class="input-group-btn">
@@ -66,33 +66,61 @@ table {
 						<span class="glyphicon glyphicon-search "></span>
 					</button>
 				</span>
-			</div>
+			</div>-->
 			<div id="num">
-				<label>오늘의 예약환자 수 : 1명</label>
+				<label>진료 예정 환자수 : ${panum}명</label>
 			</div>
 			<br>
 			<table class="table table-hover">
-				<th><input type="checkbox" name="ok">&nbsp;&nbsp;&nbsp;전체선택</th>
 				<th>예약번호</th>
 				<th>예약자</th>
 				<th>예약일</th>
+				<th>진료과</th>
 				<th>비고</th>
 				<th>진료정보</th>
-				<c:forEach var="list" items="${list}" >
+				<th> </th>
+				<c:forEach var="todaylist" items="${todaylist}" >
 					<tr>
-						<td><input type="checkbox" name="myhosplist" value="${list.booknum}"></td>
-						<td>${list.booknum}</td>
-						<td>${list.name}</td>
-						<td>${list.bookdate}</td>
-						<td>${list.text}</td>
-						<td>${list.ing}</td>
+						<%-- <td><input type="checkbox" name="myhosplist" value="${todaylist.booknum}"></td> --%>
+						<td><a href="/finddoc/user/bookinfo.do?booknum=${todaylist.booknum}&action=read">${todaylist.booknum}</a></td>
+						<td>${todaylist.name}</td>
+						<td>${todaylist.bookdate}</td>
+						<td>${todaylist.major}</td>
+						<td>${todaylist.text}</td>
+						<td>${todaylist.ing}</td>
+						<td><input type="button" class="btn btn-default" value="진료완료" onclick="location.href='/finddoc/doc/todaycomplate.do?booknum=${todaylist.booknum}'"></td>
 					</tr>
 				</c:forEach>
 			</table>
-
+			<br>
+			<br>
+			<hr>
+			<br>
+			<br>
+			<table class="table table-hover">
+				<th>예약번호</th>
+				<th>예약자</th>
+				<th>예약일</th>
+				<th>진료과</th>
+				<th>비고</th>
+				<th>진료정보</th>
+				<c:forEach var="todaylist_accept" items="${todaylist_accept}" >
+					<tr>
+						<%-- <td><input type="checkbox" name="myhosplist" value="${todaylist.booknum}"></td> --%>
+						<td><a href="/finddoc/user/bookinfo.do?booknum=${todaylist_accept.booknum}&action=read">${todaylist_accept.booknum}</a></td>
+						<td>${todaylist_accept.name}</td>
+						<td>${todaylist_accept.bookdate}</td>
+						<td>${todaylist_accept.major}</td>
+						<td>${todaylist_accept.text}</td>
+						<td>${todaylist_accept.ing}</td>
+					</tr>
+				</c:forEach>
+			</table>
+			
+<!-- 
 			<div id="cancel">
 				<input type="button" value="진료완료" class="btn btn-default" onclick="location.href='/finddoc/doc/todaycomplate.do'">
-			</div>
+			</div> -->
 		</form>
 	</div>
 </body>

@@ -23,13 +23,17 @@
 			access="permitAll" />
 		<security:intercept-url pattern="/index.do"
 			access="permitAll" />
-			<security:intercept-url
+		<security:intercept-url
 			pattern="/user/bookinfo.do" access="hasAnyRole('user','hadmin')" />
+		<security:intercept-url
+			pattern="/mypage/insert_bookmark.do" access="hasRole('user')" />
+		<security:intercept-url
+			pattern="/search/check_inserthos.do" access="hasRole('user')" />
 		<security:intercept-url
 			pattern="/member/updateUser.do" access="hasAnyRole('user','hadmin')" />
 		<security:intercept-url
-			pattern="/member/updateHadmin.do" access="hasAnyRole('user','hadmin')" />
-
+			pattern="/member/updateHadmin.do"
+			access="hasAnyRole('user','hadmin')" />
 		<security:intercept-url
 			pattern="/member/delete.do" access="hasAnyRole('user','hadmin')" />
 		<security:intercept-url

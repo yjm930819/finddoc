@@ -11,13 +11,12 @@
 </head>
 <body>
 	<div class="list-group">
-
 		<se:authorize access="hasRole('user')">
 			<a href="/finddoc/member/updateUser.do" class="list-group-item">정보수정</a>
 		</se:authorize>
 		<se:authorize access="hasRole('hadmin')">
 			<a href="/finddoc/member/updateHadmin.do" class="list-group-item">정보수정</a>
-			<a href="#" class="list-group-item">사이트 문의</a>
+			<!-- <a href="#" class="list-group-item">사이트 문의</a> -->
 		</se:authorize>
 		<se:authorize access="hasRole('user')">
 			<a href="/finddoc/member/readUser.do" class="list-group-item">정보보기</a>

@@ -175,7 +175,10 @@ create table test(
 	)
 alter table admin_app
 
-select count(*) from book where ykiho='JDQ4MTg4MSM1MSMkMSMkMCMkODkkMzgxMzUxIzExIyQxIyQzIyQ3OSQ0NjEwMDIjNjEjJDEjJDQjJDgz' and major='피부과' and bookdate=2019-09-11 00:00:00.0 and hour='오후 12시' and mint='20'
+select count(*) from book where ykiho='JDQ4MTg4MSM1MSMkMSMkMCMkODkkMzgxMzUxIzExIyQxIyQzIyQ2MiQyNjE4MzIjNjEjJDEjJDQjJDgz' and major='피부과' and bookdate=2019-09-11 00:00:00.0 and hour='오후 12시' and mint='20'
+
+select count(a.hadminid) from admin_app a, hadmin h where h.ykiho=#{ykiho} and h.hadminid=a.hadminid and a.approval='o'
+select a.hadminid from admin_app a, hadmin h where h.ykiho='JDQ4MTg4MSM1MSMkMSMkMCMkODkkMzgxMzUxIzExIyQxIyQzIyQ2MiQyNjE4MzIjNjEjJDEjJDQjJDgz' and h.hadminid=a.hadminid and a.approval='o'
 
 drop column ykiho;
 insert into admin_app values('hos9','o');

@@ -51,5 +51,24 @@ public class bookDAOImpl implements bookDAO {
 	public List<BookDTO> hos_booklist_all(String hadminid) {
 		return sqlSession.selectList("user.book.booklist_all", hadminid);
 	}
+
+	@Override
+	public int patientCount(String hadminid) {
+		System.out.println("daodao");
+		String str = sqlSession.selectOne("user.book.patientCount", hadminid);
+		int result = Integer.parseInt(str);
+		System.out.println("result"+result);
+		return result;
+	}
+
+	@Override
+	public int todaycomplate(String booknum) {
+		return sqlSession.update("user.book.todaycomplate",booknum);
+	}
+
+	@Override
+	public List<BookDTO> todaylist_accept(String hadminid) {
+		return sqlSession.selectList("user.book.todaylist_accept", hadminid);
+	}
 	
 }

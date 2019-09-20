@@ -92,7 +92,7 @@ $(document).ready(function() {
 	<div class="container-fluid">
 		<form>
 			<br>
-		<div>
+		<!-- <div>
 			<select class="form-control col-sm-4" name="search" id="select_action">
 				<option>모든 예약목록 확인</option>
 				<option>예약 신청</option>
@@ -100,7 +100,7 @@ $(document).ready(function() {
 				<option>예약 취소</option>
 				<option>진료 완료</option>
 			</select>
-		</div>
+		</div> -->
 		<br>
 		<br>
 			<table class="table table-hover">
@@ -111,6 +111,7 @@ $(document).ready(function() {
 						<th>예약번호</th>
 						<th>예약자</th>
 						<th>예약일</th>
+						<th>진료과</th>
 						<th>비고</th>
 						<th>진료정보</th>
 						<c:forEach var="list" items="${list}" >
@@ -119,6 +120,7 @@ $(document).ready(function() {
 								<td><a href="/finddoc/user/bookinfo.do?booknum=${list.booknum}&action=read">${list.booknum}</a></td>
 								<td>${list.name}</td>
 								<td>${list.bookdate}</td>
+								<td>${list.major}</td>
 								<td>${list.text}</td>
 								<td>${list.ing}</td>
 							</tr>
@@ -128,7 +130,7 @@ $(document).ready(function() {
 			</table>
 			<br>
 		<br>
-		<div>
+		<!-- <div>
 			<select class="form-control col-sm-2" name="search">
 				<option>예약자</option>
 				<option>날짜</option>
@@ -147,7 +149,7 @@ $(document).ready(function() {
 					onclick="location.href='/finddoc/doc/booklist.do'"> <input
 					type="button" value="예약취소" class="btn btn-default"
 					onclick="location.href='/finddoc/doc/booklist.do'">
-			</div>
+			</div> -->
 		</form>
 	</div>
 </body>

@@ -94,5 +94,21 @@ public class bookServiceImpl implements bookService {
 	public int hosp_check(String ykiho) {
 		return mypagedao.hosp_check(ykiho);
 	}
+
+	@Override
+	public int patientCount(String hadminid) {
+		System.out.println("service");
+		return dao.patientCount(hadminid);
+	}
+
+	@Override
+	public int todaycomplate(String booknum) {
+		return dao.todaycomplate(booknum);
+	}
+
+	@Override
+	public List<BookDTO> todaylist_accept(String hadminid) {
+		return dao.todaylist_accept(hadminid);
+	}
 	
 }

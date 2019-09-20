@@ -22,9 +22,18 @@
   		delete book where booknum=#{booknum}
   	</delete>
   	<select id="todaylist" parameterType="String" resultType="book">
-  		select b.* from book b, hadmin h where h.hadminid=#{hadminid} and h.ykiho=b.ykiho and b.bookdate=to_date(sysdate,'yy/mm/dd')
+  		select b.* from book b, hadmin h where h.hadminid=#{hadminid} and h.ykiho=b.ykiho and b.bookdate=to_date(sysdate,'yy/mm/dd') and ing='예약완료'
   	</select>
   	<select id="booklist_all" parameterType="String" resultType="book">
   		select b.* from book b, hadmin h where h.hadminid=#{hadminid} and h.ykiho=b.ykiho
+  	</select>
+  	<select id="patientCount" parameterType="String" resultType="String">
+  		select count(booknum) from book b, hadmin h where h.hadminid=#{hadminid} and h.ykiho=b.ykiho and b.bookdate=to_date(sysdate,'yy/mm/dd') and ing='예약완료'
+  	</select>
+  	<update id="todaycomplate" parameterType="String">
+  		update book set ing='진료완료' where booknum=#{booknum}
+  	</update>
+  	<select id="todaylist_accept" parameterType="String" resultType="book">
+  		select b.* from book b, hadmin h where h.hadminid=#{hadminid} and h.ykiho=b.ykiho and b.bookdate=to_date(sysdate,'yy/mm/dd') and ing='진료완료'
   	</select>
   </mapper>

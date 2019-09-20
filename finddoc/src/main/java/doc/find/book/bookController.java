@@ -110,16 +110,30 @@ public class bookController {
 		int result = service.userbookcancel(booknum);
 		return "redirect:/user/booklist.do";
 	}
+	
+	//진료완료
+	@RequestMapping("/doc/todaycomplate.do")
+	public String todaycomplate(String booknum) {
+		int result = service.todaycomplate(booknum);
+		if(result>0) {
+			System.out.println("진료 완료");
+		}
+		return "redirect:/doc/todaybooklist.do";
+	}
 
 	// 병원관계자 오늘 예약 목록
 	@RequestMapping("/doc/todaybooklist.do")
 	public ModelAndView todaybooklist(Principal principal) {
 		SecurityLoginDTO loginUser = (SecurityLoginDTO) ((UsernamePasswordAuthenticationToken) principal)
 				.getPrincipal();
+		int panum = service.patientCount(loginUser.getId());
 		List<BookDTO> todaylist = service.todaylist(loginUser.getId());
+		List<BookDTO> todaylist_accept = service.todaylist_accept(loginUser.getId());
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("doc/todaylist");
 		mav.addObject("todaylist", todaylist);
+		mav.addObject("todaylist_accept", todaylist_accept);
+		mav.addObject("panum", panum);
 		return mav;
 	}
 
@@ -149,6 +163,7 @@ public class bookController {
 	//등록된 병원인가 확인
 	@RequestMapping(value ="/search/check_inserthos.do", method = RequestMethod.GET, produces = "application/text; charset=utf-8")
 	public @ResponseBody String check_inserthos(String ykiho) {
+		System.out.println("병원 기호" +ykiho);
 		String message = "";
 		//등록되지 않은 병원일 경우 
 		int hoscheck = service.hosp_check(ykiho);

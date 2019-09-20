@@ -13,4 +13,7 @@ public interface bookDAO {
 	int userbookcancel(String booknum);
 	List<BookDTO> todaylist(String hadminid);
 	List<BookDTO> hos_booklist_all(String hadminid);
+	int patientCount(String hadminid);
+	int todaycomplate(String booknum);
+	List<BookDTO> todaylist_accept(String hadminid);
 }

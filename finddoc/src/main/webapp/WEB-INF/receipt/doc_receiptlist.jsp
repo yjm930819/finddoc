@@ -73,7 +73,7 @@ table {
 	<div class="container-fluid">
 		<form>
 			<br>
-			<div>
+			<!-- <div>
 				<select class="form-control col-sm-2" name="search">
 					<option>접수번호</option>
 					<option>접수자</option>
@@ -87,7 +87,7 @@ table {
 						<span class="glyphicon glyphicon-search "></span>
 					</button>
 				</span>
-			</div>
+			</div> -->
 			<div id="num">
 				<!-- <label>대기환자 수 : 1명</label> -->
 			</div>
