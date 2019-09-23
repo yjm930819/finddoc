@@ -280,12 +280,12 @@
 												majortext = "";
 											}
 											
-											checkspecial = document.searchbox.special;
+											/* checkspecial = document.searchbox.special;
 											for (i = 0; i < checkspecial.length; i++) {
 												if (checkspecial[i].checked) {
 													specialtext=checkspecial[i].value;
 												}
-											}
+											} */
 											
 											$
 											.ajax({
@@ -520,7 +520,6 @@
 									"ykiho" : ykiho
 								},
 								success : function(message) {
-									alert(message);
 									if(message=="이용 불가능한 병원입니다."|message=="예약 페이지로 이동합니다."){
 										var check = confirm(message);
 										if (check=="예약 페이지로 이동합니다.") {
@@ -615,7 +614,7 @@
 																}
 																hospinfo = hospinfo + "<input class='btn btn-default' type='button' value='접수' onclick='location.href="+'"/finddoc/receipt/book.do"'+"'>"
 																		+ "<input class='btn btn-default' type='button' id='book' value='예약' onclick='checkinserthos(ykiholist[num], hospall[num].yadmNm)'>"
-																		+ "<input class='btn btn-default' type='button' value='길찾기' onclick='load(hospall[num].XPosy)'>"
+																		+ "<input class='btn btn-default' type='button' value='길찾기' onclick='load(hospall[num].XPos,hospall[num].YPos)'>"
 																		+ "<input class='btn btn-default' type='button' id='insert_mypage' value='자주가는 병원 등록'>"
 																		+ "<input class='btn btn-default' type='button' value='게시판' onclick='location.href="
 																		+ '"/finddoc/board/noticeBoardList.do?category=all"'
@@ -640,9 +639,9 @@
 							$("#hosplist").append(hosplist);
 						}
 					});
-	function load(xpos, ypos) {
+	function load(ex,ey) {
 		popupOption = "width=600,height=700,location=no,status=no,toolbars=no,top=70,left=800"; //팝업창 옵션(optoin)
-		url = "/finddoc/search/loadSearch.do";
+		url = "/finddoc/search/loadSearch.do?ex="+ex+"&ey="+ey;
 		openWin = window.open(url, "child", popupOption);
 	}
 	//예약시 등록되어있는 병원인가 확인
@@ -654,10 +653,9 @@
 				"ykiho" : ykiho
 			},
 			success : function(message) {
-				alert(message);
 				if(message=="이용 불가능한 병원입니다."|message=="예약 페이지로 이동합니다."){
 					var check = confirm(message);
-					if (check=="예약 페이지로 이동합니다.") {
+					if (message=="예약 페이지로 이동합니다.") {
 						location.href="/finddoc/user/book.do?action=search&hname="+encodeURI(yadmNm)+"&ykiho="+ykiho;
 					}
 				}
@@ -678,10 +676,10 @@
 			<div class="row">
 				<div class="col-sm-7">
 					<div class="col-sm-3">
-						<input type="text" class="form-control" id="loctxt"> 
+						<input type="text" class="form-control" id="loctxt" placeholder="주소"> 
 					</div>
 					<div class="col-sm-3">
-						<input type="text" class="form-control" id="hospname">
+						<input type="text" class="form-control" id="hospname" placeholder="병원명">
 					</div>
 					<div class="col-sm-1">
 						<input type="button" class="btn btn-default" id="sub" value="검색">
@@ -756,7 +754,7 @@
 							<option value="90">한방소계</option>
 						</select>
 					</div>
-					<b><font size="2">특수 조건</font></b>
+					<!-- <b><font size="2">특수 조건</font></b> -->
 					<!-- <input type="radio" name="special" value="야간운영">야간운영 -->
 					<!-- <input type="radio" name="special" value="응급실">응급실 -->
 					<!-- <input type="radio" name="special" value="응급의료병원">응급의료병원
@@ -809,8 +807,6 @@
 					<div id="pasing">
 						<!-- 페이지 뿌려줄 곳 -->
 					</div>
-					<hr>
-					<br>
 					<div id="hospinfo" style="background-color: skyblue">
 						<!-- 선택한 병원 정보 출력 -->
 					</div>

@@ -404,7 +404,7 @@ body {
 				<label class="control-label col-sm-2" for="phonehome">연락처</label>
 				<div class="col-sm-5">
 					<input type="text" id="tel" name="cp" placeholder="010-1234-1234"
-						class="form-control" minlength="15" required>
+						class="form-control" minlength="13" required>
 				</div>
 			</div>
 			<div class="form-group">

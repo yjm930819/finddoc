@@ -80,7 +80,7 @@ table {
 		</table>
 		<br>
 		<br>
-		<div>
+		<!-- <div>
 			<select class="form-control col-sm-2" name="search">
 				<option>병원명</option>
 				<option>예약자</option>
@@ -95,7 +95,7 @@ table {
 					<span class="glyphicon glyphicon-search "></span>
 				</button>
 			</span>
-		</div>
+		</div> -->
 	</div>
 </body>
 </html>

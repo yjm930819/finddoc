@@ -191,7 +191,7 @@ delete from book where booknum=2
 delete hadmin where hadminid='hos3'
 select * from hadmin where hadminid='hos3';
 select * from admin_app; 
-select * from hadmin;
+select * from hadmin where ykiho='JDQ4MTg4MSM1MSMkMSMkMCMkODkkMzgxMzUxIzExIyQxIyQzIyQ2MiQyNjE4MzIjNjEjJDEjJDQjJDgz'
 delete from hadmin where hadminid='hos6';
 select * from myhospital where userid='java' and ox='x';
 select * from myhospital where userid='java';

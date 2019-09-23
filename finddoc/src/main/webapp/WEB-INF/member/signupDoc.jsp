@@ -30,6 +30,7 @@
 								location.href = "/finddoc/login/loginView.do";
 							}
 						}
+						$("#hiddendata").hide();
 						$("#hadminid").keyup(function() {
 							$.ajax({
 								url : "/finddoc/member/idcheck.do",
